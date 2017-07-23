@@ -40,6 +40,7 @@
 #define queue std::queue
 #define map std::map
 #define image GLuint
+
 template < typename T > string to_string( const T& n )
 {
     std::ostringstream stm ;

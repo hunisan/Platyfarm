@@ -14,6 +14,7 @@
 		<ingredient count="30">copper</ingredient>
 		<ingredient count="2">log</ingredient>
 		<ingredient count="1">jar</ingredient>
+		<skill>2</skill>
 	</recipe>
 	<recipe>
 		<item>chair</item>
@@ -34,6 +35,7 @@
 	<recipe>
 		<item>apple pie</item>
 		<skill>cooking</skill>
+		<level>1</level>
 		<ingredient>flour</ingredient>
 		<ingredient count="3">apple</ingredient>
 		<ingredient>sugar</ingredient>

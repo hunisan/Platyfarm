@@ -141,4 +141,21 @@
 			<race>feline</race>
 		</attributes>
 	</npc>
+	<npc>
+		<name>catman2</name>
+		<fullname>Ross</fullname>
+		<portrait>catman-pink</portrait>
+		<img>catman-pink</img>
+		<alt>0.5</alt>
+		<onmeet>27</onmeet>
+		<ongreet>27</ongreet>
+		<behaviour>roam</behaviour>
+		<attributes>
+			<creature/>
+			<sentient/>
+			<race>feline</race>
+			<behaviour-talk>random</behaviour-talk>
+			<lines>27 28 29 30</lines>
+		</attributes>
+	</npc>
 </root>

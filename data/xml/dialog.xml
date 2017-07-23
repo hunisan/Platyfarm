@@ -255,4 +255,25 @@
 			<response id="3" goto="0">Bye</response>
 		</question>
 	</dialog>
+	<dialog id="27">
+		<chain>
+			<text id="1">I miss living in the desert</text>
+		</chain>
+	</dialog>
+	<dialog id="28">
+		<chain>
+			<text id="1">Do you ever think we are living inside a video game?</text>
+		</chain>
+	</dialog>
+	<dialog id="29">
+		<chain>
+			<text id="1">Be careful on the road. There are many dogs in this area</text>
+		</chain>
+	</dialog>
+	<dialog id="30">
+		<chain>
+			<text id="1">Where can I find some catnip?</text>
+		</chain>
+	</dialog>
+	
 </root>

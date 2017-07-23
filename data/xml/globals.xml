@@ -26,7 +26,7 @@
 		<dialog-height value="100"/>
 		<number-selector-w value="80"/>
 		<number-selector-h value="30"/>
-		<audio-start-muted value="0"/>
+		<audio-start-muted value="1"/>
 		<tiles value="4"/>
 		<debug value="1"/>
 	</globals>

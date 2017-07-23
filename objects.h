@@ -618,6 +618,7 @@ public:
     string medium;
     string unlock;
     string skill;
+    int level;
     bool unlocked;
 
 };
@@ -1371,6 +1372,8 @@ public:
     int textLength, currentLength;
     int lineLength, ptSize;
 
+    string default_speaker;
+
     int borderw = 11;
     Dialog Current;
     int currentstring;
@@ -1419,9 +1422,12 @@ public:
 
         return false;
     }
-    void Add(Dialog _dialog)
+    void Add(Dialog _dialog, string default_sp = "narrator")
     {
-        speaker = _dialog.speaker;
+        if(speaker != "")
+            speaker = _dialog.speaker;
+        else
+            speaker = default_sp;
         chain = _dialog.chain;
         hasQuestion = _dialog.hasQuestion;
         question = _dialog.question;
@@ -1950,6 +1956,7 @@ class InventoryGui : public Gui
                         hold = inv->toolbar[item_i];
                         inv->toolbar[item_i] = temp;
                     }
+
                 }
             }
         }
@@ -1992,8 +1999,9 @@ public:
         for(auto& e : recipes)
         {
             if(e.second.medium == medium)
-                if(item_templates.count(e.second.item))
-                    recipe_list.push_back(e.second);
+                if(e.second.level >= skills[e.second.skill])
+                    if(item_templates.count(e.second.item))
+                        recipe_list.push_back(e.second);
         }
         w = 500;
         h = 300;//recipe_list.size() * TILESIZE;

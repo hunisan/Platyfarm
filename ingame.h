@@ -586,7 +586,10 @@ public:
 
             Dialog newitem;
 
-            newitem.speaker = pElement->FirstChildElement("speaker")->GetText();
+            if(pElement->FirstChildElement("speaker"))
+                newitem.speaker = pElement->FirstChildElement("speaker")->GetText();
+            else
+                newitem.speaker = "";
 
             XMLElement * chainElement = pElement->FirstChildElement("chain")->FirstChildElement("text");
 
@@ -859,17 +862,27 @@ public:
             CraftingRecipe newrecipe;
 
             newrecipe.item = pElement->FirstChildElement("item")->GetText();
+
             if(pElement->FirstChildElement("medium")!=NULL)
             {
                 newrecipe.medium = pElement->FirstChildElement("medium")->GetText();
             }
             else
                 newrecipe.medium = "";
+
             if(pElement->FirstChildElement("count")!=NULL)
                 newrecipe.count = atoi(pElement->FirstChildElement("count")->GetText());
             else
                 newrecipe.count = 1;
 
+            if(pElement->FirstChildElement("level"))
+            {
+                newrecipe.level = atoi(pElement->FirstChildElement("level")->GetText());
+            }
+            else
+            {
+                newrecipe.level = 1;
+            }
             if(pElement->FirstChildElement("unlock")!=NULL)
             {
                 newrecipe.unlock = pElement->FirstChildElement("unlock")->GetText();
@@ -2029,10 +2042,28 @@ public:
                                 eventSystem->Event("TALK");
 
                                 gamephase = DIALOG;
-                                if(!n->met)
-                                    dialogSystem->Add(dialogs[n->on_meet]);
+
+                                if(n->attributes.count("behaviour-talk"))
+                                {
+                                    if(n->attributes["behaviour-talk"]=="random")
+                                    {
+                                        vector<string> lines = allWord(n->attributes["lines"]);
+
+                                        int randomLineIndex = rand()%lines.size();
+
+                                        dialogSystem->Add(dialogs[atoi(lines[randomLineIndex].c_str())],n->name);
+
+                                        cout << atoi(lines[randomLineIndex].c_str()) << endl;
+                                    }
+                                }
                                 else
-                                    dialogSystem->Add(dialogs[n->on_greet]);
+                                {
+                                    if(!n->met)
+                                        dialogSystem->Add(dialogs[n->on_meet],n->name);
+                                    else
+                                        dialogSystem->Add(dialogs[n->on_greet],n->name);
+
+                                }
 
                                 dialogSystem->portrait = n->portrait;
                                 n->met = true;
