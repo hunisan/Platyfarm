@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<dialog id="1">
+		<speaker>narrator</speaker>
+		<!---
+		<chain>
+			<text id="1">This is a test sentence blablabla Welcome to Platyfarm!</text>
+			<text id="2">This game is still pre-alpha</text>
+			<text id="3">Move around using WASD</text>
+		</chain>
+		<question>
+			<text>Are you ready to play?</text>
+			<response id="1" goto="0">Yes</response>
+			<response id="2" goto="2">No</response>
+		</question> --->
+		<chain>
+			<text id="1">A new dawn fades...</text>
+		</chain>
+	</dialog>
+	<dialog id="2">
+		<speaker>narrator</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>Would you like a short tutorial?</text>
+			<response id="1" goto="3">Yes, why not?</response>
+			<response id="2" goto="0">No thanks</response>
+		</question>
+	</dialog>
+	<dialog id="3">
+		<speaker>narrator</speaker>
+		<chain>
+			<text id="1">You can move around using the WASD keys</text>
+			<text id="2">Use the mouse wheel to select items from your inventory</text>
+			<text id="3">Use the left mouse button to use your currently selected item</text>
+			<text id="4">Use the right mouse button to interact with objects, talk to other characters or consume an item</text>
+			<text id="5">Try to use the axe on that tree stump there!</text>
+		</chain>
+	</dialog>
+	<dialog id="4">
+		<speaker>spock</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>Good afternoon, fellow human!</text>
+			<response id="1" goto="5">Who are you?</response>
+			<response id="2" goto="0">Goodbye</response>
+		</question>
+	</dialog>
+	<dialog id="5">
+		<speaker>spock</speaker>
+		<chain>
+			<text id="1">My name is Spock. I am what your kind   would call a ghost. I come from the astral plane</text>
+			<text id="2">I would be happy to chat, but I have    some serious business  affairs to attend to</text>
+			<text id="3">If you ever need me, you can find me at the nearest haunted mansion</text>
+		</chain>
+	</dialog>
+	<dialog id="6">
+		<speaker>crypto</speaker>
+		<chain>
+			<text id="1">Leave me alone, stupid human!</text>
+		</chain>
+	</dialog>
+	<dialog id="7">
+		<speaker>platypus</speaker>
+		<chain>
+			<text id="1">Greetings! I am Percival, your personal steward</text>
+			<text id="2">I will be assisting you during your time here on the lot</text>
+			<text id="3">I can sell your items, purchase materials, livestock and manage your finances</text>
+		</chain>
+		<question>
+			<text>What would you like to do today?</text>
+			<response id="1" goto="0" outcome="gui sell">Sell items</response>
+			<response id="2" goto="0" outcome="gui shop">Order resources</response>
+			<response id="3" goto="20">Purchase livestock</response>
+			<response id="4" goto="0">Review finances</response>
+			<response id="5" goto="0">Goodbye</response>
+		</question>
+	</dialog>
+	<dialog id="8">
+		<speaker>shopkeeper</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>What can I help you with today?</text>
+			<response id="1" goto="0" outcome="gui shop">Buy items</response>
+			<response id="2" goto="0" outcome="gui sell">Sell items</response>
+			<response id="3" goto="0" condition="skill charisma 2">Gamble</response>
+			<response id="4" goto="0" outcome="xp charisma 20">Goodbye</response>
+		</question>
+	</dialog>
+	<dialog id="9">
+		<speaker>shopkeeper</speaker>
+		<chain>
+			<text id="1">Welcome to my shop!</text>
+			<text id="2">You must be that newcomer I heard about!</text>
+			<text id="3">Please stop by anytime you need to buy or sell something</text>
+		</chain>
+		<question>
+			<text>Here is something to help you start</text>
+			<response id="1" goto="8" outcome="item seed 10">Thanks</response>
+		</question>
+	</dialog>
+	<dialog id="10">
+		<speaker>platypus</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>What would you like to do today?</text>
+			<response id="1" goto="0" outcome="gui sell">Sell items</response>
+			<response id="2" goto="0" outcome="gui shop">Order resources</response>
+			<response id="3" goto="20">Purchase livestock</response>
+			<response id="4" goto="0">Review finances</response>
+			<response id="5" goto="0">Goodbye</response>
+		</question>
+	</dialog>
+	<dialog id="11">
+		<speaker>???</speaker>
+		<chain>
+			<text id="1">Hey! You shouldn't be here!</text>
+			<text id="2">This realm is inaccessible for mortals like you</text>
+			<text id="3">The only way you could have   ended up here is if something went wrong in the game</text>
+			<text id="4">Please contact the developers of this game and notify them about this problem</text>
+		</chain>
+	</dialog>
+	<dialog id="12">
+		<speaker>narrator</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>Do you want to sleep?</text>
+			<response id="1" goto="0" outcome="nextday">Yes</response>
+			<response id="2" goto="0">No</response>
+		</question>
+	</dialog>
+	<dialog id="13">
+		<speaker>cat</speaker>
+		<chain>
+			<text id="1">Meow!</text>
+		</chain>
+	</dialog>
+	<dialog id="14">
+		<speaker>dog</speaker>
+		<chain>
+			<text id="1">Woof!</text>
+		</chain>
+	</dialog>
+	<dialog id="15">
+		<speaker>narrator</speaker>
+		<chain>
+			<text id="1">The fire has gone out..</text>
+		</chain>
+	</dialog>
+	<dialog id="16">
+		<speaker>narrator</speaker>
+		<chain>
+			<text id="1">A simple chair.</text>
+		</chain>
+	</dialog>
+	<dialog id="17">
+		<speaker>spock</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>Don't bother me now. If you need me, you can find me at the haunted house.</text>
+			<response id="1" goto="0">Sorry</response>
+			<response id="2" goto="0" condition="skill charisma 2" outcome="skill charisma">Could you teach me the art of speech?</response>
+			
+		</question>
+	</dialog>
+	<dialog id="18">
+		<speaker>narrator</speaker>
+		<chain>
+			<text id="1">Congratulations! You destroyed a chair. You should be proud of yourself.</text>
+		</chain>
+	</dialog>
+	<dialog id="19">
+		<speaker>narrator</speaker>
+		<chain>
+			<text id="1">The fire burns steadily and will still burn for a long time</text>
+		</chain>
+	</dialog>
+	<dialog id="20">
+		<speaker>platypus</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>The following animals are available for purchase:</text>
+			<response id="1">Chicken - 300pl</response>
+			<response id="2">Ramcat - 600pl</response>
+			<response id="3">Cow - 1000pl</response>
+		</question>
+	</dialog>
+	<dialog id="21">
+		<speaker>narrator</speaker>
+		<chain>
+		</chain>
+		<question>
+			<text>What would you like to do?</text>
+			<response id="1" goto="13">Pet</response>
+			<response id="2" goto="13">Feed</response>
+			<response id="3" goto="13">Check health</response>
+			<response id="4" goto="0">Cancel</response>
+		</question>
+	</dialog>
+	<dialog id="22">
+		<speaker>narrator</speaker>
+		<chain>
+			<text id="1">Welcome to PlatyFarm! Press ENTER to continue</text>
+			<text id="2">This game is still in alpha</text>
+			<text id="3">Move around using the WASD keys</text>
+		</chain>
+		<question>
+			<text>Are you ready to play?</text>
+			<response id="1" goto="0">Yes</response>
+			<response id="2" goto="2">No</response>
+		</question>
+	</dialog>
+	<dialog id="23">
+		<speaker>catman</speaker>
+		<chain>
+			<text id="1">Psst! Hey kid.. Wanna buy some.. mushrooms?</text>
+			<text id="2">I am saving money to go to a concert. That's why I'm selling off my stuff</text>
+			<text id="3">I can give you some for the extremely low price of 400 ploty</text>
+		</chain>
+		<question>
+			<text>So, are you interested?</text>
+			<response id="1" goto="24" outcome="item mushroom">Why not? (400pl)</response>
+			<response id="2" goto="25">Leave me alone with that stuff!</response>
+		</question>
+	</dialog>
+	<dialog id="24">
+		<speaker>catman</speaker>
+		<chain>
+			<text id="1">Here you go, man.</text>
+			<text id="2">Hey, feel free to come back whenever you need something, ok?</text>
+		</chain>
+	</dialog>
+	<dialog id="25">
+		<speaker>catman</speaker>
+		<chain>
+			<text id="1">Whatever.</text>
+			<text id="2">Come back once you've made up your mind</text>
+		</chain>
+	</dialog>
+	<dialog id="26">
+		<speaker>catman</speaker>
+		<chain>
+			<text id="1">Hey, man! Still need a lot for the concert ticket</text>
+		</chain>
+		<question>
+			<text>So, wanna buy some or not?</text>
+			<response id="1" goto="0">Buy shrooms</response>
+			<response id="2" goto="0" condition="skill charisma 3">Tell me about that concert</response>
+			<response id="3" goto="0">Bye</response>
+		</question>
+	</dialog>
+</root>

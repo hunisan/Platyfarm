@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<img id="1">
+		<name>bush</name>
+		<path>Bokor_1.png</path>	
+	</img>
+	<img id="2">
+		<name>cursor</name>
+		<path>cursors2.png</path>
+	</img>
+	<img id="3">
+		<name>apple</name>
+		<path>apple.png</path>
+	</img>
+	<img id="4">
+		<name>axe</name>
+		<path>Feszy.png</path>
+	</img>
+	<img id="5">
+		<name>itembar</name>
+		<path>itembar.png</path>
+	</img>
+	<img id="6">
+		<name>stump</name>
+		<path>Tonk_nagy.png</path>
+	</img>
+	<img id="7">
+		<name>swiss</name>
+		<path>swiss.png</path>
+	</img>
+	<img id="8">
+		<name>platty</name>
+		<path>Platti32.png</path>
+	</img>
+	<img id="9">
+		<name>log</name>
+		<path>Tonk_3.png</path>
+	</img>
+	<img id="10">
+		<name>grass</name>
+		<path>grass.png</path>
+	</img>
+	<img id="11">
+		<name>box</name>
+		<path>grass2.png</path>
+	</img>
+	<img id="12">
+		<name>font</name>
+		<path>font.png</path>
+	</img>
+	<img id="13">
+		<name>dialog</name>
+		<path>dialog.png</path>
+	</img>
+	<img id="14">
+		<name>ghost</name>
+		<path>Ghost.png</path>
+	</img>
+	<img id="15">
+		<name>flower</name>
+		<path>Flower.png</path>
+	</img>
+	<img id="16">
+		<name>portrait</name>
+		<path>portrait.jpg</path>
+	</img>
+	<img id="17">
+		<name>portraitframe</name>
+		<path>portraitframe.png</path>
+	</img>
+	<img id="18">
+		<name>tree</name>
+		<path>tree.png</path>
+	</img>
+	<img id="19">
+		<name>scythe</name>
+		<path>scythe.png</path>
+	</img>
+	<img id="20">
+		<name>mushroom</name>
+		<path>mushroom.png</path>
+	</img>
+	<img id="21">
+		<name>human</name>
+		<path>human.png</path>
+	</img>
+	<img id="22">
+		<name>font2</name>
+		<path>font2.png</path>
+	</img>
+	<img id="23">
+		<name>tree_big</name>
+		<path>tree_biggest.png</path>
+	</img>
+	<img id="24">
+		<name>tree_big_damaged</name>
+		<path>tree_biggest_damaged.png</path>
+	</img>
+	<img id="25">
+		<name>staff</name>
+		<path>staff.png</path>
+	</img>
+	<img id="26">
+		<name>tree_big_transparent</name>
+		<path>tree_biggest_fade.png</path>
+	</img>
+	<img id="27">
+		<name>tree_big_damaged_transparent</name>
+		<path>tree_biggest_damaged_fade.png</path>
+	</img>
+	<img id="28">
+		<name>tileset</name>
+		<path>tileset.png</path>
+	</img>
+	<img id="29">
+		<name>platypus</name>
+		<path>platypus2.png</path>
+	</img>
+	<img id="30">
+		<name>dark</name>
+		<path>dark.png</path>
+	</img>
+	<img id="31">
+		<name>frame</name>
+		<path>frame.png</path>
+	</img>
+	<img id="32">
+		<name>fuchsia</name>
+		<path>fuchsia.png</path>
+	</img>
+	<img id="33">
+		<name>flower2</name>
+		<path>Flower2.png</path>
+	</img>
+	<img id="34">
+		<name>flower3</name>
+		<path>Flower3.png</path>
+	</img>
+	<img id="35">
+		<name>flower4</name>
+		<path>Flower4.png</path>
+	</img>
+	<img id="36">
+		<name>flower5</name>
+		<path>Flower6.png</path>
+	</img>
+	<img id="37">
+		<name>planted</name>
+		<path>Kupac -  virag (1).png</path>
+	</img>
+	<img id="38">
+		<name>seed</name>
+		<path>Seeds.png</path>
+	</img>
+	<img id="39">
+		<name>gui</name>
+		<path>gui.png</path>
+	</img>
+	<img id="40">
+		<name>itemtile</name>
+		<path>itemtile.png</path>
+	</img>
+	<img id="41">
+		<name>fade</name>
+		<path>fade.png</path>
+	</img>
+	<img id="42">
+		<name>acorn</name>
+		<path>Makk.png</path>
+	</img>
+	<img id="43">
+		<name>acorn_planted</name>
+		<path>Makk clone clone.png</path>
+	</img>
+	<img id="44">
+		<name>pie</name>
+		<path>pie.png</path>
+	</img>
+	<img id="45">
+		<name>house</name>
+		<path>haus.png</path>
+	</img>
+	<img id="46">
+		<name>create</name>
+		<path>create.png</path>
+	</img>
+	<img id="47">
+		<name>button</name>
+		<path>button.png</path>
+	</img>
+	<img id="48">
+		<name>flour</name>
+		<path>flour.png</path>
+	</img>
+	<img id="49">
+		<name>jar</name>
+		<path>jar.png</path>
+	</img>
+	<img id="50">
+		<name>applejam</name>
+		<path>applejam.png</path>
+	</img>
+	<img id="51">
+		<name>distiller</name>
+		<path>distiller.png</path>
+	</img>
+	<img id="52">
+		<name>potato</name>
+		<path>Pityoka1.png</path>
+	</img>
+	<img id="53">
+		<name>cider</name>
+		<path>cider.png</path>
+	</img>
+	<img id="54">
+		<name>chair</name>
+		<path>chair.png</path>
+	</img>
+	<img id="55">
+		<name>sign</name>
+		<path>sign.png</path>
+	</img>
+	<img id="56">
+		<name>shop</name>
+		<path>shop.png</path>
+	</img>
+	<img id="57">
+		<name>shopkeeper</name>
+		<path>platypus3.png</path>
+	</img>
+	<img id="58">
+		<name>door</name>
+		<path>door.png</path>
+	</img>
+	<img id="59">
+		<name>house_fade</name>
+		<path>haus_fade.png</path>
+	</img>
+	<img id="60">
+		<name>separator</name>
+		<path>separator.png</path>
+	</img>
+	<img id="61">
+		<name>separator_v</name>
+		<path>separator_v.png</path>
+	</img>
+	<img id="62">
+		<name>separator_left</name>
+		<path>separator_left.png</path>
+	</img>
+	<img id="63">
+		<name>separator_right</name>
+		<path>separator_right.png</path>
+	</img>
+	<img id="64">
+		<name>column</name>
+		<path>column.png</path>
+	</img>
+	<img id="65">
+		<name>stone</name>
+		<path>stone.png</path>
+	</img>
+	<img id="66">
+		<name>pickaxe</name>
+		<path>pickaxe.png</path>
+	</img>
+	<img id="67">
+		<name>hoe</name>
+		<path>hoe.png</path>
+	</img>
+	<img id="68">
+		<name>bed</name>
+		<path>bed.png</path>
+	</img>
+	<img id="69">
+		<name>lily</name>
+		<path>lily.png</path>
+	</img>
+	<img id="70">
+		<name>column_fade</name>
+		<path>column_fade.png</path>
+	</img>
+	<img id="71">
+		<name>column_ruin</name>
+		<path>column_ruin.png</path>
+	</img>
+	<img id="72">
+		<name>stove</name>
+		<path>stove.png</path>
+	</img>
+	<img id="73">
+		<name>stew</name>
+		<path>stew.png</path>
+	</img>
+	<img>
+		<name>can</name>
+		<path>can.png</path>
+	</img>
+	<img>
+		<name>fence</name>
+		<path>fence.png</path>
+	</img>
+	<img>
+		<name>cat</name>
+		<path>cat.png</path>
+	</img>
+	<img>
+		<name>cat_standing</name>
+		<path>cat_standing.png</path>
+	</img>
+	<img id="77">
+		<name>rain</name>
+		<path>raindrop.png</path>
+	</img>
+	<img id="78">
+		<name>table</name>
+		<path>table.png</path>
+	</img>
+	<img>
+		<name>juice</name>
+		<path>juice.png</path>
+	</img>
+	<img>
+		<name>copper</name>
+		<path>copper.png</path>
+	</img>
+	<img>
+		<name>cupboard</name>
+		<path>cupboard.png</path>
+	</img>
+	<img>
+		<name>drink</name>
+		<path>drink.png</path>
+	</img>
+	<img>
+		<name>rose</name>
+		<path>rose.png</path>
+	</img>
+	<img>
+		<name>tulip</name>
+		<path>tulip.png</path>
+	</img>
+	<img>
+		<name>amanita</name>
+		<path>amanita.png</path>
+	</img>
+	<img>
+		<name>furnace</name>
+		<path>furnace.png</path>
+	</img>
+	<img>
+		<name>fried fish</name>
+		<path>platty_gold.png</path>
+	</img>
+	<img>
+		<name>carrot</name>
+		<path>carrot.png</path>
+	</img>
+	<img>
+		<name>carrot_ripe</name>
+		<path>carrot_ripe.png</path>
+	</img>
+	<img>
+		<name>carrot_plant</name>
+		<path>carrot_plant.png</path>
+	</img>
+	<img>
+		<name>sapling</name>
+		<path>sapling.png</path>
+	</img>
+	<img>
+		<name>dog</name>
+		<path>dog.png</path>
+	</img>
+	<img>
+		<name>dust</name>
+		<path>dust.png</path>
+	</img>
+	<img>
+		<name>water</name>
+		<path>water.png</path>
+	</img>
+	<img>
+		<name>snow</name>
+		<path>snow.png</path>
+	</img>
+	<img>
+		<name>particle_grass</name>
+		<path>particle_grass.png</path>
+	</img>
+	<img>
+		<name>book</name>
+		<path>book.png</path>
+	</img>
+	<img>
+		<name>gui2</name>
+		<path>gui2.png</path>
+	</img>
+	<img>
+		<name>torch</name>
+		<path>torch.png</path>
+	</img>
+	<img>
+		<name>ash</name>
+		<path>ash.png</path>
+	</img>
+	<img>
+		<name>furnace-burning</name>
+		<path>furnace-burning.png</path>
+	</img>
+	<img>
+		<name>bag</name>
+		<path>bag.png</path>
+	</img>
+	<img>
+		<name>ramcat</name>
+		<path>ramcat.png</path>
+	</img>
+	<img>
+		<name>catman</name>
+		<path>catman.png</path>
+	</img>
+	<img>
+		<name>catman-teal</name>
+		<path>catman-teal.png</path>
+	</img>
+	<img>
+		<name>catman-pink</name>
+		<path>catman-pink.png</path>
+	</img>
+	<img>
+		<name>catman-yellow</name>
+		<path>catman-yellow.png</path>
+	</img>
+</root>

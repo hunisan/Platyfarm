@@ -1,0 +1,908 @@
+# depslib dependency file v1.0
+1494113856 source:h:\projects\platyfarm\main.cpp
+	<iostream>
+	<stdio.h>
+	"game.h"
+	"timer.h"
+
+1494623364 h:\projects\platyfarm\game.h
+	"statelist.h"
+	"timer.h"
+	"graphics.h"
+	"keydata.h"
+	"audio.h"
+
+1483905561 h:\projects\platyfarm\statelist.h
+	"menu.h"
+	"ingame.h"
+	"newgame.h"
+
+1494623386 h:\projects\platyfarm\menu.h
+	"gamestate.h"
+	"images.h"
+	"objects.h"
+
+1479330957 h:\projects\platyfarm\gamestate.h
+	"public.h"
+
+1494088757 h:\projects\platyfarm\timer.h
+	<SDL2/SDL.h>
+
+1479376402 source:d:\hunyor\platyfarm\main.cpp
+	<iostream>
+	<stdio.h>
+	"game.h"
+	"timer.h"
+
+1479376334 d:\hunyor\platyfarm\game.h
+	"statelist.h"
+	"timer.h"
+	"graphics.h"
+	"keydata.h"
+
+1479327546 d:\hunyor\platyfarm\statelist.h
+	"menu.h"
+	"ingame.h"
+
+1479310461 d:\hunyor\platyfarm\menu.h
+	"gamestate.h"
+
+1479327357 d:\hunyor\platyfarm\gamestate.h
+	"public.h"
+
+1479377459 d:\hunyor\platyfarm\public.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_opengl.h>
+	<GL/GLU.h>
+	<time.h>
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<sal.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\begin_code.h
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\close_code.h
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<mbarrier.h>
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"SDL_endian.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451803973 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1454366533 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1479375530 d:\hunyor\platyfarm\ingame.h
+	"gamestate.h"
+
+1454758600 d:\hunyor\platyfarm\timer.h
+	<SDL2/SDL.h>
+
+1479377675 d:\hunyor\platyfarm\graphics.h
+
+1464625645 d:\hunyor\platyfarm\keydata.h
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_opengl.h
+	"SDL_config.h"
+	"gl_mangle.h"
+	<windows.h>
+	"SDL_opengl_glext.h"
+
+1476939494 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_opengl_glext.h
+	<windows.h>
+	<stddef.h>
+	<inttypes.h>
+	<inttypes.h>
+	<inttypes.h>
+	<stdint.h>
+	<stdint.h>
+	<inttypes.h>
+
+1494113856 source:e:\platyfarm\main.cpp
+	<iostream>
+	<stdio.h>
+	"game.h"
+	"timer.h"
+
+1494618204 e:\platyfarm\game.h
+	"statelist.h"
+	"timer.h"
+	"graphics.h"
+	"keydata.h"
+	"audio.h"
+
+1483905561 e:\platyfarm\statelist.h
+	"menu.h"
+	"ingame.h"
+	"newgame.h"
+
+1494352143 e:\platyfarm\menu.h
+	"gamestate.h"
+	"images.h"
+	"objects.h"
+
+1479330957 e:\platyfarm\gamestate.h
+	"public.h"
+
+1494618663 e:\platyfarm\public.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_opengl.h>
+	<SDL2/SDL_mixer.h>
+	<GL/GLU.h>
+	<time.h>
+	<string>
+	<cmath>
+	<string>
+	<vector>
+	<queue>
+	<map>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<algorithm>
+	"tinyxml2.h"
+
+1494616352 e:\platyfarm\ingame.h
+	"gamestate.h"
+	"objects.h"
+	"keydata.h"
+	"tinyxml2.h"
+	<future>
+
+1494088757 e:\platyfarm\timer.h
+	<SDL2/SDL.h>
+
+1490194718 e:\platyfarm\graphics.h
+	"images.h"
+
+1491570463 e:\platyfarm\keydata.h
+
+1491495689 e:\platyfarm\images.h
+	"public.h"
+
+1494616251 e:\platyfarm\objects.h
+	"public.h"
+	"keydata.h"
+
+1479376402 source:g:\platyfarm\main.cpp
+	<iostream>
+	<stdio.h>
+	"game.h"
+	"timer.h"
+
+1481662162 g:\platyfarm\game.h
+	"statelist.h"
+	"timer.h"
+	"graphics.h"
+	"keydata.h"
+
+1479327546 g:\platyfarm\statelist.h
+	"menu.h"
+	"ingame.h"
+
+1479397381 g:\platyfarm\menu.h
+	"gamestate.h"
+	"images.h"
+
+1479327357 g:\platyfarm\gamestate.h
+	"public.h"
+
+1481833095 g:\platyfarm\public.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_opengl.h>
+	<GL/GLU.h>
+	<time.h>
+	<string>
+	<cmath>
+	<string>
+	<vector>
+	<map>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string>
+	<sstream>
+	<algorithm>
+	"tinyxml2.h"
+
+1481642575 g:\platyfarm\images.h
+	"public.h"
+
+1482134834 g:\platyfarm\ingame.h
+	"gamestate.h"
+	"objects.h"
+	"keydata.h"
+	"tinyxml2.h"
+
+1482134614 g:\platyfarm\objects.h
+	"public.h"
+	"keydata.h"
+
+1481703032 g:\platyfarm\keydata.h
+
+1454758600 g:\platyfarm\timer.h
+	<SDL2/SDL.h>
+
+1481662150 g:\platyfarm\graphics.h
+	"images.h"
+
+1479651992 e:\platyfarm\tinyxml2.h
+	<ctype.h>
+	<limits.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stddef.h>
+	<cctype>
+	<climits>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<stdint.h>
+	<android/log.h>
+	<assert.h>
+
+1479649681 source:e:\platyfarm\tinyxml2.cpp
+	"tinyxml2.h"
+	<new>
+	<stddef.h>
+	<stdarg.h>
+	<cstddef>
+	<cstdarg>
+
+1479648392 g:\platyfarm\tinyxml2.h
+	<ctype.h>
+	<limits.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stddef.h>
+	<cctype>
+	<climits>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<stdint.h>
+	<android/log.h>
+	<assert.h>
+
+1479646081 source:g:\platyfarm\tinyxml2.cpp
+	"tinyxml2.h"
+	<new>
+	<stddef.h>
+	<stdarg.h>
+	<cstddef>
+	<cstdarg>
+
+1481650432 d:\sdl2\i686-w64-mingw32\include\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1481650432 d:\sdl2\i686-w64-mingw32\include\eglew.h
+	<sys/types.h>
+	<KHR/khrplatform.h>
+	<EGL/eglplatform.h>
+	<GL/glew.h>
+
+1481650432 d:\sdl2\i686-w64-mingw32\include\glxew.h
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/Xmd.h>
+	<GL/glew.h>
+
+1481650432 d:\sdl2\i686-w64-mingw32\include\wglew.h
+	<windows.h>
+
+1479376402 source:f:\platyfarm\main.cpp
+	<iostream>
+	<stdio.h>
+	"game.h"
+	"timer.h"
+
+1481662162 f:\platyfarm\game.h
+	"statelist.h"
+	"timer.h"
+	"graphics.h"
+	"keydata.h"
+
+1479327546 f:\platyfarm\statelist.h
+	"menu.h"
+	"ingame.h"
+
+1479397381 f:\platyfarm\menu.h
+	"gamestate.h"
+	"images.h"
+
+1479327357 f:\platyfarm\gamestate.h
+	"public.h"
+
+1482947975 f:\platyfarm\public.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_opengl.h>
+	<GL/GLU.h>
+	<time.h>
+	<string>
+	<cmath>
+	<string>
+	<vector>
+	<map>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<string>
+	<sstream>
+	<algorithm>
+	"tinyxml2.h"
+
+1479648392 f:\platyfarm\tinyxml2.h
+	<ctype.h>
+	<limits.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stddef.h>
+	<cctype>
+	<climits>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<stdint.h>
+	<android/log.h>
+	<assert.h>
+
+1482766380 f:\platyfarm\images.h
+	"public.h"
+
+1483018218 f:\platyfarm\ingame.h
+	"gamestate.h"
+	"objects.h"
+	"keydata.h"
+	"tinyxml2.h"
+
+1483018727 f:\platyfarm\objects.h
+	"public.h"
+	"keydata.h"
+
+1481703032 f:\platyfarm\keydata.h
+
+1454758600 f:\platyfarm\timer.h
+	<SDL2/SDL.h>
+
+1482756037 f:\platyfarm\graphics.h
+	"images.h"
+
+1479646081 source:f:\platyfarm\tinyxml2.cpp
+	"tinyxml2.h"
+	<new>
+	<stddef.h>
+	<stdarg.h>
+	<cstddef>
+	<cstdarg>
+
+1483905942 e:\platyfarm\newgame.h
+	"gamestate.h"
+	"objects.h"
+
+1494113856 source:h:\projects\csáki hunor szakvizsga 2017\platyfarm\main.cpp
+	<iostream>
+	<stdio.h>
+	"game.h"
+	"timer.h"
+
+1494618204 h:\projects\csáki hunor szakvizsga 2017\platyfarm\game.h
+	"statelist.h"
+	"timer.h"
+	"graphics.h"
+	"keydata.h"
+	"audio.h"
+
+1483905561 h:\projects\csáki hunor szakvizsga 2017\platyfarm\statelist.h
+	"menu.h"
+	"ingame.h"
+	"newgame.h"
+
+1494352143 h:\projects\csáki hunor szakvizsga 2017\platyfarm\menu.h
+	"gamestate.h"
+	"images.h"
+	"objects.h"
+
+1479330957 h:\projects\csáki hunor szakvizsga 2017\platyfarm\gamestate.h
+	"public.h"
+
+1494618663 h:\projects\csáki hunor szakvizsga 2017\platyfarm\public.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_opengl.h>
+	<SDL2/SDL_mixer.h>
+	<GL/GLU.h>
+	<time.h>
+	<string>
+	<cmath>
+	<string>
+	<vector>
+	<queue>
+	<map>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<algorithm>
+	"tinyxml2.h"
+
+1479651992 h:\projects\csáki hunor szakvizsga 2017\platyfarm\tinyxml2.h
+	<ctype.h>
+	<limits.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stddef.h>
+	<cctype>
+	<climits>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<stdint.h>
+	<android/log.h>
+	<assert.h>
+
+1491495689 h:\projects\csáki hunor szakvizsga 2017\platyfarm\images.h
+	"public.h"
+
+1494616251 h:\projects\csáki hunor szakvizsga 2017\platyfarm\objects.h
+	"public.h"
+	"keydata.h"
+
+1491570463 h:\projects\csáki hunor szakvizsga 2017\platyfarm\keydata.h
+
+1494616352 h:\projects\csáki hunor szakvizsga 2017\platyfarm\ingame.h
+	"gamestate.h"
+	"objects.h"
+	"keydata.h"
+	"tinyxml2.h"
+	<future>
+
+1483905942 h:\projects\csáki hunor szakvizsga 2017\platyfarm\newgame.h
+	"gamestate.h"
+	"objects.h"
+
+1494088757 h:\projects\csáki hunor szakvizsga 2017\platyfarm\timer.h
+	<SDL2/SDL.h>
+
+1490194718 h:\projects\csáki hunor szakvizsga 2017\platyfarm\graphics.h
+	"images.h"
+
+1479649681 source:h:\projects\csáki hunor szakvizsga 2017\platyfarm\tinyxml2.cpp
+	"tinyxml2.h"
+	<new>
+	<stddef.h>
+	<stdarg.h>
+	<cstddef>
+	<cstdarg>
+
+1451805391 d:\sdl2\i686-w64-mingw32\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1494619759 source:h:\projects\csáki hunor szakvizsga 2017\platyfarm\audio.cpp
+
+1494619929 h:\projects\csáki hunor szakvizsga 2017\platyfarm\audio.h
+	"public.h"
+
+1494620366 e:\platyfarm\audio.h
+	"public.h"
+
+1494619759 source:e:\platyfarm\audio.cpp
+
+1494619759 source:h:\projects\platyfarm\audio.cpp
+
+1494792666 h:\projects\platyfarm\public.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_opengl.h>
+	<SDL2/SDL_mixer.h>
+	<GL/GLU.h>
+	<time.h>
+	<string>
+	<cmath>
+	<string>
+	<vector>
+	<queue>
+	<map>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<algorithm>
+	"tinyxml2.h"
+
+1479651992 h:\projects\platyfarm\tinyxml2.h
+	<ctype.h>
+	<limits.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stddef.h>
+	<cctype>
+	<climits>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<stdint.h>
+	<android/log.h>
+	<assert.h>
+
+1491495689 h:\projects\platyfarm\images.h
+	"public.h"
+
+1500545174 h:\projects\platyfarm\objects.h
+	"public.h"
+	"keydata.h"
+
+1494775328 h:\projects\platyfarm\keydata.h
+
+1494792846 h:\projects\platyfarm\ingame.h
+	"gamestate.h"
+	"objects.h"
+	"keydata.h"
+	"tinyxml2.h"
+	<future>
+
+1483905942 h:\projects\platyfarm\newgame.h
+	"gamestate.h"
+	"objects.h"
+
+1490194718 h:\projects\platyfarm\graphics.h
+	"images.h"
+
+1494624739 h:\projects\platyfarm\audio.h
+	"public.h"
+
+1479649681 source:h:\projects\platyfarm\tinyxml2.cpp
+	"tinyxml2.h"
+	<new>
+	<stddef.h>
+	<stdarg.h>
+	<cstddef>
+	<cstdarg>
+

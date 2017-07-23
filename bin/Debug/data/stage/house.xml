@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<size>9 9</size>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <row>1 1 1 1 1 1 1 1 1 </row>
+        <object>
+            <name></name>
+            <pos>128 224</pos>
+        </object>
+        <object>
+            <name>bed</name>
+            <pos>128 32</pos>
+        </object>
+        <object>
+            <name>chair</name>
+            <pos>192 32</pos>
+        </object>
+        <object>
+            <name>stove</name>
+            <pos>224 64</pos>
+        </object>
+</root>

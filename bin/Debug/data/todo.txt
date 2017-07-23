@@ -1,0 +1,22 @@
+crop death/decay
+
+save skills ...Done!
+
+escape menu
+
+generic item-object interaction ...Done!
+
+gui wasd navigation
+gui scroll
+
+dialog unique string identifiers
+
+lightsources
+
+conditional stuff
+
+fix inventory onexit item placement
+
+modifiers
+
+spawns

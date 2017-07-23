@@ -1,0 +1,49 @@
+2017-4-6 thursday
+
+DialogSystem::calculateLines()
+
+Ingame::HandleClick()
+
+toolbar onclick selection
+
+crafting menu number selector
+
+globals macro
+
+images macro
+
+restructured keys
+
+pickup disappear effect
+
+fixed particle offset on camera movement
+
+fixed inventory click bug
+
+started generic item-object interaction
+
+organized update functions
+
+added 'split'
+
+changed alert system to a queue
+
+added new Add function to particlesystem based on existing entity
+
+expanded script handler function
+
+generic item-object interaction mostly done
+
+added parallax effect to weather
+
+added fertilizer
+
+added consume & spawn to scripts
+
+added inventory hover text
+
+addded crafting menu mouse wheel and keyboard navigation
+
+added description to crafting menu
+
+save/load now works on skills

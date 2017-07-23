@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>	
+<root>
+	<item>
+		<name>axe</name>
+		<formal>Axe</formal>
+		<category>tool</category>
+		<type>woodcutting</type>
+		<img>axe</img>
+		<stack>1</stack>
+		<strength>1</strength>
+	</item>
+	<item>	
+		<name>apple</name>
+		<formal>Apple</formal>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>apple</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+			<fruit/>
+		</attributes>
+	</item>
+	<item>	
+		<name>carrot</name>
+		<formal>Carrot</formal>
+		<category>organic</category>
+		<type>vegetable</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>carrot</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+			<vegetable/>
+		</attributes>
+	</item>
+	<item>
+		<name>log</name>
+		<formal>Wooden Log</formal>
+		<desc>A material that has many uses</desc>
+		<category>raw material</category>
+		<type>wood</type>
+		<img>log</img>
+		<sell>5</sell>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>copper</name>
+		<formal>Copper Ingot</formal>
+		<desc>A material that has many uses</desc>
+		<category>raw material</category>
+		<type>ore</type>
+		<img>copper</img>
+		<sell>5</sell>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>swiss</name>
+		<formal>Swiss Knife</formal>
+		<category>tool</category>
+		<type>omni</type>
+		<price>10000</price>
+		<sell>5000</sell>
+		<img>swiss</img>
+		<stack>1</stack>
+		<strength>1</strength>
+	</item>
+	<item>
+		<name>seed</name>
+		<formal>Lily Seeds</formal>
+		<category>organic</category>
+		<type>seed</type>
+		<price>25</price>
+		<sell>10</sell>
+		<img>seed</img>
+		<place>lily_sprout</place>
+		<attributes>
+			<needs_soil/>
+		</attributes>
+		<stack>99</stack>
+	</item>
+	<item id="6">
+		<name>platty</name>
+		<formal>Platty</formal>
+		<desc>A magical fish that can be found in ponds in spring</desc>
+		<category>organic</category>
+		<type>fish</type>
+		<price>400</price>
+		<sell>600</sell>
+		<img>platty</img>
+		<stack>99</stack>
+	</item>
+	<item id="7">
+		<name>flower</name>
+		<formal>Flower</formal>
+		<category>organic</category>
+		<type>flower</type>
+		<price>50</price>
+		<sell>40</sell>
+		<img>flower</img>
+		<stack>99</stack>
+	</item>
+	<item id="8">
+		<name>scythe</name>
+		<formal>Scythe</formal>
+		<category>tool</category>
+		<type>reaping</type>
+		<img>scythe</img>
+		<stack>1</stack>
+		<strength>1</strength>
+	</item>
+	<item id="9">
+		<name>grass</name>
+		<formal>Grass</formal>
+		<category>organic</category>
+		<type>grass</type>
+		<img>bush</img>
+		<stack>99</stack>
+	</item>
+	<item id="10">
+		<name>staff</name>
+		<formal>Magic Staff</formal>
+		<category>tool</category>
+		<type>omni</type>
+		<price>15000</price>
+		<sell>7000</sell>
+		<img>staff</img>
+		<stack>1</stack>
+		<strength>1</strength>
+		<range>7</range>
+	</item>
+	<item id="11">
+		<name>lily</name>
+		<formal>Lily</formal>
+		<category>organic</category>
+		<type>flower</type>
+		<price>200</price>
+		<sell>100</sell>
+		<img>flower4</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>acorn</name>
+		<formal>Acorn</formal>
+		<desc>The fruit of an oak tree. When planted, it grows into an oak tree</desc>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>25</price>
+		<sell>10</sell>
+		<img>acorn</img>
+		<place>acorn</place>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>apple pie</name>
+		<formal>Apple Pie</formal>
+		<desc>A delicious pie, baked with love.</desc>
+		<category>organic</category>
+		<type>sweets</type>
+		<sell>1000</sell>
+		<img>pie</img>
+		<stack>1</stack>
+		<attributes>
+			<edible/>
+		</attributes>
+	</item>
+	<item>
+		<name>fried fish</name>
+		<formal>Fried Platty</formal>
+		<desc>A healthy freshly fried platty, with protein and fishbones</desc>
+		<category>organic</category>
+		<type>fish</type>
+		<sell>1000</sell>
+		<img>fried fish</img>
+		<stack>1</stack>
+		<attributes>
+			<edible/>
+		</attributes>
+	</item>
+	<item id="14">
+		<name>flour</name>
+		<formal>Flour</formal>
+		<desc>An ingredient made from grain.</desc>
+		<category>organic</category>
+		<type>ingredient</type>
+		<price>100</price>
+		<img>flour</img>
+		<stack>99</stack>
+	</item>
+	<item id="15">
+		<name>jar</name>
+		<formal>Empty Jar</formal>
+		<desc>A container made of glass used for preserving products</desc>
+		<category>item</category>
+		<type>container</type>
+		<img>jar</img>
+		<price>150</price>
+		<stack>99</stack>
+	</item>
+	<item id="16">
+		<name>apple jam</name>
+		<formal>Apple Jam</formal>
+		<desc>Jam made from apples</desc>
+		<category>organic</category>
+		<type>preserve</type>
+		<img>applejam</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+		</attributes>
+	</item>
+	<item>
+		<name>cider</name>
+		<formal>Cider</formal>
+		   
+		<category>organic</category>
+		<type>drink</type>
+		<img>cider</img>
+		<sell>1000</sell>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+		</attributes>
+	</item>
+	<item>
+		<name>juice</name>
+		<formal>Apple Juice</formal>
+		   
+		<category>organic</category>
+		<type>drink</type>
+		<img>juice</img>
+		<sell>500</sell>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+		</attributes>
+	</item>
+	<item id="18">	
+		<name>potato</name>
+		<formal>Potato</formal>
+		<category>organic</category>
+		<type>vegetable</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>potato</img>
+		<stack>99</stack>
+		<place>tree</place>
+	</item>
+	<item id="19">
+		<name>moonshine</name>
+		<formal>Moonshine</formal>
+		   
+		<category>organic</category>
+		<type>drink</type>
+		<img>drink</img>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+		</attributes>
+	</item>
+	<item>
+		<name>chair</name>
+		<formal>Chair</formal>
+		<desc>A nice chair, made from wood</desc>
+		<category>structure</category>
+		<type>furniture</type>
+		<img>chair</img>
+		<place>chair</place>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>sign</name>
+		<formal>Sign</formal>
+		<desc>A wooden sign</desc>
+		<category>structure</category>
+		<type>misc</type>
+		<img>sign</img>
+		<place>sign</place>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>distiller</name>
+		<formal>Distillery</formal>
+		<desc>Equipment used for the production of drinks made from fruit</desc>
+		<category>structure</category>
+		<type>crafting</type>
+		<img>distiller</img>
+		<place>distiller</place>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>poppy</name>
+		<formal>Poppy</formal>
+		<category>organic</category>
+		<type>flower</type>
+		<price>200</price>
+		<sell>100</sell>
+		<img>flower2</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>amanita</name>
+		<formal>Fly Amanita</formal>
+		<desc>A poisonous mushroom</desc>
+		<category>organic</category>
+		<type>fungi</type>
+		<price>200</price>
+		<sell>100</sell>
+		<img>amanita</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>tulip</name>
+		<formal>Tulip</formal>
+		<category>organic</category>
+		<type>flower</type>
+		<price>200</price>
+		<sell>100</sell>
+		<img>tulip</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>rose</name>
+		<formal>Rose</formal>
+		<category>organic</category>
+		<type>flower</type>
+		<price>200</price>
+		<sell>100</sell>
+		<img>rose</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>poppy_seed</name>
+		<formal>Poppy Seeds</formal>
+		<category>organic</category>
+		<type>seed</type>
+		<price>25</price>
+		<sell>10</sell>
+		<img>seed</img>
+		<place>poppy_sprout</place>
+		<attributes>
+			<needs_soil/>
+		</attributes>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>carrot_seed</name>
+		<formal>Carrot Seeds</formal>
+		<category>organic</category>
+		<type>seed</type>
+		<price>25</price>
+		<sell>10</sell>
+		<img>seed</img>
+		<place>carrot_crop</place>
+		<attributes>
+			<needs_soil/>
+		</attributes>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>stone</name>
+		<formal>Stone</formal>
+		<desc>A material that has many uses</desc>
+		<category>raw material</category>
+		<type>stone</type>
+		<img>stone</img>
+		<sell>5</sell>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>pickaxe</name>
+		<formal>Pickaxe</formal>
+		<desc>A tool used for the mining resources</desc>
+		<category>tool</category>
+		<type>mining</type>
+		<img>pickaxe</img>
+		<stack>1</stack>
+		<strength>1</strength>
+	</item>
+	<item>
+		<name>hoe</name>
+		<formal>Hoe</formal>
+		<desc>A tool used for tilling soil</desc>
+		<category>tool</category>
+		<type>tilling</type>
+		<img>hoe</img>
+		<stack>1</stack>
+		<strength>1</strength>
+	</item>
+	<item>
+		<name>potato stew</name>
+		<formal>Potato Stew</formal>
+		<desc>Stew made from potatoes</desc>
+		<category>organic</category>
+		<type>stew</type>
+		<img>applejam</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>can</name>
+		<formal>Watering Can</formal>
+		<desc>A tool used to water crops</desc>
+		<category>tool</category>
+		<type>watering</type>
+		<img>can</img>
+		<stack>1</stack>
+		<strength>1</strength>
+	</item>
+	<item>
+		<name>fence</name>
+		<formal>Fence</formal>
+		<desc>A structure used to separate various spaces</desc>
+		<category>structure</category>
+		<type>fencing</type>
+		<img>fence</img>
+		<place>fence</place>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>table</name>
+		<formal>Table</formal>
+		<desc>A structure used to separate various spaces</desc>
+		<category>structure</category>
+		<type>furniture</type>
+		<img>table</img>
+		<place>table</place>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>cupboard</name>
+		<formal>Cupboard</formal>
+		<desc>A structure used to store items</desc>
+		<category>structure</category>
+		<type>furniture</type>
+		<img>cupboard</img>
+		<place>cupboard</place>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>skillbook</name>
+		<formal>Charisma I</formal>
+		<desc>A book describing methods of socialising</desc>
+		<category>misc</category>
+		<type>book</type>
+		<img>book</img>
+		<stack>1</stack>
+		<attributes>
+			<consume>script skill charisma script skill crafting script spawn ramcat</consume>
+		</attributes>
+	</item>
+	<item>
+		<name>torch</name>
+		<formal>Torch</formal>
+		<desc>asdasd</desc>
+		<category>tool</category>
+		<type>fire</type>
+		<img>torch</img>
+		<stack>1</stack>
+		
+	</item>
+	<item>
+		<name>bag</name>
+		<formal>Fertilizer</formal>
+		<desc>Makes plants grow faster</desc>
+		<category>misc</category>
+		<type>fertilizer</type>
+		<img>bag</img>
+		<stack>1</stack>
+		
+	</item>
+</root>
