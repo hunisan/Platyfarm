@@ -20,14 +20,18 @@
 		<gui-width value="400"/>
 		<xp-scale value="100"/>
 		<rain-probability value="25"/>
-		<interact-range value="64"/>
+		<interact-range value="96"/>
 		<dialog-line-length value="475"/>
 		<dialog-width value="500"/>
 		<dialog-height value="100"/>
 		<number-selector-w value="80"/>
 		<number-selector-h value="30"/>
 		<audio-start-muted value="1"/>
+		<player-anim-frames value="9"/>
 		<tiles value="4"/>
 		<debug value="1"/>
 	</globals>
+	<strings>
+		<general-store-inventory value="seed acorn flour jar poppy_seed beer"/>
+	</strings>
 </root>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<object id="1">
+	<object>
 		<name>tree-stump</name>
 		<img>stump</img>
 		<category>plant</category>
@@ -18,7 +18,7 @@
 			</drop>
 		</drops>
 	</object>
-	<object id="2">
+	<object>
 		<name>tree</name>
 		<category>plant</category>
 		<width>1</width>
@@ -47,7 +47,28 @@
 		</drops>
 		<leftover>tree-stump</leftover>
 	</object>
-	<object id="3">
+	<object>
+		<name>pine</name>
+		<category>plant</category>
+		<width>1</width>
+		<height>1</height>
+		<alt>3</alt>
+		<offset>1</offset>
+		<rigid></rigid>
+		<type>tree</type>
+		<img>pine</img>
+		<destroy>woodcutting</destroy>
+		<hits>5</hits>
+		<drops>
+			<drop>
+				<item>log</item>
+				<min>3</min>
+				<max>5</max>
+			</drop>
+		</drops>
+		<leftover>tree-stump</leftover>
+	</object>
+	<object>
 		<name>garlic</name>
 		<img>garlic</img>
 		<category>plant</category>
@@ -63,7 +84,7 @@
 			</drop>
 		</drops>
 	</object>
-	<object id="4">
+	<object>
 		<name>flower</name>
 		<img>flower</img>
 		<width>1</width>

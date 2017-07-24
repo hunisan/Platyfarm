@@ -82,7 +82,7 @@
 		</attributes>
 		<stack>99</stack>
 	</item>
-	<item id="6">
+	<item>
 		<name>platty</name>
 		<formal>Platty</formal>
 		<desc>A magical fish that can be found in ponds in spring</desc>
@@ -93,7 +93,7 @@
 		<img>platty</img>
 		<stack>99</stack>
 	</item>
-	<item id="7">
+	<item>
 		<name>flower</name>
 		<formal>Flower</formal>
 		<category>organic</category>
@@ -103,7 +103,7 @@
 		<img>flower</img>
 		<stack>99</stack>
 	</item>
-	<item id="8">
+	<item>
 		<name>scythe</name>
 		<formal>Scythe</formal>
 		<category>tool</category>
@@ -112,7 +112,7 @@
 		<stack>1</stack>
 		<strength>1</strength>
 	</item>
-	<item id="9">
+	<item>
 		<name>grass</name>
 		<formal>Grass</formal>
 		<category>organic</category>
@@ -120,7 +120,7 @@
 		<img>bush</img>
 		<stack>99</stack>
 	</item>
-	<item id="10">
+	<item>
 		<name>staff</name>
 		<formal>Magic Staff</formal>
 		<category>tool</category>
@@ -132,7 +132,7 @@
 		<strength>1</strength>
 		<range>7</range>
 	</item>
-	<item id="11">
+	<item>
 		<name>lily</name>
 		<formal>Lily</formal>
 		<category>organic</category>
@@ -180,7 +180,7 @@
 			<edible/>
 		</attributes>
 	</item>
-	<item id="14">
+	<item>
 		<name>flour</name>
 		<formal>Flour</formal>
 		<desc>An ingredient made from grain.</desc>
@@ -190,7 +190,7 @@
 		<img>flour</img>
 		<stack>99</stack>
 	</item>
-	<item id="15">
+	<item>
 		<name>jar</name>
 		<formal>Empty Jar</formal>
 		<desc>A container made of glass used for preserving products</desc>
@@ -200,7 +200,7 @@
 		<price>150</price>
 		<stack>99</stack>
 	</item>
-	<item id="16">
+	<item>
 		<name>apple jam</name>
 		<formal>Apple Jam</formal>
 		<desc>Jam made from apples</desc>
@@ -215,7 +215,6 @@
 	<item>
 		<name>cider</name>
 		<formal>Cider</formal>
-		   
 		<category>organic</category>
 		<type>drink</type>
 		<img>cider</img>
@@ -228,7 +227,6 @@
 	<item>
 		<name>juice</name>
 		<formal>Apple Juice</formal>
-		   
 		<category>organic</category>
 		<type>drink</type>
 		<img>juice</img>
@@ -238,7 +236,7 @@
 			<drinkable/>
 		</attributes>
 	</item>
-	<item id="18">	
+	<item>	
 		<name>potato</name>
 		<formal>Potato</formal>
 		<category>organic</category>
@@ -249,13 +247,23 @@
 		<stack>99</stack>
 		<place>tree</place>
 	</item>
-	<item id="19">
+	<item>
 		<name>moonshine</name>
 		<formal>Moonshine</formal>
-		   
 		<category>organic</category>
 		<type>drink</type>
-		<img>drink</img>
+		<img>moonshine</img>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+		</attributes>
+	</item>
+	<item>
+		<name>beer</name>
+		<formal>Beer</formal>
+		<category>organic</category>
+		<type>drink</type>
+		<img>Beer</img>
 		<stack>99</stack>
 		<attributes>
 			<drinkable/>

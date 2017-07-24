@@ -275,5 +275,9 @@
 			<text id="1">Where can I find some catnip?</text>
 		</chain>
 	</dialog>
-	
+	<dialog id="31">
+		<chain>
+			<text id="1">Where can I find some catnip?</text>
+		</chain>
+	</dialog>
 </root>

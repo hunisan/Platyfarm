@@ -1196,7 +1196,7 @@ public:
         LoadNPCs();
         LoadRecipes();
 
-        player = new Player(Creature(images[ids["human"]],8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
+        player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE,TILESIZE));
         ptr_to_player = player;
 
         player_lot.name = "lot";
@@ -1341,7 +1341,7 @@ public:
         funds = atoi(pRoot->FirstChildElement("funds")->GetText());
         string player_pos = pRoot->FirstChildElement("player")->GetText();
 
-        player = new Player(Creature(images[ids["human"]],8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
+        player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
         player->x = atoi(FirstWord(player_pos).c_str());
         player->y = atoi(SecondWord(player_pos).c_str());
 
@@ -1957,7 +1957,7 @@ public:
             image targetParticle = images[ids[(currentstage->IsGround(player->x/TILESIZE,player->y/TILESIZE)?"particle_grass":"dust")]];
             particlesys.Add(player->x+player->w/2-psize/2,player->y+player->h-psize/2,psize,psize,targetParticle);
             player->current_frame += 0.2;
-            if(player->current_frame > 2)
+            if(player->current_frame >= g("player-anim-frames"))
                 player->current_frame = 0;
 
             FocusCamera();

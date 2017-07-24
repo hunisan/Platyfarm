@@ -27,22 +27,22 @@ public:
 
     bool Init()
     {
-        srand(time(0)); ///randomgenerátor seedelése
+        srand(time(0));
 
         isRunning = true;
 
-        LoadGlobals(); ///globális változók betöltése
+        LoadGlobals();
 
-        if(!graphicsEngine->Init()) ///grafikus motor inicializálása
+        if(!graphicsEngine->Init())
             return 0;
 
         audioSystem->Init();
         //graphicsEngine->LoadContent();
-        graphicsEngine->LoadImages(); ///képanyag betöltése
+        graphicsEngine->LoadImages();
 
         audioSystem->LoadContent();
 
-        currentState->Init(); ///játékhelyzet inicializálása
+        currentState->Init();
 
         return 1;
     }

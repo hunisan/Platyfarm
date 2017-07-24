@@ -636,10 +636,13 @@ public:
     Player(Creature c) : Creature(c)
     {
         lastdir = 0;
+        offset = TILESIZE/2;
+        alt = TILESIZE/2;
     }
     void Draw(float cX = 0, float cY = 0)
     {
-        DrawClip(img,x-cX,y-cY,w,h,floor(current_frame)*32,lastdir*32,32,32,96,128);
+
+        DrawClip(img,x-cX-offset/2,y-cY-alt,w+offset,h+alt,floor(current_frame)*50,lastdir*(64),50,64,g("player-anim-frames")*50,4*(64));
 
         /*if(GUI_ENABLED)
         {
@@ -1661,7 +1664,7 @@ public:
         h = std::min(SCREEN_HEIGHT*3/4,(int)item_templates.size()*TILESIZE+TILESIZE);
         x = SCREEN_WIDTH/2-w/2;
         y = SCREEN_HEIGHT/2-h/2;
-        for(auto& e : shopInventory)
+        for(auto& e : allWord(s("general-store-inventory")))
             item_list.push_back(item_templates[e]);
     }
     void Draw(float cX = 0, float cY = 0)

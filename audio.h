@@ -32,6 +32,14 @@ void AudioSystem::Init()
         printf("Audio system failed to initialize");
 
     muted = g("audio-start-muted");
+    if(muted)
+    {
+        Mix_VolumeMusic(0);
+    }
+    else
+    {
+        Mix_VolumeMusic(128);
+    }
 }
 
 Mix_Music* AudioSystem::LoadSong(string path)

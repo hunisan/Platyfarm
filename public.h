@@ -30,6 +30,7 @@
 #define fr(j,n) for(int i = j; i < n; i++)
 #define im(i) images[ids[i]]
 #define g(i) globals[i]
+#define s(i) strings[i]
 #define ent(i) object_templates[i]
 #define it(i) item_templates[i]
 #define string std::string
@@ -263,9 +264,8 @@ map<string, int> xps = {{"crafting",0},{"cooking",0},{"woodcutting",0},{"fishing
 
 map<string, vector<string> > unlocks = {{"crafting",{"You can now craft more stuff"}}};
 
-vector<string> shopInventory = {"seed","acorn","flour","jar","poppy_seed"};
-
 map<string, int> globals;
+map<string, string> strings;
 
 int levelcap(int lvl)
 {
@@ -405,7 +405,15 @@ bool LoadGlobals()
 
         globalElement = globalElement->NextSiblingElement();
     }
+    globalElement = pRoot->FirstChildElement("strings")->FirstChildElement();
 
+    while(globalElement)
+    {
+
+        strings[globalElement->Name()] = globalElement->Attribute("value");
+
+        globalElement = globalElement->NextSiblingElement();
+    }
     return 1;
 }
 bool SaveFileExists()
