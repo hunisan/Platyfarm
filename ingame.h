@@ -1592,19 +1592,24 @@ public:
                         }
                         else
                         {
-                            if(e->destroy != ""
-                               && (sel->type == e->destroy || sel->type == "omni" || e->destroy == "any")
-                               && e->drops.size()>0)
+                            if((e->destroy != "" || sel->name == "delete")
+                               && (sel->type == e->destroy || sel->type == "omni" || e->destroy == "any"))
+                               //&& (e->drops.size()>0 )
                                 {
                                     float dx = player->x - e->x;
                                     float dy = player->y - e->y;
                                     float distance = sqrt(dx*dx+dy*dy);
 
+                                    int strength = 1;
+                                    if(sel->int_attribs.count("strength"))
+                                        strength = sel->int_attribs["strength"];
+
                                     if(distance < sel->int_attribs["range"])//TILESIZE*2)
-                                        if(e->health == 1)
+                                        if(e->health <= strength)
                                         {
                                             eventSystem->Event("DESTROY", {e->name});
 
+                                            if(sel->name != "delete")
                                             for(int i = 0; i < e->drops.size(); i++)
                                             {
 
@@ -1615,7 +1620,7 @@ public:
 
                                             }
 
-                                            if(e->leftover == "")
+                                            if(e->leftover == "" || sel->name == "delete")
                                             {
                                                 particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,globals["particle-decay"]);
                                                 remove_entity(e);
@@ -1633,7 +1638,7 @@ public:
                                         }
                                         else
                                         {
-                                            e->health--;
+                                            e->health -= strength;
                                             e->Shake();
                                         }
                                 }

@@ -228,6 +228,7 @@ public:
         desty = _y;
         clipw = imgw = _w;
         cliph = imgh = _h;
+        health = 1;
     }
     void Shake(int amplitude = -1)
     {

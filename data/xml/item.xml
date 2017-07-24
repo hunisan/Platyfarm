@@ -133,6 +133,32 @@
 		<range>7</range>
 	</item>
 	<item>
+		<name>delete</name>
+		<formal>Delete Rod</formal>
+		<category>tool</category>
+		<type>omni</type>
+		<price>15000</price>
+		<sell>7000</sell>
+		<img>staff</img>
+		<stack>1</stack>
+		<attributes>
+			<strength>100</strength>
+		</attributes>
+		<range>16</range>
+	</item>
+	<item>
+		<name>god</name>
+		<formal>God Rod</formal>
+		<category>debug</category>
+		<type>omni</type>
+		<price>15000</price>
+		<sell>7000</sell>
+		<img>staff</img>
+		<stack>1</stack>
+		<strength>100</strength>
+		<range>12</range>
+	</item>
+	<item>
 		<name>lily</name>
 		<formal>Lily</formal>
 		<category>organic</category>
