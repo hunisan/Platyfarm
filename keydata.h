@@ -30,7 +30,7 @@ struct
     bool EPress = false;
     bool Click = false;
     bool RightClick = false;
-
+    bool numPress[10];
 
     map<string,bool> keyInfo;
 
@@ -87,6 +87,8 @@ struct
         EPress = false;
         Click = false;
         RightClick = false;
+        for(auto& i : numPress)
+            i = false;
         wheel = 0;
     }
 } KeyData;

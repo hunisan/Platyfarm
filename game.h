@@ -66,6 +66,10 @@ public:
                 break;
             case SDL_KEYDOWN:
                 KeyData.AnyPress=true;
+                if(eventQueue.key.keysym.sym >= SDLK_0 && eventQueue.key.keysym.sym <= SDLK_9)
+                {
+                    KeyData.numPress[eventQueue.key.keysym.sym-SDLK_0]=true;
+                }
                 switch(eventQueue.key.keysym.sym)
                 {
                 case SDLK_UP:

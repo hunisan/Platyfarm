@@ -9,6 +9,18 @@
 		<stack>1</stack>
 		<strength>1</strength>
 	</item>
+	<item>
+		<name>rare-axe</name>
+		<formal>Hatchet</formal>
+		<category>tool</category>
+		<type>woodcutting</type>
+		<img>axe</img>
+		<stack>1</stack>
+		<strength>1</strength>
+		<attributes>
+			<rarity>rare</rarity>
+		</attributes>
+	</item>
 	<item>	
 		<name>apple</name>
 		<formal>Apple</formal>
@@ -139,7 +151,7 @@
 		<type>omni</type>
 		<price>15000</price>
 		<sell>7000</sell>
-		<img>staff</img>
+		<img>staff-red</img>
 		<stack>1</stack>
 		<attributes>
 			<strength>100</strength>
@@ -417,6 +429,16 @@
 	<item>
 		<name>hoe</name>
 		<formal>Hoe</formal>
+		<desc>A tool used for tilling soil</desc>
+		<category>tool</category>
+		<type>tilling</type>
+		<img>hoe</img>
+		<stack>1</stack>
+		<strength>1</strength>
+	</item>
+	<item>
+		<name>terra</name>
+		<formal>Terra Hoe</formal>
 		<desc>A tool used for tilling soil</desc>
 		<category>tool</category>
 		<type>tilling</type>

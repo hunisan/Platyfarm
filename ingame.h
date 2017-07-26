@@ -15,6 +15,7 @@ private:
     Stage player_lot, player_house, forest, general_store, limbo;
     Stage * fade_stage;
     map<string,Stage*> stageList;
+    vector<string> stageNames;
 
     LightingSystem lightsys;
     WeatherSystem weathersys;
@@ -467,7 +468,7 @@ public:
                 stageElement->InsertEndChild(pElement);
             }
             for(auto e : stage.second->objects)
-            if(e)
+            if(e && e->x < stage.second->w*TILESIZE && e->y < stage.second->h*TILESIZE)
             {
                 pElement = saveFile.NewElement("object");
                 auto InsertChildInt = [&pElement, &pRoot, &saveFile](string name, int value)
@@ -674,6 +675,9 @@ public:
             Entity newobject;
 
             newobject.name = pElement->FirstChildElement("name")->GetText();
+
+            object_names.push_back(newobject.name);
+
             newobject.img = images[ids[pElement->FirstChildElement("img")->GetText()]];
             //newobject.max_stack = atoi(pElement->FirstChildElement("stack")->GetText());
             newobject.category = pElement->FirstChildElement("category")->GetText();
@@ -1414,6 +1418,8 @@ public:
             Stage * new_stage = new Stage();
 
             new_stage->name = pElement->FirstChildElement("name")->GetText();
+            stageNames.push_back(new_stage->name);
+
             string sizes = pElement->FirstChildElement("size")->GetText();
             new_stage->w = new_stage->tilemap.w = atoi(FirstWord(sizes).c_str());
             new_stage->h = new_stage->tilemap.h =atoi(SecondWord(sizes).c_str());
@@ -1550,6 +1556,163 @@ public:
         cout << "Counted " << dialogs.size() << " dialogs\n";
     }
 
+    void HandleRightClick()
+    {
+        bool interacted = false;
+
+            for(auto &n : currentstage->npcs)
+            {
+                if(n)
+                {
+                    if(KeyData.MouseX+camera_x >= n->x && KeyData.MouseX+camera_x <= n->x + n->w &&
+                        KeyData.MouseY+camera_y >= n->y && KeyData.MouseY+camera_y <= n->y + n->h  )
+                        {
+                            /*float dx = player->x - n->x;
+                            float dy = player->y - n->y;
+                            float distance = sqrt(dx*dx+dy*dy);*/
+
+                            if(GetDistance(player->x,player->y,n->x,n->y) < globals["interact-range"])
+                            {
+                                eventSystem->Event("TALK");
+
+                                gamephase = DIALOG;
+
+                                if(n->attributes.count("behaviour-talk"))
+                                {
+                                    if(n->attributes["behaviour-talk"]=="random")
+                                    {
+                                        vector<string> lines = allWord(n->attributes["lines"]);
+
+                                        int randomLineIndex = rand()%lines.size();
+
+                                        dialogSystem->Add(dialogs[atoi(lines[randomLineIndex].c_str())],n->name);
+
+                                        cout << atoi(lines[randomLineIndex].c_str()) << endl;
+                                    }
+                                }
+                                else
+                                {
+                                    if(!n->met)
+                                        dialogSystem->Add(dialogs[n->on_meet],n->name);
+                                    else
+                                        dialogSystem->Add(dialogs[n->on_greet],n->name);
+
+                                }
+
+                                dialogSystem->portrait = n->portrait;
+                                n->met = true;
+                                interacted = true;
+                                break;
+                            }
+                        }
+                }
+            }
+            if(!interacted)
+            for(auto& e : currentstage->objects)
+            {
+                if(e)
+                {
+                    if(e->int_attribs.count("interact"))
+                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)&& GetDistance(player->x,player->y,e->x,e->y) < globals["interact-range"])
+
+                    {
+                        gamephase = DIALOG;
+
+                        dialogSystem->Add(dialogs[e->int_attribs["interact"]]);
+
+                        interacted = true;
+                        break;
+                    }
+                    if(e->pickable)
+                    {
+                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)&& GetDistance(player->x,player->y,e->x,e->y) < globals["interact-range"])
+                        {
+                            /*float dx = player->x - e->x;
+                            float dy = player->y - e->y;
+                            float distance = sqrt(dx*dx+dy*dy);
+                            */
+                                inventory->Add(item_templates[e->pick]);
+                                //e = NULL;
+                                interacted = true;
+                                particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,g("particle-decay"));
+                                remove_entity(e);
+                                break;
+
+                        }
+                    }
+                    else if(e->type == "crafting")
+                    {
+                     if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y) && GetDistance(player->x,player->y,e->x,e->y) < globals["interact-range"])
+                        {
+
+                            gamephase = GUI;
+                            gui = new CraftingGui(inventory,e->name);
+                            interacted = true;
+                            break;
+                        }
+
+                    }
+                    else if(e->string_attribs.count("portal"))
+                    {
+                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y) && GetDistance(player->x,player->y,e->x+e->w/2,e->y+e->h/2) < globals["interact-range"])
+                        {
+
+                            if(e->string_attribs.count("where"))
+                            {
+                                fade_x = atoi(FirstWord(e->string_attribs["where"]).c_str());
+                                fade_y = atoi(SecondWord(e->string_attribs["where"]).c_str());
+                            }
+                            else
+                                fade_x = fade_y = 0;
+
+                            /*if(e->string_attribs["portal"] == "house")
+                                SwitchStage(stageList["house"]);
+                            else if(e->string_attribs["portal"] == "shop")
+                            {
+                                SwitchStage(stageList["shop"]);
+                                FocusCamera();
+                            }
+                            else if(e->string_attribs["portal"] == "lot")
+                                SwitchStage(stageList["lot"]);
+                            else
+                                SwitchStage(stageList["limbo"]);*/
+
+                            gamephase = FADE;
+                            fade_stage = stageList[e->string_attribs["portal"]];
+                            fade_direction = FADE_IN;
+
+
+                            interacted = true;
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+
+            if(!interacted)
+                if(inventory->toolbar[inventory->selected])
+                    if(inventory->toolbar[inventory->selected]->int_attribs.count("edible") || inventory->toolbar[inventory->selected]->int_attribs.count("drinkable"))
+                    {
+                        eventSystem->Event("EAT");
+                        inventory->Remove(inventory->selected);
+                        hunger -= HUNGER_SCALE;
+                        if(hunger < 0)
+                            hunger = 0;
+                    }
+                    else if(inventory->toolbar[inventory->selected]->string_attribs.count("consume"))
+                    {
+                        RunScript(inventory->toolbar[inventory->selected]->string_attribs["consume"]);
+                        inventory->Remove(inventory->selected);
+                    }
+                    else if(inventory->toolbar[inventory->selected]->name == "god")
+                    {
+                        inventory->toolbar[inventory->selected]->string_attribs["place"] = getNextEntityName();
+                        preview->Add(object_templates[object_names[selectedEntity]]);
+                    }
+    }
+
     void HandleClick()
     {
         int mx = KeyData.MouseX, my = KeyData.MouseY;
@@ -1572,14 +1735,38 @@ public:
             RunScript(e->interactions[e->Interacts(sel)].script,&e,sel->name);
 
         if(sel)
-        if(sel->category == "tool")
+        if(sel->string_attribs.count("place"))//category == "organic")
+                {
+                    //if(inventory->toolbar[inventory->selected]->type == "seed")
+                    int place_x = std::floor((KeyData.MouseX+camera_x)/TILESIZE);
+                    int place_y = std::floor((KeyData.MouseY+camera_y)/TILESIZE);
+                    Entity * newe = new Entity(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]],place_x*TILESIZE,place_y*TILESIZE);
+                    if(GetDistance(player->x+player->w/2,player->y+player->h/2,newe->x + newe->w/2,newe->y + newe->h/2) < sel->int_attribs["range"] + newe->w/2)
+                    {
+
+                        //currentstage->objects.push_back(newe);
+                        if(inventory->toolbar[inventory->selected]->category != "organic" || ((!inventory->toolbar[inventory->selected]->int_attribs.count("needs_soil") && currentstage->IsGround(place_x,place_y)) || currentstage->CanPlant(place_x, place_y)))
+                        if((!newe->rigid || !Intersect(newe,player)) && PlaceObject(newe,place_x,place_y))
+                        {
+                            particlesys.Add(newe->x,newe->y,newe->w,newe->h,images[ids["dust"]],1,globals["particle-decay"]);
+                            eventSystem->Event("PLACE",{newe->category});
+
+                            AddDrawable(newe);
+
+                            if(sel->name != "god")
+                                inventory->Remove(inventory->selected);
+
+                        }
+                    }
+                }
+        else if(sel->category == "tool")
         {
             for(auto& e : currentstage->objects)
             //auto &e = currentstage->grid[click_x][click_y];
                 if(e)
                     //if(KeyData.MouseX+camera_x >= e->x && KeyData.MouseX+camera_x <= e->x + e->w &&
                     //       KeyData.MouseY+camera_y >= e->y && KeyData.MouseY+camera_y <= e->y + e->h  )
-                    if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y))
+                    if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)){
                         if(sel->type == "watering")
                         {
                             if(e->category == "plant" && e->int_attribs.count("needs_water"))
@@ -1642,12 +1829,16 @@ public:
                                             e->Shake();
                                         }
                                 }
+                        }
                     }
 
-                if(sel->type == "tilling" && currentstage->IsGround(click_x,click_y) && currentstage->IsFree(click_x,click_y) && GetDistance(player->x + player->w/2,player->y + player->h/2,KeyData.MouseX+camera_x,KeyData.MouseY+camera_y) < TILESIZE*2)
+                if(sel->type == "tilling" && (sel->name == "terra" || (currentstage->IsGround(click_x,click_y) && currentstage->IsFree(click_x,click_y) && GetDistance(player->x + player->w/2,player->y + player->h/2,KeyData.MouseX+camera_x,KeyData.MouseY+camera_y) < TILESIZE*2)))
                 {
                     particlesys.Add(click_x*TILESIZE,click_y*TILESIZE,TILESIZE,TILESIZE,images[ids["dust"]],1,globals["particle-decay"]);
-                    currentstage->Set(click_x,click_y,Stage::TILLED);
+                    if(sel->name == "terra")
+                        currentstage->Set(click_x,click_y,currentstage->Get(click_x,click_y)+1);
+                    else
+                        currentstage->Set(click_x,click_y,Stage::TILLED);
                 }
         }
         else if(sel->category == "organic")
@@ -1993,6 +2184,17 @@ public:
             gamephase = DIALOG;
             dialogSystem->Add(Prompt("Are you sure you want to quit?","exit"));
         }
+
+        for(int i = 0; i < 10; i++)
+        {
+            if(KeyData.numPress[i] && stageNames.size() > i)
+            {
+                SwitchStage(stageList[stageNames[i]]);
+                player->x = 6*TILESIZE;
+                player->y = 4*TILESIZE;
+                FocusCamera();
+            }
+        }
         if(KeyData.KPress)
         {
             NextDay();
@@ -2029,179 +2231,26 @@ public:
         }
         else if(KeyData.RightClick)
         {
-            bool interacted = false;
-
-            for(auto &n : currentstage->npcs)
-            {
-                if(n)
-                {
-                    if(KeyData.MouseX+camera_x >= n->x && KeyData.MouseX+camera_x <= n->x + n->w &&
-                        KeyData.MouseY+camera_y >= n->y && KeyData.MouseY+camera_y <= n->y + n->h  )
-                        {
-                            /*float dx = player->x - n->x;
-                            float dy = player->y - n->y;
-                            float distance = sqrt(dx*dx+dy*dy);*/
-
-                            if(GetDistance(player->x,player->y,n->x,n->y) < globals["interact-range"])
-                            {
-                                eventSystem->Event("TALK");
-
-                                gamephase = DIALOG;
-
-                                if(n->attributes.count("behaviour-talk"))
-                                {
-                                    if(n->attributes["behaviour-talk"]=="random")
-                                    {
-                                        vector<string> lines = allWord(n->attributes["lines"]);
-
-                                        int randomLineIndex = rand()%lines.size();
-
-                                        dialogSystem->Add(dialogs[atoi(lines[randomLineIndex].c_str())],n->name);
-
-                                        cout << atoi(lines[randomLineIndex].c_str()) << endl;
-                                    }
-                                }
-                                else
-                                {
-                                    if(!n->met)
-                                        dialogSystem->Add(dialogs[n->on_meet],n->name);
-                                    else
-                                        dialogSystem->Add(dialogs[n->on_greet],n->name);
-
-                                }
-
-                                dialogSystem->portrait = n->portrait;
-                                n->met = true;
-                                interacted = true;
-                                break;
-                            }
-                        }
-                }
-            }
-            if(!interacted)
-            for(auto& e : currentstage->objects)
-            {
-                if(e)
-                {
-                    if(e->int_attribs.count("interact"))
-                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)&& GetDistance(player->x,player->y,e->x,e->y) < globals["interact-range"])
-
-                    {
-                        gamephase = DIALOG;
-
-                        dialogSystem->Add(dialogs[e->int_attribs["interact"]]);
-
-                        interacted = true;
-                        break;
-                    }
-                    if(e->pickable)
-                    {
-                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)&& GetDistance(player->x,player->y,e->x,e->y) < globals["interact-range"])
-                        {
-                            /*float dx = player->x - e->x;
-                            float dy = player->y - e->y;
-                            float distance = sqrt(dx*dx+dy*dy);
-                            */
-                                inventory->Add(item_templates[e->pick]);
-                                //e = NULL;
-                                interacted = true;
-                                particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,g("particle-decay"));
-                                remove_entity(e);
-                                break;
-
-                        }
-                    }
-                    else if(e->type == "crafting")
-                    {
-                     if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y) && GetDistance(player->x,player->y,e->x,e->y) < globals["interact-range"])
-                        {
-
-                            gamephase = GUI;
-                            gui = new CraftingGui(inventory,e->name);
-                            interacted = true;
-                            break;
-                        }
-
-                    }
-                    else if(e->string_attribs.count("portal"))
-                    {
-                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y) && GetDistance(player->x,player->y,e->x+e->w/2,e->y+e->h/2) < globals["interact-range"])
-                        {
-
-                            if(e->string_attribs.count("where"))
-                            {
-                                fade_x = atoi(FirstWord(e->string_attribs["where"]).c_str());
-                                fade_y = atoi(SecondWord(e->string_attribs["where"]).c_str());
-                            }
-                            else
-                                fade_x = fade_y = 0;
-
-                            /*if(e->string_attribs["portal"] == "house")
-                                SwitchStage(stageList["house"]);
-                            else if(e->string_attribs["portal"] == "shop")
-                            {
-                                SwitchStage(stageList["shop"]);
-                                FocusCamera();
-                            }
-                            else if(e->string_attribs["portal"] == "lot")
-                                SwitchStage(stageList["lot"]);
-                            else
-                                SwitchStage(stageList["limbo"]);*/
-
-                            gamephase = FADE;
-                            fade_stage = stageList[e->string_attribs["portal"]];
-                            fade_direction = FADE_IN;
-
-
-                            interacted = true;
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-
-            if(!interacted)
-                if(inventory->toolbar[inventory->selected])
-                    if(inventory->toolbar[inventory->selected]->string_attribs.count("place"))//category == "organic")
-                    {
-                        //if(inventory->toolbar[inventory->selected]->type == "seed")
-                        int place_x = std::floor((KeyData.MouseX+camera_x)/TILESIZE);
-                        int place_y = std::floor((KeyData.MouseY+camera_y)/TILESIZE);
-                        Entity * newe = new Entity(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]],place_x*TILESIZE,place_y*TILESIZE);
-                        if(GetDistance(player->x+player->w/2,player->y+player->h/2,newe->x + newe->w/2,newe->y + newe->h/2) < TILESIZE*2 + newe->w/2)
-                        {
-
-                            //currentstage->objects.push_back(newe);
-                            if(inventory->toolbar[inventory->selected]->category != "organic" || ((!inventory->toolbar[inventory->selected]->int_attribs.count("needs_soil") && currentstage->IsGround(place_x,place_y)) || currentstage->CanPlant(place_x, place_y)))
-                            if((!newe->rigid || !Intersect(newe,player)) && PlaceObject(newe,place_x,place_y))
-                            {
-                                particlesys.Add(newe->x,newe->y,newe->w,newe->h,images[ids["dust"]],1,globals["particle-decay"]);
-                                eventSystem->Event("PLACE",{newe->category});
-
-                                AddDrawable(newe);
-
-                                inventory->Remove(inventory->selected);
-
-                            }
-                        }
-                    }
-                    else if(inventory->toolbar[inventory->selected]->int_attribs.count("edible") || inventory->toolbar[inventory->selected]->int_attribs.count("drinkable"))
-                    {
-                        eventSystem->Event("EAT");
-                        inventory->Remove(inventory->selected);
-                        hunger -= HUNGER_SCALE;
-                        if(hunger < 0)
-                            hunger = 0;
-                    }
-                    else if(inventory->toolbar[inventory->selected]->string_attribs.count("consume"))
-                    {
-                        RunScript(inventory->toolbar[inventory->selected]->string_attribs["consume"]);
-                        inventory->Remove(inventory->selected);
-                    }
+            HandleRightClick();
         }
 
+    }
+
+    Entity getNextEntity()
+    {
+        selectedEntity++;
+        if(selectedEntity >= object_names.size())
+            selectedEntity = 0;
+
+        return object_templates[object_names[selectedEntity]];
+    }
+    string getNextEntityName()
+    {
+        selectedEntity++;
+        if(selectedEntity >= object_names.size())
+            selectedEntity = 0;
+
+        return object_names[selectedEntity];
     }
     void SwitchPhase(string ph)
     {

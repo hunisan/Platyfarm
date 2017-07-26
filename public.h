@@ -250,6 +250,7 @@ vector<vector<string> > event_string_parameters = {{"fruit"},{},{},{"cooking"}};
 
 queue<string> alerts;
 
+int selectedEntity = 0;
 int randomer()
 {
     srand(time(0));

@@ -1024,6 +1024,7 @@ public:
 map<string, NPC> npc_templates;
 map<string, Item> item_templates;
 map<string, Entity> object_templates;
+vector<string> object_names;
 map<string, CraftingRecipe> recipes;
 
 class Stage : public Object
@@ -1139,7 +1140,14 @@ public:
 
     void Set(int x, int y, int n)
     {
+        if(n > g("tiles"))
+            n = 0;
+
         tilemap.tile[x][y] = n;
+    }
+    int Get(int x, int y)
+    {
+        return tilemap.tile[x][y];
     }
     void Remove(Entity * en)
     {

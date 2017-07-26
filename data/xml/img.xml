@@ -496,4 +496,16 @@
 		<name>girl</name>
 		<path>girl.png</path>
 	</img>
+	<img>
+		<name>staff-red</name>
+		<path>staff-red.png</path>
+	</img>
+	<img>
+		<name>chest</name>
+		<path>chest.png</path>
+	</img>
+	<img>
+		<name>cactus</name>
+		<path>cactus.png</path>
+	</img>
 </root>

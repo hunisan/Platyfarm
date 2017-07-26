@@ -292,6 +292,15 @@
 		<pick>amanita</pick>
 	</object>
 	<object>
+		<name>cactus</name>
+		<img>cactus</img>	
+		<width>1</width>
+		<height>1</height>
+		<category>plant</category>
+		<type>cacti</type>
+		<destroy>any</destroy>
+	</object>
+	<object>
 		<name>poppy_sprout</name>
 		<img>planted</img>
 		<width>1</width>	
@@ -517,6 +526,17 @@
 		<height>2</height>
 		<imgw>2</imgw>
 		<imgh>2</imgh>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid/>
+	</object>
+	<object>
+		<name>chest</name>
+		<img>chest</img>
+		<width>1</width>
+		<height>1</height>
+		<imgw>1</imgw>
+		<imgh>1</imgh>
 		<category>structure</category>
 		<type>furniture</type>
 		<rigid/>
