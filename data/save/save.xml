@@ -1,9 +1,9 @@
 <root>
     <year>1</year>
     <season>2</season>
-    <day>3</day>
+    <day>4</day>
     <funds>29475</funds>
-    <player>225 149</player>
+    <player>225 146</player>
     <toolbar>axe 1</toolbar>
     <toolbar>pickaxe 1</toolbar>
     <toolbar>hoe 1</toolbar>
@@ -16,7 +16,7 @@
     <toolbar>skillbook 1</toolbar>
     <item>blank</item>
     <item>grass 1</item>
-    <item>lily 1</item>
+    <item>lily 2</item>
     <item>copper 35</item>
     <item>juice 1</item>
     <item>table 50</item>
@@ -1109,7 +1109,7 @@
         </object>
         <npc>
             <name>cat</name>
-            <pos>45.6288 41.1297</pos>
+            <pos>19.1927 51.9155</pos>
         </npc>
     </stage>
     <stage>
@@ -1241,10 +1241,16 @@
         <object>
             <name>pine</name>
             <pos>1568 544</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>pine</name>
             <pos>256 1088</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>pine</name>
@@ -1478,6 +1484,9 @@
         <object>
             <name>grass</name>
             <pos>1376 544</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>grass</name>
@@ -1510,6 +1519,9 @@
         <object>
             <name>grass</name>
             <pos>1184 544</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>grass</name>
@@ -1670,10 +1682,16 @@
         <object>
             <name>tulip</name>
             <pos>288 1056</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>poppy</name>
             <pos>224 1088</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>poppy</name>
@@ -1694,6 +1712,9 @@
         <object>
             <name>poppy</name>
             <pos>512 1056</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>poppy</name>
@@ -1742,6 +1763,9 @@
         <object>
             <name>rose</name>
             <pos>1184 384</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>rose</name>
@@ -1752,16 +1776,11 @@
             </attributes>
         </object>
         <object>
-            <name>amanita</name>
-            <pos>832 576</pos>
-            <attributes>
-                <cycle>0</cycle>
-                <growth>0</growth>
-            </attributes>
-        </object>
-        <object>
             <name>rose</name>
             <pos>1568 704</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>poppy</name>
@@ -1826,10 +1845,16 @@
         <object>
             <name>poppy</name>
             <pos>1248 992</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>rose</name>
             <pos>1376 928</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>tulip</name>
@@ -1870,10 +1895,16 @@
         <object>
             <name>rose</name>
             <pos>0 1088</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>tulip</name>
             <pos>1152 224</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>rose</name>
@@ -1918,6 +1949,9 @@
         <object>
             <name>tulip</name>
             <pos>1152 160</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
         </object>
         <object>
             <name>rose</name>
@@ -1934,10 +1968,6 @@
                 <cycle>0</cycle>
                 <growth>0</growth>
             </attributes>
-        </object>
-        <object>
-            <name>distiller</name>
-            <pos>32 160</pos>
         </object>
         <object>
             <name>lily_sprout</name>
@@ -2298,9 +2328,55 @@
                 <growth>0</growth>
             </attributes>
         </object>
+        <object>
+            <name>house</name>
+            <pos>960 384</pos>
+            <attributes>
+                <portal>house</portal>
+            </attributes>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1152 448</pos>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1184 448</pos>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1216 448</pos>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1216 416</pos>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1216 384</pos>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1216 352</pos>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1184 352</pos>
+        </object>
+        <object>
+            <name>fence</name>
+            <pos>1152 352</pos>
+        </object>
+        <object>
+            <name>flower</name>
+            <pos>1152 384</pos>
+            <attributes>
+                <growth>0</growth>
+            </attributes>
+        </object>
         <npc>
             <name>spock</name>
-            <pos>368.826 255.493</pos>
+            <pos>394.727 266.002</pos>
         </npc>
         <npc>
             <name>crypto</name>
@@ -2313,7 +2389,7 @@
         <npc>
             <met/>
             <name>catman2</name>
-            <pos>694.594 350</pos>
+            <pos>678.613 417.068</pos>
         </npc>
     </stage>
     <stage>

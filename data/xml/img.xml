@@ -508,4 +508,8 @@
 		<name>cactus</name>
 		<path>cactus.png</path>
 	</img>
+	<img>
+		<name>tent</name>
+		<path>tent.png</path>
+	</img>
 </root>

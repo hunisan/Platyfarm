@@ -33,5 +33,6 @@
 	</globals>
 	<strings>
 		<general-store-inventory value="seed acorn flour jar poppy_seed beer"/>
+		<player-stats value="strength agility stamina"/>
 	</strings>
 </root>

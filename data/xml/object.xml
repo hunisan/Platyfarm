@@ -198,7 +198,9 @@
 		<category>structure</category>
 		<type>building</type>
 		<portal>house</portal>
-		<fade>house_fade</fade>
+		<attributes>
+			<where>128 224</where>
+		</attributes>
 		<rigid></rigid>
 	</object>
 	<object>

@@ -305,10 +305,10 @@ class Preview : public Entity
     {
         if(active)
         {
-            int place_x = std::floor((x-target.offset/2+camera_x)/TILESIZE);
-            int place_y = std::floor((y-target.alt+camera_y)/TILESIZE);
+            int place_x = std::floor((x-target.offset/2+cX)/TILESIZE);
+            int place_y = std::floor((y-target.alt+cY)/TILESIZE);
 
-            DrawClip(target.img,place_x*TILESIZE-camera_x,place_y*TILESIZE-camera_y,w+target.offset,h+alt,0,0,target.clipw,target.cliph,target.imgw,target.imgh,0.5);
+            DrawClip(target.img,place_x*TILESIZE-cX,place_y*TILESIZE-cY,w+target.offset,h+alt,0,0,target.clipw,target.cliph,target.imgw,target.imgh,0.5);
         }
     }
 };
@@ -406,6 +406,8 @@ class Creature : public Entity
 {
 public:
     float movement_speed;
+    vector<string> stats;
+    map<string, int> stat_levels;
 
     Creature()
     {
@@ -1661,12 +1663,12 @@ public:
 
 
 
-class ShopGui : public Gui
+class GUIShopScreen : public Gui
 {
 public:
 
     vector<Item> item_list;
-    ShopGui()
+    GUIShopScreen()
     {
         type = "shop";
         w = 400;
@@ -1706,12 +1708,12 @@ public:
         return NULL;
     }
 };
-class SellGui : public Gui
+class GUISellScreen : public Gui
 {
 public:
     Inventory * inv;
-    SellGui(){};
-    SellGui(Inventory * _inv)
+    GUISellScreen(){};
+    GUISellScreen(Inventory * _inv)
     {
         type = "sell";
         inv = _inv;
@@ -1754,14 +1756,14 @@ public:
     }
 };
 
-class CharacterGui : public Gui
+class GUIElemSkills : public Gui
 {
-public:
+    public:
     vector<string> skill_names = {"Skills"};
     vector<string> skill_levels = {""};
     int maxwidth = 0;
 
-    CharacterGui()
+    GUIElemSkills(int _x, int _y)
     {
         w = 2*globals["gui-border"]+globals["gui-width"];
         h = 2*globals["gui-border"]+FONTSIZE;
@@ -1775,8 +1777,8 @@ public:
                 maxwidth = lineWidth(skill.first + ":");
 
         }
-        x = SCREEN_WIDTH/2-w/2;
-        y = SCREEN_HEIGHT/2-h/2;
+        x = _x;
+        y = _y;
 
     }
 
@@ -1800,7 +1802,73 @@ public:
         }
     }
 };
-class InventoryGui : public Gui
+
+class GUIElemContainer
+{
+    vector<Gui*> GUIElems;
+
+    void Draw(int cX = 0, int cY = 0)
+    {
+        for(auto g : GUIElems)
+            g->Draw();
+    }
+};
+
+
+class GUIElemEquips : public Gui
+{
+    public:
+    GUIElemEquips(int _x, int _y)
+    {
+        x = _x;
+        y = _y;
+        w = globals["gui-width"]/2;
+        h = 2*globals["gui-border"]+FONTSIZE+skills.size()*(FONTSIZE + globals["gui-margin"]);
+    }
+    void DrawSlot(int &pY, string str)
+    {
+        DrawString(str,x+w/2,pY);
+        pY+=FONTSIZE;
+        DrawImage(im("itemtile"),x+w/2,pY,TILESIZE,TILESIZE);
+        pY+=TILESIZE;
+
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(images[ids["gui"]],x,y,w,h);
+        int pY = y+g("gui-border");
+        DrawSlot(pY,"Hat");
+        DrawSlot(pY,"Ring");
+        DrawSlot(pY,"Shoes");
+    }
+};
+
+class GUIElemStats : public Gui
+{
+
+};
+class GUICharacterScreen : public GUIElemContainer
+{
+    public:
+    GUIElemSkills *skills;
+    GUIElemEquips *equips;
+    GUICharacterScreen()
+    {
+        w = 2*globals["gui-border"]+1.5*globals["gui-width"];
+        h = 2*globals["gui-border"]+FONTSIZE;
+        skills = new GUIElemSkills(SCREEN_WIDTH/2-w/2+globals["gui-width"]/2,SCREEN_HEIGHT/2-h/2);
+        equips = new GUIElemEquips(SCREEN_WIDTH/2-w/2,SCREEN_HEIGHT/2-h/2);
+
+        GUIElems.push_back(skills);
+        GUIElems.push_back(equips);
+        GUIElems.push_back(new GUIElemStats());
+
+    }
+
+
+
+};
+class GUIInventoryScreen : public Gui
 {
   public:
         Inventory * inv;
@@ -1808,11 +1876,11 @@ class InventoryGui : public Gui
         bool holdingItem = false;
         Item * hold;
 
-        InventoryGui()
+        GUIInventoryScreen()
         {
 
         }
-        InventoryGui(Inventory * _inv)
+        GUIInventoryScreen(Inventory * _inv)
         {
             type = "inventory";
             inv = _inv;
@@ -1974,10 +2042,10 @@ class InventoryGui : public Gui
         }
 };
 
-class EscapeGui : public Gui
+class GUIEscapeScreen : public Gui
 {
 public:
-    EscapeGui()
+    GUIEscapeScreen()
     {
 
     }
@@ -1986,7 +2054,7 @@ public:
 
     }
 };
-class CraftingGui : public Gui
+class GUICraftingScreen : public Gui
 {
 public:
     Inventory * inv;
@@ -1998,11 +2066,11 @@ public:
 
     int bx,by,bw,bh;
 
-    CraftingGui()
+    GUICraftingScreen()
     {
 
     }
-    CraftingGui(Inventory * _inv, string _medium)
+    GUICraftingScreen(Inventory * _inv, string _medium)
     {
         type = "crafting";
         inv = _inv;
@@ -2011,7 +2079,7 @@ public:
         for(auto& e : recipes)
         {
             if(e.second.medium == medium)
-                if(e.second.level >= skills[e.second.skill])
+                if(skills[e.second.skill] >= e.second.level)
                     if(item_templates.count(e.second.item))
                         recipe_list.push_back(e.second);
         }

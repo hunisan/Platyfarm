@@ -185,9 +185,9 @@ public:
             gamephase = GUI;
             string sw = SecondWord(s);
             if(sw == "shop")
-                gui = new ShopGui();
+                gui = new GUIShopScreen();
             else if(sw == "sell")
-                gui = new SellGui(inventory);
+                gui = new GUISellScreen(inventory);
 
         }
         else if(fw == "nextday")
@@ -1226,7 +1226,7 @@ public:
 
         inventory = new Inventory();
 
-        gui = new InventoryGui();
+        gui = new GUIInventoryScreen();
 
         //currentstage->objects.push_back(new Entity(object_templates["house"],TILESIZE/2,TILESIZE*2));
 
@@ -1531,7 +1531,7 @@ public:
         weathersys = WeatherSystem(&particlesys);
 
 
-        gui = new InventoryGui();
+        gui = new GUIInventoryScreen();
 
         dialogSystem = new DialogSystem();
 
@@ -1646,7 +1646,7 @@ public:
                         {
 
                             gamephase = GUI;
-                            gui = new CraftingGui(inventory,e->name);
+                            gui = new GUICraftingScreen(inventory,e->name);
                             interacted = true;
                             break;
                         }
@@ -2203,7 +2203,7 @@ public:
         if(KeyData.FPress)
         {
             gamephase = GUI;
-            gui = new CraftingGui(inventory, "");
+            gui = new GUICraftingScreen(inventory, "");
 
         }
         if(KeyData.UpPress)
@@ -2213,17 +2213,17 @@ public:
         if(KeyData.EPress)
         {
             gamephase = GUI;
-            gui = new InventoryGui(inventory);
+            gui = new GUIInventoryScreen(inventory);
         }
         if(KeyData.CPress)
         {
             gamephase = GUI;
-            gui = new CharacterGui();
+            gui = new GUICharacterScreen();
         }
         if(KeyData.XPress)
         {
             gamephase = GUI;
-            gui = new SellGui(inventory);
+            gui = new GUISellScreen(inventory);
         }
         if(KeyData.Click)
         {
@@ -2508,13 +2508,10 @@ public:
     void Draw()
     {
 
-        ///Térkép kirajzolása
         currentstage->Draw(camera_x,camera_y);
 
-        ///Részecskerendszer kirajzolása
         particlesys.Draw(camera_x,camera_y);
 
-        ///Draw entities
 
         for(auto e : draw_list)
         {
@@ -2525,23 +2522,15 @@ public:
         }
 
 
-        ///Draw weather effects
-
         weathersys.Draw();
-        ///Draw lighting effects
-
         lightsys.Draw();
 
-        ///Draw fading effect
         DrawRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,(float)fade_progress/FADE_MAX);
 
-        ///Draw GUI
         inventory->Draw();
 
-        ///Draw info
         timedisplay->Draw();
 
-        ///Draw dialog interface
         if(gamephase == DIALOG)
             dialogSystem->Draw();
         else if(gamephase == GUI)
