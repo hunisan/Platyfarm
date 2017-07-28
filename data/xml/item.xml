@@ -508,6 +508,18 @@
 		</attributes>
 	</item>
 	<item>
+		<name>spawn-dog</name>
+		<formal>Spawn Dog</formal>
+		<desc>Place to spawn a dog</desc>
+		<category>misc</category>
+		<type>debug</type>
+		<img>Cheese</img>
+		<stack>99</stack>
+		<attributes>
+			<consume>spawn dog</consume>
+		</attributes>
+	</item>
+	<item>
 		<name>torch</name>
 		<formal>Torch</formal>
 		<desc>asdasd</desc>
@@ -515,7 +527,6 @@
 		<type>fire</type>
 		<img>torch</img>
 		<stack>1</stack>
-		
 	</item>
 	<item>
 		<name>bag</name>
@@ -525,6 +536,35 @@
 		<type>fertilizer</type>
 		<img>bag</img>
 		<stack>1</stack>
-		
+	</item>
+	<item>
+		<name>sword</name>
+		<formal>Small Sword</formal>
+		<desc>A small sword but it hits hard</desc>
+		<category>weapon</category>
+		<type>melee</type>
+		<img>sword</img>
+		<attributes>
+			<damage-min>1</damage-min>
+			<damage-max>4</damage-max>
+			<range>1</range>
+			<attack-speed>18</attack-speed>
+		</attributes>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>longsword</name>
+		<formal>Longsword</formal>
+		<desc>Now you're playing with power</desc>
+		<category>weapon</category>
+		<type>melee</type>
+		<img>longsword</img>
+		<attributes>
+			<damage-min>4</damage-min>
+			<damage-max>6</damage-max>
+			<range>1</range>
+			<attack-speed>14</attack-speed>
+		</attributes>
+		<stack>1</stack>
 	</item>
 </root>

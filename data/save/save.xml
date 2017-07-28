@@ -1,33 +1,19 @@
 <root>
     <year>1</year>
     <season>2</season>
-    <day>4</day>
-    <funds>29475</funds>
+    <day>6</day>
+    <funds>100</funds>
     <player>225 146</player>
     <toolbar>axe 1</toolbar>
     <toolbar>pickaxe 1</toolbar>
     <toolbar>hoe 1</toolbar>
     <toolbar>scythe 1</toolbar>
-    <toolbar>can 1</toolbar>
+    <toolbar>sword 1</toolbar>
     <toolbar>delete 1</toolbar>
     <toolbar>terra 1</toolbar>
     <toolbar>god 1</toolbar>
-    <toolbar>acorn 30</toolbar>
-    <toolbar>skillbook 1</toolbar>
-    <item>blank</item>
-    <item>grass 1</item>
-    <item>lily 2</item>
-    <item>copper 35</item>
-    <item>juice 1</item>
-    <item>table 50</item>
-    <item>cupboard 1</item>
-    <item>apple 25</item>
-    <item>blank</item>
-    <item>blank</item>
-    <item>blank</item>
-    <item>blank</item>
-    <item>blank</item>
-    <item>carrot_seed 30</item>
+    <toolbar>spawn-dog 90</toolbar>
+    <toolbar>blank</toolbar>
     <item>blank</item>
     <item>blank</item>
     <item>blank</item>
@@ -41,7 +27,6 @@
     <item>blank</item>
     <item>blank</item>
     <item>blank</item>
-    <item>fence 3</item>
     <item>blank</item>
     <item>blank</item>
     <item>blank</item>
@@ -49,11 +34,26 @@
     <item>blank</item>
     <item>blank</item>
     <item>blank</item>
-    <item>platty 1</item>
-    <item>jar 30</item>
     <item>blank</item>
-    <item>seed 89</item>
-    <item>acorn 18</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
+    <item>blank</item>
     <skills>
         <charisma>1</charisma>
         <cooking>1</cooking>
@@ -61,6 +61,13 @@
         <fishing>3</fishing>
         <woodcutting>1</woodcutting>
     </skills>
+    <stats>
+        <attack>6</attack>
+        <defense>5</defense>
+        <health>5</health>
+        <speed>4</speed>
+        <stamina>5</stamina>
+    </stats>
     <stage>
         <name>desert</name>
         <size>40 40</size>
@@ -375,7 +382,7 @@
     <stage>
         <name>forest</name>
         <size>40 40</size>
-        <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
+        <row>14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 </row>
         <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
         <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
         <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
@@ -1038,11 +1045,47 @@
         </object>
         <npc>
             <name>dog</name>
-            <pos>396 399</pos>
+            <pos>388.905 397.396</pos>
         </npc>
         <npc>
             <name>ramcat</name>
-            <pos>521 319</pos>
+            <pos>529.121 338.632</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>199.328 146.409</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>142.531 536.821</pos>
+        </npc>
+        <npc>
+            <name>boss-dog</name>
+            <pos>654.893 653.989</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>797.551 316.116</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>670.261 114.261</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>900.438 652.576</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>1021 891</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>417.74 890.12</pos>
+        </npc>
+        <npc>
+            <name>dog</name>
+            <pos>1146.86 479.615</pos>
         </npc>
     </stage>
     <stage>
@@ -1109,7 +1152,7 @@
         </object>
         <npc>
             <name>cat</name>
-            <pos>19.1927 51.9155</pos>
+            <pos>30.8169 37.1852</pos>
         </npc>
     </stage>
     <stage>
@@ -2333,6 +2376,7 @@
             <pos>960 384</pos>
             <attributes>
                 <portal>house</portal>
+                <where>128 224</where>
             </attributes>
         </object>
         <object>
@@ -2376,7 +2420,7 @@
         </object>
         <npc>
             <name>spock</name>
-            <pos>394.727 266.002</pos>
+            <pos>392.768 263.26</pos>
         </npc>
         <npc>
             <name>crypto</name>
@@ -2389,7 +2433,7 @@
         <npc>
             <met/>
             <name>catman2</name>
-            <pos>678.613 417.068</pos>
+            <pos>673.904 413.873</pos>
         </npc>
     </stage>
     <stage>

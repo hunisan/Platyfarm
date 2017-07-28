@@ -28,11 +28,11 @@
 		<number-selector-h value="30"/>
 		<audio-start-muted value="1"/>
 		<player-anim-frames value="9"/>
-		<tiles value="13"/>
+		<tiles value="16"/>
 		<debug value="1"/>
 	</globals>
 	<strings>
 		<general-store-inventory value="seed acorn flour jar poppy_seed beer"/>
-		<player-stats value="strength agility stamina"/>
+		<player-stats value="health stamina speed attack defense"/>
 	</strings>
 </root>

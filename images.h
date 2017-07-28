@@ -18,6 +18,7 @@
 };*/
 
 vector<image> images;
+image gif[8];
 map<string, int> ids;
 
 

@@ -280,4 +280,15 @@
 			<text id="1">Where can I find some catnip?</text>
 		</chain>
 	</dialog>
+	<dialog id="32">
+		<chain>
+			<text id="1">My contractors are willing to pay a decent amount of money to anyone who can get rid of the "dog problem"</text>
+			<text id="2">Slay 5 of these foul beasts and you will be rewarded with 300zl</text>
+		</chain>
+	</dialog>
+	<dialog id="33">
+		<chain>
+			<text id="1">asd</text>
+		</chain>
+	</dialog>
 </root>

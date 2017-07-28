@@ -6,7 +6,6 @@
 class Menu : public GameState
 {
 private:
-    image gif[8];
     int currentFrame = 0;
     Cursor *cursor;
     vector<Entity> buttons;

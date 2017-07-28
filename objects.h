@@ -338,6 +338,14 @@ bool Intersect(Entity * ent1, Entity* ent2)
 
     return true;
 }
+bool Intersect(Entity * ent, int x, int y, int w, int h)
+{
+    if(ent->x+1 > x+w-1 || ent->x + ent->w < x+1
+    || ent->y+1 > y+h-1 || ent->y + ent->h-1 < y+1)
+        return false;
+
+    return true;
+}
 bool Contains(Entity * e, int mX, int mY, int cx, int cy)
 {
     return (mX+cx >= e->x-e->offset/2 && mX+cx <= e->x + e->w + e->offset/2 &&
@@ -631,6 +639,7 @@ class Player : public Creature
 public:
     int lastdir;
     float current_frame = 0;
+    int cooldown = 0;
 
     Player()
     {
@@ -641,6 +650,7 @@ public:
         lastdir = 0;
         offset = TILESIZE/2;
         alt = TILESIZE/2;
+
     }
     void Draw(float cX = 0, float cY = 0)
     {
@@ -660,6 +670,15 @@ public:
                 }
             }
         }*/
+    }
+    void setCooldown(int cd)
+    {
+        cooldown = cd;
+    }
+    int Update()
+    {
+        if(cooldown)
+            cooldown--;
     }
 };
 
@@ -760,6 +779,7 @@ public:
 
         return "nothing";
     }
+
     NPC(NPC _npc, int _x, int _y) : NPC(_npc)
     {
         x = _x;
@@ -1765,7 +1785,7 @@ class GUIElemSkills : public Gui
 
     GUIElemSkills(int _x, int _y)
     {
-        w = 2*globals["gui-border"]+globals["gui-width"];
+        w = 2*globals["gui-border"]+globals["gui-width"]*3/4;
         h = 2*globals["gui-border"]+FONTSIZE;
 
         for(auto skill : skills)
@@ -1803,15 +1823,41 @@ class GUIElemSkills : public Gui
     }
 };
 
-class GUIElemContainer
+class GUIElemContainer : public Gui
 {
+    public:
     vector<Gui*> GUIElems;
 
-    void Draw(int cX = 0, int cY = 0)
+    void AddElem(Gui* elem)
+    {
+        GUIElems.push_back(elem);
+        w += elem->w;
+        if(elem->h > h)
+            h = elem->h;
+
+        cout << w << endl;
+        int pX = SCREEN_WIDTH/2-w/2;
+        for(auto e : GUIElems)
+        {
+            e->x = pX;
+            e->y = SCREEN_HEIGHT/2-h/2;
+            pX += e->w;
+            e->h = h;
+
+        }
+    }
+    void Draw(float cX = 0, float cY = 0)
     {
         for(auto g : GUIElems)
+        {
             g->Draw();
+        }
+        for(auto g : GUIElems)
+        {
+            DrawImage(im("gui2"),g->x+g->w,g->y,1,g->h);
+        }
     }
+
 };
 
 
@@ -1822,14 +1868,14 @@ class GUIElemEquips : public Gui
     {
         x = _x;
         y = _y;
-        w = globals["gui-width"]/2;
+        w = globals["gui-width"]/4;
         h = 2*globals["gui-border"]+FONTSIZE+skills.size()*(FONTSIZE + globals["gui-margin"]);
     }
     void DrawSlot(int &pY, string str)
     {
-        DrawString(str,x+w/2,pY);
+        DrawString(str,x+w/2-lineWidth(str)/2,pY);
         pY+=FONTSIZE;
-        DrawImage(im("itemtile"),x+w/2,pY,TILESIZE,TILESIZE);
+        DrawImage(im("itemtile"),x+w/2-TILESIZE/2,pY,TILESIZE,TILESIZE);
         pY+=TILESIZE;
 
     }
@@ -1845,23 +1891,59 @@ class GUIElemEquips : public Gui
 
 class GUIElemStats : public Gui
 {
+    public:
+    vector<string> lines;
+    int spacing = 5;
+    Player * pl;
 
+    GUIElemStats(Player * player)
+    {
+        w = 20;
+        h = 20;
+        pl = player;
+        lines = allWord(s("player-stats"));
+        h = lines.size()*(FONTSIZE+spacing);
+        x = 0;
+        y = SCREEN_HEIGHT/2-h/2;
+        for(auto &l : lines)
+        {
+            l = Capitalize(l);
+            if(lineWidth(l)>w)
+                w = lineWidth(l);
+        }
+        w+=5 + TILESIZE*2;
+
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(im("gui"),x,y,w,h);
+        int pY = y+h/2-lines.size()*(FONTSIZE+spacing)/2.0;
+        for(auto l : lines)
+        {
+            DrawString(l+":",x,pY);
+            DrawString(to_string(pl->stat_levels[Decapitalize(l)]),x+w-TILESIZE,pY);
+            pY += FONTSIZE+spacing;
+        }
+    }
 };
 class GUICharacterScreen : public GUIElemContainer
 {
     public:
     GUIElemSkills *skills;
     GUIElemEquips *equips;
-    GUICharacterScreen()
+    Player * pl;
+
+    GUICharacterScreen(Player * player)
     {
-        w = 2*globals["gui-border"]+1.5*globals["gui-width"];
+        pl = player;
+        w = 0;//2*globals["gui-border"]+1.5*globals["gui-width"];
         h = 2*globals["gui-border"]+FONTSIZE;
         skills = new GUIElemSkills(SCREEN_WIDTH/2-w/2+globals["gui-width"]/2,SCREEN_HEIGHT/2-h/2);
         equips = new GUIElemEquips(SCREEN_WIDTH/2-w/2,SCREEN_HEIGHT/2-h/2);
 
-        GUIElems.push_back(skills);
-        GUIElems.push_back(equips);
-        GUIElems.push_back(new GUIElemStats());
+        AddElem(equips);
+        AddElem(skills);
+        AddElem(new GUIElemStats(pl));
 
     }
 

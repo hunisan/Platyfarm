@@ -75,6 +75,19 @@ public:
         en = NULL;
     }
 
+    void removeNPC(NPC * &n)
+    {
+        for(auto &en : draw_list)
+        {
+            if(n)
+                if(n->id == en->id)
+                {
+                    draw_list.erase(std::find(draw_list.begin(),draw_list.end(),n));
+                    break;
+                }
+        }
+        n = NULL;
+    }
     void change_entity(Entity * &_old, Entity * _new)
     {
         int id = _old->id;
@@ -442,6 +455,14 @@ public:
 
         pRoot->InsertEndChild(skillsElement);
 
+
+        ///Save stats
+        XMLElement* statsElement = saveFile.NewElement("stats");
+
+        for(auto stat : player->stat_levels)
+            InsertInt(stat.first,stat.second,statsElement);
+
+        pRoot->InsertEndChild(statsElement);
 
         for(auto stage : stageList)
         {
@@ -1002,7 +1023,10 @@ public:
                 {
                     if(attrib->GetText())
                     {
-                        newnpc.attributes[attrib->Name()] = attrib->GetText();
+                        if(is_number(attrib->GetText()))
+                            newnpc.int_attribs[attrib->Name()] = atoi(attrib->GetText());
+                        else
+                            newnpc.attributes[attrib->Name()] = attrib->GetText();
                     }
                     else
                         newnpc.attributes[attrib->Name()] = "1";
@@ -1349,6 +1373,22 @@ public:
         player->x = atoi(FirstWord(player_pos).c_str());
         player->y = atoi(SecondWord(player_pos).c_str());
 
+        if(pRoot->FirstChildElement("stats"))
+        {
+            XMLElement *statElem = pRoot->FirstChildElement("stats")->FirstChildElement();
+            while(statElem)
+            {
+                player->stats.push_back(statElem->Name());
+                player->stat_levels[statElem->Name()]=atoi(statElem->GetText());
+                statElem = statElem->NextSiblingElement();
+            }
+        }
+        else
+        {
+            player->stats = allWord(s("player-stats"));
+            for(auto s : player->stats)
+                player->stat_levels[s] = 5;
+        }
         pElement = pRoot->FirstChildElement("toolbar");
 
         int item_index = 0;
@@ -1841,6 +1881,78 @@ public:
                         currentstage->Set(click_x,click_y,Stage::TILLED);
                 }
         }
+        else if(sel->category == "weapon")
+        {
+            if(sel->type == "melee" && !player->cooldown)
+            {
+                int iX = player->x, iY = player->y;
+                switch(player->lastdir)
+                {
+                case LEFT:
+                    iX-=TILESIZE;
+                    break;
+                case RIGHT:
+                    iX+=TILESIZE;
+                    break;
+                case UP:
+                    iY-=TILESIZE;
+                    break;
+                case DOWN:
+                    iY+=TILESIZE;
+                    break;
+                }
+                particlesys.Add(Entity(im("sword"),iX,iY,TILESIZE,TILESIZE));
+                player->setCooldown(500/sel->int_attribs["attack-speed"]);
+                for(auto &n : currentstage->npcs)
+                if(n)
+                {
+
+                    if(Intersect(n,iX,iY,player->w,player->h) && n->int_attribs.count("health"))
+                    {
+                        string npc_name =  Capitalize(n->name);
+                        cout << npc_name<< " was hit for 1 dmg!" << endl;
+                        cout << npc_name << "'s health changed from " << n->int_attribs["health"];
+                        n->int_attribs["health"] -= sel->int_attribs["damage-min"];
+                        particlesys.Add(n->x,n->y,n->w,n->h,n->img,true,4);
+                        cout << " to " << n->int_attribs["health"] << endl;
+                        if(n->int_attribs["health"]<=0) ///DIED
+                        {
+                            cout << npc_name << " died!\n";
+                            if(n->attributes.count("drops"))
+                            {
+                                vector<string> drops = allWord(n->attributes["drops"]);
+                                int drop_index = rand()%drops.size();
+                                cout << "Received " << drops[drop_index] << endl;
+                                inventory->Add(item_templates[drops[drop_index]]);
+
+                            }
+                            removeNPC(n);
+                        }
+                        else
+                        {
+                            ///PUSH NPC
+                            if(abs(n->x-player->x)>abs(n->y-player->y))
+                            {
+                                if(n->x < player->x)
+                                    n->x -= TILESIZE/2;
+                                else if(n->x > player->x)
+                                    n->x += TILESIZE/2;
+
+                            }
+                            else
+                            {
+                                if(n->y < player->y)
+                                    n->y -= TILESIZE/2;
+                                else if(n->y > player->y)
+                                    n->y += TILESIZE/2;
+
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
         else if(sel->category == "organic")
         {
 
@@ -1980,7 +2092,10 @@ public:
             }
         }
 
+        player->Update();
+
         for(auto& n : currentstage->npcs)
+        if(n)
         {
             Action(n,n->AI());
         }
@@ -2218,7 +2333,7 @@ public:
         if(KeyData.CPress)
         {
             gamephase = GUI;
-            gui = new GUICharacterScreen();
+            gui = new GUICharacterScreen(player);
         }
         if(KeyData.XPress)
         {
@@ -2507,6 +2622,8 @@ public:
     }
     void Draw()
     {
+        //if(!currentstage->indoors)
+        //    DrawImage(im("sky"),0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
         currentstage->Draw(camera_x,camera_y);
 

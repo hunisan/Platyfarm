@@ -512,4 +512,48 @@
 		<name>tent</name>
 		<path>tent.png</path>
 	</img>
+	<img>
+		<name>sword</name>
+		<path>sword.png</path>
+	</img>
+	<img>
+		<name>dog-king</name>
+		<path>dog-king.png</path>
+	</img>
+	<img>
+		<name>longsword</name>
+		<path>longsword.png</path>
+	</img>
+	<img>
+		<name>spear</name>
+		<path>spear.png</path>
+	</img>
+	<img>
+		<name>war-axe</name>
+		<path>war-axe.png</path>
+	</img>
+	<img>
+		<name>mace</name>
+		<path>mace.png</path>
+	</img>
+	<img>
+		<name>bow</name>
+		<path>bow.png</path>
+	</img>
+	<img>
+		<name>rapier</name>
+		<path>rapier.png</path>
+	</img>
+	<img>
+		<name>battleaxe</name>
+		<path>battleaxe.png</path>
+	</img>
+	<img>
+		<name>scimitar</name>
+		<path>scimitar.png</path>
+	</img>
+	<img>
+		<name>sky</name>
+		<path>sky.png</path>
+	</img>
 </root>

@@ -124,6 +124,23 @@
 		<attributes>
 			<creature/>
 			<race>canine</race>
+			<health>2</health>
+			<drops>apple stone longsword</drops>
+		</attributes>
+	</npc>
+	<npc>
+		<name>boss-dog</name>
+		<fullname>Shiba Rex</fullname>
+		<portrait>dog-king</portrait>
+		<img>dog-king</img>
+		<onmeet>14</onmeet>
+		<ongreet>14</ongreet>
+		<behaviour>roam</behaviour>
+		<attributes>
+			<creature/>
+			<race>canine</race>
+			<health>15</health>
+			<drops>apple stone longsword</drops>
 		</attributes>
 	</npc>
 	<npc>

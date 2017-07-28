@@ -133,6 +133,13 @@ const int DIGITWIDTH = 14;
 int audioFiles = 0;
 queue<string> audioCommands;
 
+enum
+{
+    DOWN,
+    LEFT,
+    RIGHT,
+    UP,
+};
 int characterWidth(char c)
 {
     if(c == 'W')
@@ -162,9 +169,10 @@ int characterWidth(char c)
         return DIGITWIDTH;//DIGIT
     }
 
-    else if(c == '.' || c == '!' || c == ',')
+    else if(c == '.' || c == '!' || c == ',' )
         return 5;
-
+    else if(c == ':')
+        return 8;
     else if(c == ' ')
         return 10;
 
@@ -294,6 +302,32 @@ const int FADE_MAX = 30;
 };
 vector<alpha_map> alpha_maps;*/
 
+string Decapitalize(string s)
+{
+    if(s.size()>0)
+    {
+        if(isalpha(s[0])&&s[0]>='A' && s[0]<='Z')
+        {
+            s[0] += 'a'-'A';
+            return s;
+        }
+    }
+    else
+        return s;
+}
+string Capitalize(string s)
+{
+    if(s.size()>0)
+    {
+        if(isalpha(s[0])&&s[0]>='a' && s[0]<='z')
+        {
+            s[0] -= 'a'-'A';
+            return s;
+        }
+    }
+    else
+        return s;
+}
 string FirstWord(string s)
 {
     std::stringstream ss(s);
