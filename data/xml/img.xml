@@ -556,4 +556,12 @@
 		<name>sky</name>
 		<path>sky.png</path>
 	</img>
+	<img>
+		<name>magic-mushroom</name>
+		<path>magic-mushroom.png</path>
+	</img>
+	<img>
+		<name>grapes</name>
+		<path>grapes.png</path>
+	</img>
 </root>

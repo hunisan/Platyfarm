@@ -48,6 +48,10 @@ template < typename T > string to_string( const T& n )
     stm << n ;
     return stm.str() ;
 }
+
+int atoi(string s){
+    return atoi(s.c_str());}
+
 tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, string const & elemt_value)
 {
     using namespace tinyxml2;

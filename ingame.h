@@ -186,6 +186,8 @@ public:
         string fw = FirstWord(s);
         string sw = SecondWord(s);
         string tw = nWord(3,s);
+        string w4 = nWord(4,s);
+
         cout << s << endl;
 
         if(fw == "script")
@@ -215,7 +217,7 @@ public:
         }
         else if(fw == "xp")
         {
-            AddXp(sw,atoi(tw.c_str()));
+            AddXp(sw,atoi(tw));
         }
         else if(fw == "skill")
         {
@@ -226,12 +228,9 @@ public:
         {
             int amount = 1;
             if(tw != "")
-                if(atoi(tw.c_str())!=0)
-                    amount = atoi(tw.c_str());
+                if(atoi(tw)!=0)
+                    amount = atoi(tw);
 
-            //cout << amount << endl;
-
-            cout << amount << endl;
             inventory->Add(item_templates[sw],amount);
         }
         else if(fw == "consume")
@@ -270,10 +269,15 @@ public:
             currentstage->npcs.push_back(npc);
             AddDrawable(npc);
         }
+        else if(fw == "stat")
+        {
+            player->increaseStat(sw,atoi(tw),(is_number(w4)?atoi(w4):0));
+
+        }
         else if(fw == "dialog")
         {
             gamephase = DIALOG;
-            dialogSystem->Add(dialogs[atoi(sw.c_str())]);
+            dialogSystem->Add(dialogs[atoi(sw)]);
         }
         else if(fw == "sound")
         {
@@ -309,11 +313,6 @@ public:
                 }
                 else
                 {
-//                    if(e->name == "house")
-//                    {
-//                        cout << i << " " << w << " " << currentstage->w << endl;
-//                        cout << j << " " << h << endl;
-//                    }
                     canPlace = false;
                     break;
                 }
@@ -370,9 +369,9 @@ public:
             random_box.push_back(std::make_pair(i,j));
         }
 
-        bool sikerult = false;
+        bool success = false;
 
-        while(!sikerult && random_box.size() > 0)
+        while(!success && random_box.size() > 0)
         {
             //cout << "randoming" << endl;
             int randindex = rand()%random_box.size();
@@ -380,12 +379,12 @@ public:
             e->x = random_box[randindex].first*TILESIZE;
             e->y = random_box[randindex].second*TILESIZE;
 
-            sikerult = PlaceObject(e,random_box[randindex].first,random_box[randindex].second);
+            success = PlaceObject(e,random_box[randindex].first,random_box[randindex].second);
 
             random_box.erase(random_box.begin()+randindex);
         };
 
-        return sikerult;
+        return success;
     }
 
     void SpawnObjects(string e, int min_x, int min_y, int max_x, int max_y, int _count)
@@ -794,16 +793,11 @@ public:
                     {
                         if(is_number(listElement->GetText()))
                         {
-                            /*if(listElement->Name()=="consume")
-                                printf("nem stringet kap meg\n");
-                            else
-                                cout << listElement->Name() << endl;*/
                             newobject.int_attribs[listElement->Name()] = atoi(listElement->GetText());
 
                         }
                         else
                         {
-                            //printf("megkapja a stringet\n");
                             newobject.string_attribs[listElement->Name()] = listElement->GetText();
 
                         }
@@ -1239,18 +1233,7 @@ public:
         limbo.Limbo();
         limbo.name = "limbo";
 
-        cursor = new Cursor();
-        preview = new Preview();
-        eventSystem = new EventSystem;
-        timedisplay = new TimeDisplay(eventSystem);
-
-        lightsys = LightingSystem();
-        particlesys = ParticleSystem();
-        weathersys = WeatherSystem(&particlesys);
-
-        inventory = new Inventory();
-
-        gui = new GUIInventoryScreen();
+        setupStuff();
 
         //currentstage->objects.push_back(new Entity(object_templates["house"],TILESIZE/2,TILESIZE*2));
 
@@ -1303,7 +1286,6 @@ public:
         currentstage->npcs.push_back(new NPC(npc_templates["platypus"],10*TILESIZE,6*TILESIZE));
 
 
-        dialogSystem = new DialogSystem();
 
         gamephase = DIALOG;
         dialogSystem->Add(dialogs[22]);
@@ -1340,6 +1322,9 @@ public:
         LoadObjects();
         LoadNPCs();
         LoadRecipes();
+
+        setupStuff();
+
         using namespace tinyxml2;
 
         XMLDocument xmlDoc;
@@ -1393,7 +1378,6 @@ public:
 
         int item_index = 0;
 
-        inventory = new Inventory();
 
         printf("Loading inventory\n");
         while(pElement)
@@ -1405,7 +1389,6 @@ public:
                 inventory->toolbar[item_index] = NULL;
             else
             {
-                //cout << sdsds->name << endl;
 
                 inventory->toolbar[item_index] = new Item( item_templates[FirstWord(item)]);
 
@@ -1481,7 +1464,7 @@ public:
                     {
                         string current;
                         ss >> current;
-                        new_stage->tilemap.tile[i][height] = atoi(current.c_str());
+                        new_stage->tilemap.tile[i][height] = atoi(current);
                     }
 
                 rowElement = rowElement->NextSiblingElement("row");
@@ -1499,13 +1482,12 @@ public:
 
                 if(name != "door")
                 {
-                    new_object = new Entity(object_templates[name],atoi(FirstWord(position).c_str()),atoi(SecondWord(position).c_str()));
-
+                    new_object = new Entity(object_templates[name],atoi(FirstWord(position).c_str()),atoi(SecondWord(position)));
 
                 }
                 else
                 {
-                    new_object = new Entity(Door("lot",atoi(FirstWord(position).c_str()),atoi(SecondWord(position).c_str())));
+                    new_object = new Entity(Door("lot",atoi(FirstWord(position).c_str()),atoi(SecondWord(position))));
 
                 }
 
@@ -1520,7 +1502,7 @@ public:
                     string value = attributeElement->GetText();
 
                     if(is_number(value))
-                        new_object->int_attribs[name] = atoi(value.c_str());
+                        new_object->int_attribs[name] = atoi(value);
                     else
                         new_object->string_attribs[name] = value;
 
@@ -1542,7 +1524,7 @@ public:
                 string name = npcElement->FirstChildElement("name")->GetText();
                 string position = npcElement->FirstChildElement("pos")->GetText();
 
-                new_object = new NPC(npc_templates[name],atoi(FirstWord(position).c_str()),atoi(SecondWord(position).c_str()));
+                new_object = new NPC(npc_templates[name],atoi(FirstWord(position)),atoi(SecondWord(position).c_str()));
 
                 if(npcElement->FirstChildElement("met"))
                     new_object->met = true;
@@ -1560,31 +1542,13 @@ public:
 
         currentstage = stageList["house"];
 
-
-        cursor = new Cursor();
-
-        eventSystem = new EventSystem;
-        timedisplay = new TimeDisplay(eventSystem);
-
-        lightsys = LightingSystem();
-        particlesys = ParticleSystem();
-        weathersys = WeatherSystem(&particlesys);
-
-
-        gui = new GUIInventoryScreen();
-
-        dialogSystem = new DialogSystem();
-
-        preview = new Preview();
-
-        SwitchStage(stageList["house"]);
-
-        //gamephase = CONTROL;
         gamephase = DIALOG;
         dialogSystem->Add(dialogs[1]);
 
         fade_progress = FADE_MAX;
         fade_direction = FADE_OUT;
+
+        SwitchStage(stageList["house"]);
 
         printf("Done loading!\n");
         cout << "Loaded " << images.size() << " images\n";
@@ -1596,6 +1560,26 @@ public:
         cout << "Counted " << dialogs.size() << " dialogs\n";
     }
 
+    void setupStuff()
+    {
+        cursor = new Cursor();
+        preview = new Preview();
+
+        inventory = new Inventory();
+
+        eventSystem = new EventSystem;
+        timedisplay = new TimeDisplay(eventSystem,player);
+
+        lightsys = LightingSystem();
+        particlesys = ParticleSystem();
+        weathersys = WeatherSystem(&particlesys);
+
+
+        gui = new GUIInventoryScreen();
+
+        dialogSystem = new DialogSystem();
+
+    }
     void HandleRightClick()
     {
         bool interacted = false;
@@ -1625,9 +1609,9 @@ public:
 
                                         int randomLineIndex = rand()%lines.size();
 
-                                        dialogSystem->Add(dialogs[atoi(lines[randomLineIndex].c_str())],n->name);
+                                        dialogSystem->Add(dialogs[atoi(lines[randomLineIndex])],n->name);
 
-                                        cout << atoi(lines[randomLineIndex].c_str()) << endl;
+                                        cout << atoi(lines[randomLineIndex]) << endl;
                                     }
                                 }
                                 else
@@ -1699,8 +1683,8 @@ public:
 
                             if(e->string_attribs.count("where"))
                             {
-                                fade_x = atoi(FirstWord(e->string_attribs["where"]).c_str());
-                                fade_y = atoi(SecondWord(e->string_attribs["where"]).c_str());
+                                fade_x = atoi(FirstWord(e->string_attribs["where"]));
+                                fade_y = atoi(SecondWord(e->string_attribs["where"]));
                             }
                             else
                                 fade_x = fade_y = 0;
@@ -1733,15 +1717,15 @@ public:
 
             if(!interacted)
                 if(inventory->toolbar[inventory->selected])
-                    if(inventory->toolbar[inventory->selected]->int_attribs.count("edible") || inventory->toolbar[inventory->selected]->int_attribs.count("drinkable"))
+                    /*if(inventory->toolbar[inventory->selected]->int_attribs.count("edible") || inventory->toolbar[inventory->selected]->int_attribs.count("drinkable"))
                     {
                         eventSystem->Event("EAT");
                         inventory->Remove(inventory->selected);
                         hunger -= HUNGER_SCALE;
                         if(hunger < 0)
                             hunger = 0;
-                    }
-                    else if(inventory->toolbar[inventory->selected]->string_attribs.count("consume"))
+                    }*/
+                    if(inventory->toolbar[inventory->selected]->string_attribs.count("consume"))
                     {
                         RunScript(inventory->toolbar[inventory->selected]->string_attribs["consume"]);
                         inventory->Remove(inventory->selected);
@@ -1883,7 +1867,18 @@ public:
         }
         else if(sel->category == "weapon")
         {
-            if(sel->type == "melee" && !player->cooldown)
+            SwingWeapon(sel);
+        }
+        else if(sel->category == "organic")
+        {
+
+        }
+
+    }
+
+    void SwingWeapon(Item* &sel)
+    {
+        if(sel->type == "melee" && !player->cooldown)
             {
                 int iX = player->x, iY = player->y;
                 switch(player->lastdir)
@@ -1913,8 +1908,28 @@ public:
                         cout << npc_name<< " was hit for 1 dmg!" << endl;
                         cout << npc_name << "'s health changed from " << n->int_attribs["health"];
                         n->int_attribs["health"] -= sel->int_attribs["damage-min"];
-                        particlesys.Add(n->x,n->y,n->w,n->h,n->img,true,4);
                         cout << " to " << n->int_attribs["health"] << endl;
+
+                        ///PUSH NPC
+                        if(abs(n->x-player->x)>abs(n->y-player->y))
+                        {
+                            if(n->x < player->x)
+                                n->x -= TILESIZE/2;
+                            else if(n->x > player->x)
+                                n->x += TILESIZE/2;
+
+                        }
+                        else
+                        {
+                            if(n->y < player->y)
+                                n->y -= TILESIZE/2;
+                            else if(n->y > player->y)
+                                n->y += TILESIZE/2;
+
+                        }
+
+                        particlesys.Add(n->x,n->y,n->w,n->h,n->img,true,4);
+
                         if(n->int_attribs["health"]<=0) ///DIED
                         {
                             cout << npc_name << " died!\n";
@@ -1922,42 +1937,23 @@ public:
                             {
                                 vector<string> drops = allWord(n->attributes["drops"]);
                                 int drop_index = rand()%drops.size();
-                                cout << "Received " << drops[drop_index] << endl;
-                                inventory->Add(item_templates[drops[drop_index]]);
+                                cout << "Dropped " << drops[drop_index] << endl;
+
+                                Entity * drop = new PickupObject(n->x+rand()%5-8,n->y+rand()%5-8,TILESIZE*3/4,TILESIZE*3/4,drops[drop_index]);
+                                currentstage->objects.push_back(drop);
+                                AddDrawable(drop);
 
                             }
                             removeNPC(n);
                         }
                         else
                         {
-                            ///PUSH NPC
-                            if(abs(n->x-player->x)>abs(n->y-player->y))
-                            {
-                                if(n->x < player->x)
-                                    n->x -= TILESIZE/2;
-                                else if(n->x > player->x)
-                                    n->x += TILESIZE/2;
 
-                            }
-                            else
-                            {
-                                if(n->y < player->y)
-                                    n->y -= TILESIZE/2;
-                                else if(n->y > player->y)
-                                    n->y += TILESIZE/2;
-
-                            }
                         }
 
                     }
                 }
             }
-        }
-        else if(sel->category == "organic")
-        {
-
-        }
-
     }
     void NextDay(Stage* targetStage)
     {
@@ -1986,15 +1982,9 @@ public:
                                 else
                                     e = new Entity(object_templates[e->string_attribs["ripe"]],e->x,e->y);
                             }
-                            //printf("sziassss");
                         }
-                        /*if(e->name == "grass")
-                        {
-                            spawns.push_back(new Entity(object_templates["grass"],e->x + 60 - rand()%120, e->y + 60 - rand()%120));
-                        }*/
                     }
 
-        //cout << currentstage->objects.size() << endl;
         for(auto& e : spawns)
         {
             targetStage->objects.push_back(e);
@@ -2067,6 +2057,49 @@ public:
 
         return true;
     }
+    void HandleMouseMove()
+    {
+        cursor->text = "";
+        cursor->state = Cursor::NORMAL;
+
+        preview->Move(KeyData.MouseX,KeyData.MouseY);
+
+        if(Contains(inventory,KeyData.MouseX,KeyData.MouseY,0,0))
+        {
+            if((int)floor((KeyData.MouseX-inventory->x)/TILESIZE) < INVENTORY_TOOLBAR_SIZE)
+            if(inventory->toolbar[(int)floor((KeyData.MouseX-inventory->x)/TILESIZE)])
+                cursor->text = inventory->toolbar[(int)(KeyData.MouseX-inventory->x)/TILESIZE]->formal;
+        }
+        else
+        {
+            for(auto& e : currentstage->objects)
+            if(e)
+            {
+                if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y))
+                {
+                    if(e->pickable)
+                    {
+                        cursor->state = Cursor::PICK;
+                        cursor->text = item_templates[e->pick].formal;
+                    }
+                    else if(e->destroy != "")
+                    {
+                        cursor->state = Cursor::INTERACT;
+                    }
+                }
+            }
+
+            for(auto& e : currentstage->npcs)
+                if(e)
+                {
+                    if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y))
+                    {
+                        cursor->state = Cursor::TALK;
+                    }
+                }
+        }
+
+    }
     void ControlPhase()
     {
         if(alerts.size()>0)
@@ -2133,45 +2166,7 @@ public:
         }
         if(KeyData.MouseMove)
         {
-            cursor->text = "";
-            cursor->state = Cursor::NORMAL;
-
-            preview->Move(KeyData.MouseX,KeyData.MouseY);
-
-            if(Contains(inventory,KeyData.MouseX,KeyData.MouseY,0,0))
-            {
-                if((int)floor((KeyData.MouseX-inventory->x)/TILESIZE) < INVENTORY_TOOLBAR_SIZE)
-                if(inventory->toolbar[(int)floor((KeyData.MouseX-inventory->x)/TILESIZE)])
-                    cursor->text = inventory->toolbar[(int)(KeyData.MouseX-inventory->x)/TILESIZE]->formal;
-            }
-            else
-            {
-                for(auto& e : currentstage->objects)
-                if(e)
-                {
-                    if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y))
-                    {
-                        if(e->pickable)
-                        {
-                            cursor->state = Cursor::PICK;
-                        }
-                        else if(e->destroy != "")
-                        {
-                            cursor->state = Cursor::INTERACT;
-                        }
-                    }
-                }
-
-                for(auto& e : currentstage->npcs)
-                    if(e)
-                    {
-                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y))
-                        {
-                            cursor->state = Cursor::TALK;
-                        }
-                    }
-            }
-
+            HandleMouseMove();
         }
         bool moved = false;
 

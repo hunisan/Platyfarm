@@ -1,19 +1,19 @@
 <root>
     <year>1</year>
     <season>2</season>
-    <day>6</day>
+    <day>8</day>
     <funds>100</funds>
-    <player>225 146</player>
-    <toolbar>axe 1</toolbar>
+    <player>212 146</player>
+    <toolbar>sword 1</toolbar>
     <toolbar>pickaxe 1</toolbar>
     <toolbar>hoe 1</toolbar>
     <toolbar>scythe 1</toolbar>
-    <toolbar>sword 1</toolbar>
+    <toolbar>axe 1</toolbar>
     <toolbar>delete 1</toolbar>
     <toolbar>terra 1</toolbar>
     <toolbar>god 1</toolbar>
-    <toolbar>spawn-dog 90</toolbar>
-    <toolbar>blank</toolbar>
+    <toolbar>grapes 90</toolbar>
+    <toolbar>magic-mushroom 99</toolbar>
     <item>blank</item>
     <item>blank</item>
     <item>blank</item>
@@ -65,7 +65,7 @@
         <attack>6</attack>
         <defense>5</defense>
         <health>5</health>
-        <speed>4</speed>
+        <speed>40</speed>
         <stamina>5</stamina>
     </stats>
     <stage>
@@ -1045,35 +1045,35 @@
         </object>
         <npc>
             <name>dog</name>
-            <pos>388.905 397.396</pos>
+            <pos>388 397</pos>
         </npc>
         <npc>
             <name>ramcat</name>
-            <pos>529.121 338.632</pos>
+            <pos>529 338</pos>
         </npc>
         <npc>
             <name>dog</name>
-            <pos>199.328 146.409</pos>
+            <pos>199 146</pos>
         </npc>
         <npc>
             <name>dog</name>
-            <pos>142.531 536.821</pos>
+            <pos>142 536</pos>
         </npc>
         <npc>
             <name>boss-dog</name>
-            <pos>654.893 653.989</pos>
+            <pos>654 653</pos>
         </npc>
         <npc>
             <name>dog</name>
-            <pos>797.551 316.116</pos>
+            <pos>797 316</pos>
         </npc>
         <npc>
             <name>dog</name>
-            <pos>670.261 114.261</pos>
+            <pos>670 114</pos>
         </npc>
         <npc>
             <name>dog</name>
-            <pos>900.438 652.576</pos>
+            <pos>900 652</pos>
         </npc>
         <npc>
             <name>dog</name>
@@ -1081,11 +1081,11 @@
         </npc>
         <npc>
             <name>dog</name>
-            <pos>417.74 890.12</pos>
+            <pos>417 890</pos>
         </npc>
         <npc>
             <name>dog</name>
-            <pos>1146.86 479.615</pos>
+            <pos>1146 479</pos>
         </npc>
     </stage>
     <stage>
@@ -1152,7 +1152,7 @@
         </object>
         <npc>
             <name>cat</name>
-            <pos>30.8169 37.1852</pos>
+            <pos>35 41</pos>
         </npc>
     </stage>
     <stage>
@@ -1197,7 +1197,7 @@
         <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
         <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
         <row>0 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
-        <row>0 0 0 0 0 0 0 0 0 0 0 0 0 13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
+        <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
         <row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 5 5 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
         <row>0 0 2 2 2 0 0 0 0 0 0 0 0 0 0 7 8 8 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
         <row>0 0 2 2 2 0 0 0 0 0 0 0 0 0 0 10 11 11 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
@@ -2418,9 +2418,13 @@
                 <growth>0</growth>
             </attributes>
         </object>
+        <object>
+            <name>distiller</name>
+            <pos>32 160</pos>
+        </object>
         <npc>
             <name>spock</name>
-            <pos>392.768 263.26</pos>
+            <pos>411.139 250.648</pos>
         </npc>
         <npc>
             <name>crypto</name>
@@ -2433,7 +2437,7 @@
         <npc>
             <met/>
             <name>catman2</name>
-            <pos>673.904 413.873</pos>
+            <pos>695.967 389.611</pos>
         </npc>
     </stage>
     <stage>

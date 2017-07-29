@@ -36,6 +36,78 @@
 		</attributes>
 	</item>
 	<item>	
+		<name>cherry</name>
+		<formal>Cherry</formal>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>Cherry</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+			<fruit/>
+		</attributes>
+	</item>
+	<item>	
+		<name>strawberry</name>
+		<formal>Strawberry</formal>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>strawberry</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+			<fruit/>
+		</attributes>
+	</item>
+	<item>	
+		<name>tomato</name>
+		<formal>Tomato</formal>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>tomato</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+			<fruit/>
+		</attributes>
+	</item>
+	<item>	
+		<name>grapes</name>
+		<formal>Grapes</formal>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>grapes</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+			<fruit/>
+		</attributes>
+	</item>
+	<item>	
+		<name>melon</name>
+		<formal>Melon</formal>
+		<desc>Increases your max health by 1 points</desc>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>250</price>
+		<sell>200</sell>
+		<img>Melon</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+			<fruit/>
+			<consume>stat health 1 3000</consume>
+		</attributes>
+	</item>
+	<item>	
 		<name>carrot</name>
 		<formal>Carrot</formal>
 		<category>organic</category>
@@ -263,6 +335,20 @@
 		</attributes>
 	</item>
 	<item>
+		<name>wine</name>
+		<formal>Wine</formal>
+		<category>organic</category>
+		<desc>Good for your health, but only in moderation</desc>
+		<type>drink</type>
+		<img>Wine</img>
+		<sell>1000</sell>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+			<consume>script stat speed -1 3600 script stat defense -1 3600</consume>
+		</attributes>
+	</item>
+	<item>
 		<name>juice</name>
 		<formal>Apple Juice</formal>
 		<category>organic</category>
@@ -356,6 +442,20 @@
 		<price>200</price>
 		<sell>100</sell>
 		<img>amanita</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>magic-mushroom</name>
+		<formal>Magic Mushrooms</formal>
+		<desc>Mushrooms with magical properties</desc>
+		<category>organic</category>
+		<type>fungi</type>
+		<price>200</price>
+		<sell>100</sell>
+		<img>magic-mushroom</img>
+		<attributes>
+			<consume>stat speed 1 3600</consume>
+		</attributes>
 		<stack>99</stack>
 	</item>
 	<item>

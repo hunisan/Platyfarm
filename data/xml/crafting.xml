@@ -14,7 +14,7 @@
 		<ingredient count="30">copper</ingredient>
 		<ingredient count="2">log</ingredient>
 		<ingredient count="1">jar</ingredient>
-		<skill>2</skill>
+		<level>2</level>
 	</recipe>
 	<recipe>
 		<item>chair</item>
@@ -68,6 +68,11 @@
 	<recipe>
 		<item>moonshine</item>
 		<ingredient count="3">potato</ingredient>
+		<medium>distiller</medium>
+	</recipe>
+	<recipe>
+		<item>wine</item>
+		<ingredient count="3">grapes</ingredient>
 		<medium>distiller</medium>
 	</recipe>
 	<recipe>

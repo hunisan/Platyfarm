@@ -270,48 +270,7 @@ public:
     }
 };
 
-class Preview : public Entity
-{
-    public:
-    bool active = false;
-    Entity target;
 
-    Preview()
-    {
-        name = "preview";
-        active = false;
-    }
-    void Add(Entity tg)
-    {
-        target = tg;
-        w = target.w;
-        h = target.h;
-        alt = target.alt;
-        offset = target.offset;
-
-        active = true;
-    }
-    void Disable()
-    {
-        active = false;
-    }
-    void Move(int mx, int my)
-    {
-        x = mx;
-        y = my;
-
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        if(active)
-        {
-            int place_x = std::floor((x-target.offset/2+cX)/TILESIZE);
-            int place_y = std::floor((y-target.alt+cY)/TILESIZE);
-
-            DrawClip(target.img,place_x*TILESIZE-cX,place_y*TILESIZE-cY,w+target.offset,h+alt,0,0,target.clipw,target.cliph,target.imgw,target.imgh,0.5);
-        }
-    }
-};
 Entity Door(string portal, int x, int y,int wherex= 0, int wherey = 0)
 {
     Entity ent;
@@ -352,45 +311,7 @@ bool Contains(Entity * e, int mX, int mY, int cx, int cy)
        mY+cy >= e->y - e->alt && mY+cy <= e->y + e->h);
 
 }
-/*bool PixelPerfect(Entity * ent1, Entity * ent2)
-{
-    printf("checking for collisions\n");
-    int lowTop, highBottom, highLeft, lowRight;
 
-    if (ent1->y < ent2->y) lowTop = ent2->y;
-    else lowTop = ent1->y;
-
-    if (ent1->y + ent1->h<ent2->y + ent2->h) highBottom = ent1->y + ent1->h;
-    else highBottom  = ent2->y + ent2->h;
-
-    if (ent1->x>ent2->x) highLeft = ent1->x;
-    else highLeft = ent2->x;
-
-    if (ent1->x + ent1->w>ent2->x + ent2->w) lowRight = ent2->x + ent2->w;
-    else lowRight = ent1->x + ent1->w;
-    cout << highBottom - ent2->y << " " << lowTop - ent2->y << endl;
-    //if(alpha_maps[ids["bush"]].alpha[(int)ent1->w/2][(int)ent1->h/2])
-    //    cout << "alpha1" << endl;
-
-    for (int h = highLeft; h <= lowRight; h++) { //horizontal
-	for (int v = lowTop; v <= highBottom; v++) { //vertical
-		//Do Tests
-		if(v-(int)ent1->y >= 0 && v-(int)ent1->y < 32 &&
-        v-(int)ent2->y >= 0 && v-(int)ent2->y < 32)
-		if(alpha_maps[std::distance(images.begin(),std::find(images.begin(),images.end(),ent1->img))].alpha[h-(int)ent1->x][v-(int)ent1->y]
-     &&    alpha_maps[std::distance(images.begin(),std::find(images.begin(),images.end(),ent2->img))].alpha[h-(int)ent2->x][v-(int)ent2->y])
-     //if(alpha_maps[ids["bush"]].alpha[h-(int)ent1->x][v-(int)ent1->y]
-     //&&    alpha_maps[ids["human"]].alpha[h-(int)ent2->x][v-(int)ent2->y])
-        {
-            printf("collision detected!\n");
-            return true;
-        }
-	}
-    printf("none found\n");
-
-	return false;
-}
-}*/
 bool Sorter(Entity* ent1, Entity* ent2)
 {
     if(!(ent1))
@@ -413,10 +334,49 @@ bool Sorter(Entity* ent1, Entity* ent2)
 class Creature : public Entity
 {
 public:
+    struct Modifier
+    {
+        string stat;
+        int points;
+        int duration;
+        Modifier(string s, int p, int d) : stat(s),points(p),duration(d)
+        {
+
+        }
+    };
     float movement_speed;
+    int cooldown = 0;
     vector<string> stats;
     map<string, int> stat_levels;
+    vector<Modifier> modifiers;
 
+    void recalculateStats()
+    {
+        movement_speed = stat_levels["speed"];
+        for(auto m : modifiers)
+        {
+            if(m.stat == "speed")
+            {
+                movement_speed+=m.points;
+            }
+        }
+        if(movement_speed<10)
+            movement_speed=10;
+
+        movement_speed/=10;
+    }
+    void increaseStat(string targetStat, int points, int duration)
+    {
+        cout << "increasing stat " << targetStat << " by " << points << " points" << endl;
+        if(!duration)
+            stat_levels[targetStat]+=points;
+        else
+        {
+            modifiers.push_back(Modifier(targetStat,points,duration));
+        }
+
+        recalculateStats();
+    }
     Creature()
     {
         movement_speed=1;
@@ -428,30 +388,27 @@ public:
         alt = _alt;
     }
 
+
+    void setCooldown(int cd)
+    {
+        cooldown = cd;
+    }
     int Update()
     {
-        /*if(abs(x-destx)+abs(y-desty) < movement_speed)
+        for(int i = 0; i < modifiers.size(); i++)
         {
-            x = destx;
-            y = desty;
+            modifiers[i].duration--;
+            if(!modifiers[i].duration)
+            {
+                modifiers.erase(modifiers.begin()+i);
+                i--;
+                recalculateStats();
+            }
+
         }
-        if(x < destx)
-        {
-            x += movement_speed;
-        }
-        else if(x > destx)
-        {
-            x -= movement_speed;
-        }
-        else if(y < desty)
-        {
-            y += movement_speed;
-        }
-        else if(y > desty)
-        {
-            y -= movement_speed;
-        }
-        */
+        if(cooldown)
+            cooldown--;
+
         return 1;
     }
 };
@@ -639,7 +596,6 @@ class Player : public Creature
 public:
     int lastdir;
     float current_frame = 0;
-    int cooldown = 0;
 
     Player()
     {
@@ -670,15 +626,6 @@ public:
                 }
             }
         }*/
-    }
-    void setCooldown(int cd)
-    {
-        cooldown = cd;
-    }
-    int Update()
-    {
-        if(cooldown)
-            cooldown--;
     }
 };
 
@@ -1049,6 +996,61 @@ map<string, Entity> object_templates;
 vector<string> object_names;
 map<string, CraftingRecipe> recipes;
 
+class PickupObject : public Entity
+{
+public:
+    PickupObject(int _x, int _y, int _w, int _h, string item) : Entity(item_templates[item].img,_x,_y,_w,_h)
+    {
+        name = "nothing";
+
+        pickable = true;
+        pick = item;
+    }
+
+};
+class Preview : public Entity
+{
+    public:
+    bool active = false;
+    Entity target;
+
+    Preview()
+    {
+        name = "preview";
+        active = false;
+    }
+    void Add(Entity tg)
+    {
+        target = tg;
+        w = target.w;
+        h = target.h;
+        alt = target.alt;
+        offset = target.offset;
+
+        active = true;
+    }
+    void Disable()
+    {
+        active = false;
+    }
+    void Move(int mx, int my)
+    {
+        x = mx;
+        y = my;
+
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        if(active)
+        {
+            int place_x = std::floor((x-target.offset/2+cX)/TILESIZE);
+            int place_y = std::floor((y-target.alt+cY)/TILESIZE);
+
+            DrawClip(target.img,place_x*TILESIZE-cX,place_y*TILESIZE-cY,w+target.offset,h+alt,0,0,target.clipw,target.cliph,target.imgw,target.imgh,0.5);
+        }
+    }
+};
+
 class Stage : public Object
 {
 public:
@@ -1277,8 +1279,9 @@ public:
     string dailystring = "Daily Task:";
 
     EventSystem * eventsys;
+    Player * p;
 
-    TimeDisplay(EventSystem * sys)
+    TimeDisplay(EventSystem * sys, Player * pl)
     {
         displaystring = "Year " + to_string(current_year) + ", " + seasons[current_season-1] + ", Day " + to_string(current_day);
 
@@ -1290,6 +1293,7 @@ public:
         x = SCREEN_WIDTH-lineWidth(displaystring);
 
         eventsys = sys;
+        p = pl;
     }
 
     int Update()
@@ -1305,24 +1309,40 @@ public:
 
         return 1;
     }
+    void DrawLine(string s, int &cY)
+    {
+        DrawImage(im("fade"),SCREEN_WIDTH-lineWidth(s),cY,lineWidth(s),FONTSIZE);
+        DrawString(s,SCREEN_WIDTH-lineWidth(s),cY,-1,"font2");
+        cY += FONTSIZE;
+    }
     void Draw(float cX = 0, float cY = 0)
     {
-        DrawImage(images[ids["fade"]],x,y,w,h);
-        DrawString(displaystring,x,y,-1,"font2");
+        int pY = 0;
 
-        DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(timestring),y+FONTSIZE,w,h);
-        DrawString(timestring,SCREEN_WIDTH-lineWidth(timestring),y+FONTSIZE,-1,"font2");
+        DrawLine(displaystring,pY);
+        //DrawImage(images[ids["fade"]],x,y,w,h);
+        //DrawString(displaystring,x,y,-1,"font2");
 
-        DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),FONTSIZE);
-        DrawString(hunger_levels[(int)floor(hunger/HUNGER_SCALE)],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,-1,"font2");
+        DrawLine(timestring,pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(timestring),y+FONTSIZE,w,h);
+        //DrawString(timestring,SCREEN_WIDTH-lineWidth(timestring),y+FONTSIZE,-1,"font2");
 
-        DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(taskstring)-3,y+FONTSIZE*3,lineWidth(taskstring),FONTSIZE);
-        DrawString(taskstring,SCREEN_WIDTH-lineWidth(taskstring)-3,y+FONTSIZE*3,-1,"font2");
+        DrawLine("Health: " + to_string(p->stat_levels["health"]),pY);
+
+        DrawLine(hunger_levels[(int)floor(hunger/HUNGER_SCALE)],pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),FONTSIZE);
+        //DrawString(hunger_levels[(int)floor(hunger/HUNGER_SCALE)],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,-1,"font2");
+
+
+        DrawLine(taskstring,pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(taskstring)-3,y+FONTSIZE*3,lineWidth(taskstring),FONTSIZE);
+        //DrawString(taskstring,SCREEN_WIDTH-lineWidth(taskstring)-3,y+FONTSIZE*3,-1,"font2");
 
         if(!eventsys->mainTask.complete)
         {
-        DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(eventsys->mainTask.text)-3,y+FONTSIZE*4,lineWidth(eventsys->mainTask.text),FONTSIZE);
-        DrawString(eventsys->mainTask.text,SCREEN_WIDTH-lineWidth(eventsys->mainTask.text)-3,y+FONTSIZE*4,-1,"font2");
+            DrawLine(eventsys->mainTask.text,pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(eventsys->mainTask.text)-3,y+FONTSIZE*4,lineWidth(eventsys->mainTask.text),FONTSIZE);
+        //DrawString(eventsys->mainTask.text,SCREEN_WIDTH-lineWidth(eventsys->mainTask.text)-3,y+FONTSIZE*4,-1,"font2");
 
         }
         else
@@ -1330,14 +1350,15 @@ public:
 
         }
 
-
-        DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(dailystring)-3,y+FONTSIZE*5,lineWidth(dailystring),FONTSIZE);
-        DrawString(dailystring,SCREEN_WIDTH-lineWidth(dailystring)-3,y+FONTSIZE*5,-1,"font2");
+        DrawLine(dailystring,pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(dailystring)-3,y+FONTSIZE*5,lineWidth(dailystring),FONTSIZE);
+        //DrawString(dailystring,SCREEN_WIDTH-lineWidth(dailystring)-3,y+FONTSIZE*5,-1,"font2");
 
         if(!eventsys->dailyTask.complete)
         {
-            DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(eventsys->dailyTask.text)-3,y+FONTSIZE*6,lineWidth(eventsys->dailyTask.text),FONTSIZE);
-            DrawString(eventsys->dailyTask.text,SCREEN_WIDTH-lineWidth(eventsys->dailyTask.text)-3,y+FONTSIZE*6,-1,"font2");
+            DrawLine(eventsys->dailyTask.text,pY);
+            //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(eventsys->dailyTask.text)-3,y+FONTSIZE*6,lineWidth(eventsys->dailyTask.text),FONTSIZE);
+            //DrawString(eventsys->dailyTask.text,SCREEN_WIDTH-lineWidth(eventsys->dailyTask.text)-3,y+FONTSIZE*6,-1,"font2");
 
         }
         else
@@ -1450,7 +1471,7 @@ public:
 
         if(FirstWord(s) == "skill")
         {
-            if(skills[SecondWord(s)]>=atoi(nWord(3,s).c_str()))
+            if(skills[SecondWord(s)]>=atoi(nWord(3,s)))
                 return true;
         }
 
@@ -1508,7 +1529,6 @@ public:
         while(lineWidth(npc_templates[speaker].fullname,namePtSize) > base_h-5)
         {
             namePtSize--;
-            //printf("meanwhile\n");
         }
 
     }
@@ -1835,7 +1855,6 @@ class GUIElemContainer : public Gui
         if(elem->h > h)
             h = elem->h;
 
-        cout << w << endl;
         int pX = SCREEN_WIDTH/2-w/2;
         for(auto e : GUIElems)
         {
@@ -1893,6 +1912,8 @@ class GUIElemStats : public Gui
 {
     public:
     vector<string> lines;
+    vector<int> modifications;
+
     int spacing = 5;
     Player * pl;
 
@@ -1907,21 +1928,30 @@ class GUIElemStats : public Gui
         y = SCREEN_HEIGHT/2-h/2;
         for(auto &l : lines)
         {
-            l = Capitalize(l);
-            if(lineWidth(l)>w)
-                w = lineWidth(l);
+            if(lineWidth(Capitalize(l))>w)
+                w = lineWidth(Capitalize(l));
+
+            int currentModification = 0;
+            for(int i = 0; i < pl->modifiers.size(); i++)
+            {
+                if(pl->modifiers[i].stat == l)
+                    currentModification += pl->modifiers[i].points;
+            }
+            modifications.push_back(currentModification);
         }
-        w+=5 + TILESIZE*2;
+        w+=5 + TILESIZE*3;
 
     }
     void Draw(float cX = 0, float cY = 0)
     {
         DrawImage(im("gui"),x,y,w,h);
         int pY = y+h/2-lines.size()*(FONTSIZE+spacing)/2.0;
-        for(auto l : lines)
+        for(int i = 0; i < lines.size(); i++)
         {
-            DrawString(l+":",x,pY);
-            DrawString(to_string(pl->stat_levels[Decapitalize(l)]),x+w-TILESIZE,pY);
+            string l = lines[i];
+            DrawString(Capitalize(l)+":",x,pY);
+            string statNumberString = to_string(pl->stat_levels[l])+(modifications[i]>0?"+"+to_string(modifications[i]):"")+(modifications[i]<0?"-"+to_string(-modifications[i]):"");
+            DrawString(statNumberString,x+w-lineWidth(statNumberString)-TILESIZE/2,pY);
             pY += FONTSIZE+spacing;
         }
     }
