@@ -29,8 +29,6 @@
 		<type>tree</type>
 		<img>tree_big</img>
 		<alt_img>tree_big_damaged</alt_img>
-		<fade>tree_big_transparent</fade>
-		<damaged_fade>tree_big_damaged_transparent</damaged_fade>
 		<destroy>woodcutting</destroy>
 		<hits>7</hits>
 		<drops>
@@ -64,6 +62,11 @@
 				<item>log</item>
 				<min>3</min>
 				<max>5</max>
+			</drop>
+			<drop>
+				<item>pine-cone</item>
+				<min>0</min>
+				<max>2</max>
 			</drop>
 		</drops>
 		<leftover>tree-stump</leftover>
@@ -222,6 +225,54 @@
 		<height>1</height>
 		<category>structure</category>
 		<type>crafting</type>
+		<rigid></rigid>
+	</object>
+	<object>
+		<name>fireplace</name>
+		<img>fireplace</img>
+		<width>1</width>
+		<height>1</height>
+		<category>structure</category>
+		<type>crafting</type>
+		<rigid></rigid>
+	</object>
+	<object>
+		<name>window</name>
+		<img>window</img>
+		<width>1</width>
+		<height>1</height>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid></rigid>
+	</object>
+	<object>
+		<name>shelf</name>
+		<img>shelf</img>
+		<width>1</width>
+		<height>1</height>
+		<alt>1</alt>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid></rigid>
+	</object>
+	<object>
+		<name>clock</name>
+		<img>clock</img>
+		<width>1</width>
+		<height>1</height>
+		<alt>1</alt>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid></rigid>
+	</object>
+	<object>
+		<name>piano</name>
+		<img>piano</img>
+		<width>2</width>
+		<height>1</height>
+		<alt>1</alt>
+		<category>structure</category>
+		<type>furniture</type>
 		<rigid></rigid>
 	</object>
 	<object>
@@ -413,6 +464,18 @@
 	<object>
 		<name>bed</name>
 		<img>bed</img>
+		<width>1</width>
+		<height>2</height>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid></rigid>
+		<attributes>
+			<interact>12</interact>
+		</attributes>
+	</object>
+	<object>
+		<name>sleeping-mat</name>
+		<img>sleeping-mat</img>
 		<width>1</width>
 		<height>2</height>
 		<category>structure</category>

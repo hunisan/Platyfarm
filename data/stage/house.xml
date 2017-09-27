@@ -1,17 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<name>house</name>
-	<size>9 9</size>
+	<size>10 9</size>
+	<attributes>
+		<title>Cozy Home</title>
+		<climate>indoors</climate>
+	</attributes>
 	<indoors/>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
-	<row>1 1 1 1 1 1 1 1 1 </row>
+	<row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>1 1 1 1 1 1 1 1 1 1 </row>
+    <row>1 1 1 1 1 1 1 1 1 1 </row>
+    <row>1 1 1 1 1 1 1 1 1 1 </row>
+    <row>1 1 1 1 1 1 1 1 1 1 </row>
+    <row>1 1 1 1 1 1 1 1 1 1 </row>
+    <object>
+        <name>table</name>
+        <pos>32 224</pos>
+    </object>
+    <object>
+        <name>bed</name>
+        <pos>288 224</pos>
+        <attributes>
+            <interact>12</interact>
+        </attributes>
+    </object>
+    <object>
+        <name>chair</name>
+        <pos>64 192</pos>
+        <attributes>
+            <interact>16</interact>
+        </attributes>
+    </object>
+    <object>
+        <name>cupboard</name>
+        <pos>256 96</pos>
+    </object>
+    <object>
+        <name>stove</name>
+        <pos>0 128</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>64 32</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>224 32</pos>
+    </object>
+    <object>
+        <name>table</name>
+        <pos>32 128</pos>
+    </object>
+    <object>
+        <name>table</name>
+        <pos>96 128</pos>
+    </object>
+    <object>
+        <name>furnace</name>
+        <pos>160 128</pos>
+        <attributes>
+            <interact>15</interact>
+        </attributes>
+    </object>
 	<object>
 		<name>door</name>
 		<pos>128 256</pos>
@@ -20,49 +73,8 @@
 			<where>96 164</where>
 		</attributes>
 	</object>
-	<object>
-		<name>stove</name>
-		<pos>0 0</pos>
-	</object>
-	<object>
-		<name>chair</name>
-		<pos>32 96</pos>
-		<attributes>
-			<interact>16</interact>
-		</attributes>
-	</object>
-	<object>
-		<name>furnace</name>
-		<pos>160 0</pos>
-		<attributes>
-			<interact>15</interact>
-		</attributes>
-	</object>
-	<object>
-		<name>table</name>
-		<pos>96 0</pos>
-	</object>
-	<object>
-		<name>table</name>
-		<pos>32 0</pos>
-	</object>
-	<object>
-		<name>table</name>
-		<pos>0 128</pos>
-	</object>
-	<object>
-		<name>cupboard</name>
-		<pos>224 0</pos>
-	</object>
-	<object>
-		<name>bed</name>
-		<pos>256 128</pos>
-		<attributes>
-			<interact>12</interact>
-		</attributes>
-	</object>
 	<npc>
 		<name>cat</name>
-		<pos>73.7446 55.4761</pos>
+		<pos>35 150</pos>
 	</npc>
 </root>

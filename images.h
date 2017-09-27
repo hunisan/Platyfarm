@@ -70,6 +70,11 @@ void DrawImage(image img, float x, float y, float w, float h, float alpha=1.0)
         glLoadIdentity();
 }
 
+void DrawCentered(image img, float x, float y, float w, float h, float alpha=1.0)
+{
+    DrawImage(img,x-w/2,y-h/2,w,h,alpha);
+}
+
 void DrawClip(image img, float x, float y, float w, float h, float sx, float sy, float sw, float sh, float iw, float ih, float alph = 1)
 {
     glBindTexture(GL_TEXTURE_2D, img);
@@ -138,7 +143,7 @@ void DrawLetter(char c, int x, int y,int ptsize = -1, string font = "font")
     if(ptsize == -1)
         ptsize = FONTSIZE;
 
-    DrawClip(images[ids[font]],x,y,characterWidth(c)*ptsize/FONTSIZE,ptsize,cx*32+16-characterWidth(c)/2,cy*32,characterWidth(c),32,512,512);
+    DrawClip(images[ids[font]],x,y,(float)characterWidth(c)*ptsize/g("character-scale"),ptsize,cx*32+16-characterWidth(c)/2,cy*32,characterWidth(c),32,512,512);
 
 }
 
@@ -156,12 +161,18 @@ void DrawString(string c, int x, int y, int ptsize = -1, string font = "font")
         else
         {
             DrawLetter(c[i],x,y,ptsize, font);
-            x += characterWidth(c[i])*ptsize/FONTSIZE;
+            x += characterWidth(c[i])*ptsize/g("character-scale");
 
         }
     }
 }
 
+void DrawStringCentered(string c, int x, int y, int ptsize = -1, string font = "font")
+{
+    if(ptsize == -1)
+        ptsize = FONTSIZE;
+    DrawString(c,x-lineWidth(c,ptsize)/2,y,ptsize,font);
+}
 void DrawWrapped(string c, int x, int y, float linelen, int ptsize = -1, string font = "font")
 {
     //string a = c;

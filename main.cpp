@@ -7,8 +7,8 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    Game * gameSession = NULL; /// A játékmotor objektum
-    Timer capTimer; ///A képfrissitést szabályzó időzítő
+    Game * gameSession = NULL;
+    Timer capTimer;
 
     gameSession = new Game();
 
@@ -17,20 +17,17 @@ int main(int argc, char **argv)
         while(gameSession->isRunning)
         {
             capTimer.start();
-            gameSession->Update();/// A játék frissítése
-            gameSession->Draw();///A játék kirajzolása
+            gameSession->Update();
+            gameSession->Draw();
 
-            ///Kiszámolja hogy hány "tick" telt el az előző képkocka óta
             int frameTicks = capTimer.getTicks();
-            ///Ha túl kevés idő telt el, azaz a játék felgyorsulna
             if( capTimer.getTicks() < SCREEN_TICKS_PER_FRAME )
-                ///A maradék időre felfüggeszti a programot
                 SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );
         }
         gameSession->Quit();
     }
     else
-        printf("Initialization failed. Quitting..."); ///Az inicializáció sikertelen volt
+        printf("Initialization failed. Quitting...");
 
 
     return 0;

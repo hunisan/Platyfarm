@@ -16,6 +16,7 @@ public:
     {
 
     }
+
     void Init()
     {
         cursor = new Cursor();
@@ -27,17 +28,20 @@ public:
         Entity buttonLoad = Entity(images[ids["gui"]],SCREEN_WIDTH/2-75,SCREEN_HEIGHT/2,150,50);
         Entity buttonExit = Entity(images[ids["gui"]],SCREEN_WIDTH/2-50,SCREEN_HEIGHT*2/3,100,50);
         Entity buttonMute = Entity(images[ids["gui"]],0,0,120,50);
+        Entity buttonEditor = Entity(images[ids["gui"]],0,SCREEN_HEIGHT-50,120,50);
 
         buttonNew.name = "New Game";
         buttonLoad.name = "Load Game";
         buttonExit.name = "Exit";
         buttonMute.name = "Mute";
+        buttonEditor.name = "Editor";
 
         buttons.push_back(buttonNew);
         if(SaveFileExists())
             buttons.push_back(buttonLoad);
         buttons.push_back(buttonExit);
         buttons.push_back(buttonMute);
+        buttons.push_back(buttonEditor);
     }
     int Update()
     {
@@ -52,6 +56,10 @@ public:
                         return LOAD;
                     else if(e.name == "Exit")
                         return EXIT;
+                    else if(e.name == "Editor")
+                    {
+                        return EDITOR;
+                    }
                     else if(e.name == "Mute")
                     {
                         e.name =  "Unmute";
@@ -77,7 +85,7 @@ public:
         for(auto e : buttons)
         {
             e.Draw();
-            DrawString(e.name,e.x+e.h/2-FONTSIZE,e.y+e.h/2-FONTSIZE);
+            DrawStringCentered(e.name,e.x+e.w/2,e.y+e.h/2-TILESIZE/2);
         }
         cursor->Draw();
     }

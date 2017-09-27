@@ -1,7 +1,11 @@
 <root>
 	<name>forest</name>
+	<attributes>
+		<title>Black Woods</title>
+		<climate>continental</climate>
+	</attributes>
 	<size>40 40</size>
-	<row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
+	<row>14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 </row>
 	<row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
 	<row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
 	<row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
@@ -664,10 +668,46 @@
 	</object>
 	<npc>
 		<name>dog</name>
-		<pos>396 399</pos>
+		<pos>388 397</pos>
 	</npc>
 	<npc>
 		<name>ramcat</name>
-		<pos>521 319</pos>
+		<pos>529 338</pos>
 	</npc>
-	</root>
+	<npc>
+		<name>dog</name>
+		<pos>199 146</pos>
+	</npc>
+	<npc>
+		<name>dog</name>
+		<pos>142 536</pos>
+	</npc>
+	<npc>
+		<name>boss-dog</name>
+		<pos>654 653</pos>
+	</npc>
+	<npc>
+		<name>dog</name>
+		<pos>797 316</pos>
+	</npc>
+	<npc>
+		<name>dog</name>
+		<pos>670 114</pos>
+	</npc>
+	<npc>
+		<name>dog</name>
+		<pos>900 652</pos>
+	</npc>
+	<npc>
+		<name>dog</name>
+		<pos>1021 891</pos>
+	</npc>
+	<npc>
+		<name>dog</name>
+		<pos>417 890</pos>
+	</npc>
+	<npc>
+		<name>dog</name>
+		<pos>1146 479</pos>
+	</npc>
+</root>

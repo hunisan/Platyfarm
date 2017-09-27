@@ -1,0 +1,101 @@
+<root>
+    <name></name>
+    <size>10 20</size>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>34 34 34 34 34 34 34 34 34 34 </row>
+    <row>34 34 34 34 34 34 34 34 34 34 </row>
+    <row>34 34 34 34 34 34 34 34 34 34 </row>
+    <row>34 34 34 34 34 34 34 34 34 34 </row>
+    <row>16 16 16 16 34 34 16 16 16 16 </row>
+    <row>38 38 38 38 34 34 38 38 38 38 </row>
+    <row>38 38 38 38 34 34 38 38 38 38 </row>
+    <row>38 38 38 38 34 34 38 38 38 38 </row>
+    <row>38 38 38 38 34 34 38 38 38 38 </row>
+    <row>0 0 0 0 0 0 0 0 0 0 </row>
+    <row>0 0 0 0 0 0 0 0 0 0 </row>
+    <row>0 0 0 0 0 0 0 0 0 0 </row>
+    <row>0 0 0 0 0 0 0 0 0 0 </row>
+    <row>0 0 0 0 0 0 0 0 0 0 </row>
+    <row>0 0 0 0 0 0 0 0 0 0 </row>
+    <row>0 0 0 0 0 0 0 0 0 0 </row>
+    <object>
+        <name>furnace</name>
+        <pos>224 128</pos>
+        <attributes>
+            <interact>15</interact>
+        </attributes>
+    </object>
+    <object>
+        <name>sleeping-mat</name>
+        <pos>288 128</pos>
+        <attributes>
+            <interact>12</interact>
+        </attributes>
+    </object>
+    <object>
+        <name>ash</name>
+        <pos>192 128</pos>
+    </object>
+    <object>
+        <name>shelf</name>
+        <pos>0 128</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>256 32</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>64 32</pos>
+    </object>
+    <object>
+        <name>pine</name>
+        <pos>32 480</pos>
+        <attributes>
+            <growth>0</growth>
+        </attributes>
+    </object>
+    <object>
+        <name>pine</name>
+        <pos>256 576</pos>
+        <attributes>
+            <growth>0</growth>
+        </attributes>
+    </object>
+    <object>
+        <name>fireplace</name>
+        <pos>128 544</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>256 320</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>32 320</pos>
+    </object>
+    <object>
+        <name>pine</name>
+        <pos>288 416</pos>
+        <attributes>
+            <growth>0</growth>
+        </attributes>
+    </object>
+    <object>
+        <name>grass</name>
+        <pos>224 448</pos>
+        <attributes>
+            <growth>0</growth>
+        </attributes>
+    </object>
+    <object>
+        <name>grass</name>
+        <pos>0 576</pos>
+        <attributes>
+            <growth>0</growth>
+        </attributes>
+    </object>
+</root>

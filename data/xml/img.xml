@@ -232,10 +232,6 @@
 		<name>door</name>
 		<path>door.png</path>
 	</img>
-	<img id="59">
-		<name>house_fade</name>
-		<path>haus_fade.png</path>
-	</img>
 	<img id="60">
 		<name>separator</name>
 		<path>separator.png</path>
@@ -275,10 +271,6 @@
 	<img id="69">
 		<name>lily</name>
 		<path>lily.png</path>
-	</img>
-	<img id="70">
-		<name>column_fade</name>
-		<path>column_fade.png</path>
 	</img>
 	<img id="71">
 		<name>column_ruin</name>
@@ -563,5 +555,69 @@
 	<img>
 		<name>grapes</name>
 		<path>grapes.png</path>
+	</img>
+	<img>
+		<name>bone</name>
+		<path>bone.png</path>
+	</img>
+	<img>
+		<name>dogman</name>
+		<path>dogman.png</path>
+	</img>
+	<img>
+		<name>bread</name>
+		<path>bread.png</path>
+	</img>
+	<img>
+		<name>ring</name>
+		<path>ring.png</path>
+	</img>
+	<img>
+		<name>pine-cone</name>
+		<path>pine-cone.png</path>
+	</img>
+	<img>
+		<name>potion</name>
+		<path>potion.png</path>
+	</img>
+	<img>
+		<name>piano</name>
+		<path>piano.png</path>
+	</img>
+	<img>
+		<name>shelf</name>
+		<path>shelf.png</path>
+	</img>
+	<img>
+		<name>clock</name>
+		<path>clock.png</path>
+	</img>
+	<img>
+		<name>stone-door</name>
+		<path>stone-door.png</path>
+	</img>
+	<img>
+		<name>sleeping-mat</name>
+		<path>sleeping-mat.png</path>
+	</img>
+	<img>
+		<name>window</name>
+		<path>window.png</path>
+	</img>
+	<img>
+		<name>remains</name>
+		<path>remains.png</path>
+	</img>
+	<img>
+		<name>old-shef</name>
+		<path>old-shef.png</path>
+	</img>
+	<img>
+		<name>fireplace</name>
+		<path>fireplace.png</path>
+	</img>
+	<img>
+		<name>sleeping-mat</name>
+		<path>sleeping-mat.png</path>
 	</img>
 </root>

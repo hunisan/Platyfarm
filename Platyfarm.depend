@@ -1,23 +1,24 @@
 # depslib dependency file v1.0
-1494113856 source:h:\projects\platyfarm\main.cpp
+1502110735 source:h:\projects\platyfarm\main.cpp
 	<iostream>
 	<stdio.h>
 	"game.h"
 	"timer.h"
 
-1501073128 h:\projects\platyfarm\game.h
+1505755391 h:\projects\platyfarm\game.h
 	"statelist.h"
 	"timer.h"
 	"graphics.h"
 	"keydata.h"
 	"audio.h"
 
-1483905561 h:\projects\platyfarm\statelist.h
+1505730751 h:\projects\platyfarm\statelist.h
 	"menu.h"
 	"ingame.h"
 	"newgame.h"
+	"editor.h"
 
-1501271590 h:\projects\platyfarm\menu.h
+1505730698 h:\projects\platyfarm\menu.h
 	"gamestate.h"
 	"images.h"
 	"objects.h"
@@ -833,7 +834,7 @@
 
 1494619759 source:h:\projects\platyfarm\audio.cpp
 
-1501355584 h:\projects\platyfarm\public.h
+1505730717 h:\projects\platyfarm\public.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	<SDL2/SDL_ttf.h>
@@ -872,16 +873,16 @@
 	<android/log.h>
 	<assert.h>
 
-1501271583 h:\projects\platyfarm\images.h
+1505729439 h:\projects\platyfarm\images.h
 	"public.h"
 
-1501355637 h:\projects\platyfarm\objects.h
+1506183666 h:\projects\platyfarm\objects.h
 	"public.h"
 	"keydata.h"
 
-1501072991 h:\projects\platyfarm\keydata.h
+1505755346 h:\projects\platyfarm\keydata.h
 
-1501356941 h:\projects\platyfarm\ingame.h
+1506183169 h:\projects\platyfarm\ingame.h
 	"gamestate.h"
 	"objects.h"
 	"keydata.h"
@@ -892,13 +893,126 @@
 	"gamestate.h"
 	"objects.h"
 
-1490194718 h:\projects\platyfarm\graphics.h
+1505563189 h:\projects\platyfarm\graphics.h
 	"images.h"
 
 1500913027 h:\projects\platyfarm\audio.h
 	"public.h"
 
 1479649681 source:h:\projects\platyfarm\tinyxml2.cpp
+	"tinyxml2.h"
+	<new>
+	<stddef.h>
+	<stdarg.h>
+	<cstddef>
+	<cstdarg>
+
+1505923115 h:\projects\platyfarm\editor.h
+	"gamestate.h"
+	"objects.h"
+
+1494619759 source:d:\projects\platyfarm\audio.cpp
+
+1502110735 source:d:\projects\platyfarm\main.cpp
+	<iostream>
+	<stdio.h>
+	"game.h"
+	"timer.h"
+
+1505755391 d:\projects\platyfarm\game.h
+	"statelist.h"
+	"timer.h"
+	"graphics.h"
+	"keydata.h"
+	"audio.h"
+
+1505730751 d:\projects\platyfarm\statelist.h
+	"menu.h"
+	"ingame.h"
+	"newgame.h"
+	"editor.h"
+
+1505730698 d:\projects\platyfarm\menu.h
+	"gamestate.h"
+	"images.h"
+	"objects.h"
+
+1479330957 d:\projects\platyfarm\gamestate.h
+	"public.h"
+
+1505730717 d:\projects\platyfarm\public.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_opengl.h>
+	<SDL2/SDL_mixer.h>
+	<GL/GLU.h>
+	<time.h>
+	<string>
+	<cmath>
+	<string>
+	<vector>
+	<queue>
+	<map>
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<algorithm>
+	"tinyxml2.h"
+
+1479651992 d:\projects\platyfarm\tinyxml2.h
+	<ctype.h>
+	<limits.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stddef.h>
+	<cctype>
+	<climits>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<stdint.h>
+	<android/log.h>
+	<assert.h>
+
+1505729439 d:\projects\platyfarm\images.h
+	"public.h"
+
+1506541686 d:\projects\platyfarm\objects.h
+	"public.h"
+	"keydata.h"
+
+1505755346 d:\projects\platyfarm\keydata.h
+
+1506183169 d:\projects\platyfarm\ingame.h
+	"gamestate.h"
+	"objects.h"
+	"keydata.h"
+	"tinyxml2.h"
+	<future>
+
+1483905942 d:\projects\platyfarm\newgame.h
+	"gamestate.h"
+	"objects.h"
+
+1505923115 d:\projects\platyfarm\editor.h
+	"gamestate.h"
+	"objects.h"
+
+1494088757 d:\projects\platyfarm\timer.h
+	<SDL2/SDL.h>
+
+1505563189 d:\projects\platyfarm\graphics.h
+	"images.h"
+
+1500913027 d:\projects\platyfarm\audio.h
+	"public.h"
+
+1479649681 source:d:\projects\platyfarm\tinyxml2.cpp
 	"tinyxml2.h"
 	<new>
 	<stddef.h>

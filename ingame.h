@@ -28,8 +28,9 @@ private:
     Cursor * cursor;
     TimeDisplay * timedisplay;
     Preview * preview;
+    HealthBar healthbar;
 
-    Gui * gui;
+    GUI * gui;
 
     bool busy = false;
     int targetState = NOTHING;
@@ -200,7 +201,7 @@ public:
             gamephase = GUI;
             string sw = SecondWord(s);
             if(sw == "shop")
-                gui = new GUIShopScreen();
+                gui = new GUIShopScreen(inventory);
             else if(sw == "sell")
                 gui = new GUISellScreen(inventory);
 
@@ -241,7 +242,7 @@ public:
         {
             if(e)
             {
-                particlesys.Add(**e);
+                particlesys.Add(**e,g("particle-decay"));
                 remove_entity(*e);
 
             }
@@ -657,191 +658,6 @@ public:
         printf("Finished loading dialogs!\n");
         return 1;
     }
-    bool LoadObjects()
-    {
-        printf("Loading objects from XML list...\n");
-        using namespace tinyxml2;
-
-        XMLDocument xmlDoc;
-        XMLError result;
-
-        result = xmlDoc.LoadFile("data/xml/object.xml");
-
-        XMLCheckResult(result);
-        printf("XML file loaded..\n");
-
-        XMLElement * pRoot = xmlDoc.FirstChildElement();
-        if(pRoot == NULL)
-        {
-            printf("XML read error (root)\n");
-            return 0;
-        }
-        XMLElement * pElement = pRoot->FirstChildElement();
-        if(pElement == NULL)
-        {
-            printf("XML read error!\n");
-            return 0;
-        }
-        int id;
-
-        //object_templates.push_back(Entity());
-
-        while (pElement != NULL)
-        {
-            printf("Loading object\n");
-
-            //pElement->QueryIntAttribute("id", &id);
-
-            Entity newobject;
-
-            newobject.name = pElement->FirstChildElement("name")->GetText();
-
-            object_names.push_back(newobject.name);
-
-            newobject.img = images[ids[pElement->FirstChildElement("img")->GetText()]];
-            //newobject.max_stack = atoi(pElement->FirstChildElement("stack")->GetText());
-            newobject.category = pElement->FirstChildElement("category")->GetText();
-            newobject.type = pElement->FirstChildElement("type")->GetText();
-            newobject.w = (pElement->FirstChildElement("width")?atoi(pElement->FirstChildElement("width")->GetText())*TILESIZE:TILESIZE);
-            newobject.h = (pElement->FirstChildElement("height")?atoi(pElement->FirstChildElement("height")->GetText())*TILESIZE:TILESIZE);
-
-            if(pElement->FirstChildElement("rigid") != NULL)
-                newobject.rigid = true;
-
-            if(pElement->FirstChildElement("pick") != NULL)
-            {
-                newobject.pickable = true;
-                newobject.pick = pElement->FirstChildElement("pick")->GetText();
-            }
-            if(pElement->FirstChildElement("leftover") != NULL)
-            {
-                newobject.leftover = pElement->FirstChildElement("leftover")->GetText();
-            }
-            if(pElement->FirstChildElement("growth")!= NULL)
-            {
-                newobject.int_attribs["growth"] = 0;
-                newobject.int_attribs["cycle"] = atoi(pElement->FirstChildElement("growth")->GetText());
-                newobject.string_attribs["ripe"] = pElement->FirstChildElement("ripe")->GetText();
-            }
-            else
-            {
-                //newobject.int_attribs["growth"] = 0;
-                //newobject.int_attribs["cycle"] = 1;
-
-            }
-
-            if(pElement->FirstChildElement("destroy") != NULL)
-                newobject.destroy = pElement->FirstChildElement("destroy")->GetText();
-
-            if(pElement->FirstChildElement("hits") != NULL)
-                newobject.hits = atoi(pElement->FirstChildElement("hits")->GetText());
-            else
-                newobject.hits = 1;
-
-            newobject.health = newobject.hits;
-
-            if(pElement->FirstChildElement("alt_img") != NULL)
-                newobject.alts["damaged"] = images[ids[pElement->FirstChildElement("alt_img")->GetText()]];
-
-            if(pElement->FirstChildElement("fade") != NULL)
-                newobject.alts["fade"] = images[ids[pElement->FirstChildElement("fade")->GetText()]];
-
-            if(pElement->FirstChildElement("damaged_fade") != NULL)
-                newobject.alts["damaged_fade"] = images[ids[pElement->FirstChildElement("damaged_fade")->GetText()]];
-
-            if(pElement->FirstChildElement("alt") != NULL)
-            {
-                newobject.alt = atoi(pElement->FirstChildElement("alt")->GetText())*TILESIZE;
-            }
-
-            if(pElement->FirstChildElement("offset") != NULL)
-            {
-                newobject.offset = atoi(pElement->FirstChildElement("offset")->GetText())*TILESIZE;
-            }
-
-            if(pElement->FirstChildElement("imgw") != NULL)
-                newobject.imgw = atoi(pElement->FirstChildElement("imgw")->GetText())*TILESIZE;
-            else
-                newobject.imgw = TILESIZE;
-
-            if(pElement->FirstChildElement("imgh") != NULL)
-                newobject.imgh = atoi(pElement->FirstChildElement("imgh")->GetText())*TILESIZE;
-            else
-                newobject.imgh = TILESIZE;
-
-            if(pElement->FirstChildElement("clipw") != NULL)
-                newobject.clipw = atoi(pElement->FirstChildElement("clipw")->GetText())*TILESIZE;
-            else
-                newobject.clipw = newobject.imgw;
-
-            if(pElement->FirstChildElement("cliph") != NULL)
-                newobject.cliph = atoi(pElement->FirstChildElement("cliph")->GetText())*TILESIZE;
-            else
-                newobject.cliph = newobject.imgh;
-
-            if(pElement->FirstChildElement("portal")!= NULL)
-            {
-                newobject.string_attribs["portal"] = pElement->FirstChildElement("portal")->GetText();
-            }
-            if(pElement->FirstChildElement("attributes")!=NULL)
-            {
-                XMLElement * listElement = pElement->FirstChildElement("attributes")->FirstChildElement();
-
-                while(listElement)
-                {
-                    if(listElement->GetText())
-                    {
-                        if(is_number(listElement->GetText()))
-                        {
-                            newobject.int_attribs[listElement->Name()] = atoi(listElement->GetText());
-
-                        }
-                        else
-                        {
-                            newobject.string_attribs[listElement->Name()] = listElement->GetText();
-
-                        }
-                    }
-                    else
-                        newobject.int_attribs[listElement->Name()] = 1;
-                    listElement = listElement->NextSiblingElement();
-                }
-            }
-            if(pElement->FirstChildElement("drops")!=NULL)
-            {
-                XMLElement * listElement = pElement->FirstChildElement("drops")->FirstChildElement();
-
-                while(listElement)
-                {
-                    newobject.drops.push_back(listElement->FirstChildElement("item")->GetText());
-                    newobject.mins.push_back(atoi(listElement->FirstChildElement("min")->GetText()));
-                    newobject.maxs.push_back(atoi(listElement->FirstChildElement("max")->GetText()));
-                    listElement = listElement->NextSiblingElement();
-                }
-            }
-            if(pElement->FirstChildElement("interactions"))
-            {
-                XMLElement* interaction = pElement->FirstChildElement("interactions")->FirstChildElement("i");
-
-                while(interaction)
-                {
-                    Entity::Interaction intr;
-                    intr.obj = interaction->FirstChildElement("obj")->GetText();
-                    intr.script = interaction->FirstChildElement("script")->GetText();
-                    newobject.interactions.push_back(intr);
-                    interaction = interaction->NextSiblingElement();
-                }
-            }
-            object_templates[newobject.name]=newobject;
-
-            //object_ids[newobject.name]=id;
-
-            pElement = pElement->NextSiblingElement("object");
-        };
-
-        printf("Finished loading objects!\n");
-        return 1;
-    }
 
     bool LoadRecipes()
     {
@@ -1170,6 +986,8 @@ public:
     }
     void SwitchStage(Stage * newstage)
     {
+        cout << "Entering " << newstage->attributes["title"] << endl;
+
         currentstage = newstage;
 
         currentstage->ScanGrid();
@@ -1198,10 +1016,9 @@ public:
 
         FocusCamera();
 
-        if(!newstage->indoors)
-            weathersys.active = true;
-        else
-            weathersys.active = false;
+        weathersys.FeedClimate(currentstage->attributes["climate"]);
+
+
 
     }
     virtual void Init()
@@ -1221,23 +1038,13 @@ public:
         player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE,TILESIZE));
         ptr_to_player = player;
 
-        player_lot.name = "lot";
-        currentstage = &player_lot;
-        player_house.House();
-        player_house.name = "house";
-        forest.Forest();
-        forest.name = "forest";
-        general_store.Shop();
-        general_store.name = "shop";
 
-        limbo.Limbo();
-        limbo.name = "limbo";
 
         setupStuff();
 
         //currentstage->objects.push_back(new Entity(object_templates["house"],TILESIZE/2,TILESIZE*2));
 
-        PlaceObject(new Entity(object_templates["house"]),0,2);
+        /*PlaceObject(new Entity(object_templates["house"]),0,2);
         PlaceObject(new Entity(object_templates["shop"]),7,2);
 
         for(int i = 0; i < 100; i++)
@@ -1285,7 +1092,7 @@ public:
 
         currentstage->npcs.push_back(new NPC(npc_templates["platypus"],10*TILESIZE,6*TILESIZE));
 
-
+*/
 
         gamephase = DIALOG;
         dialogSystem->Add(dialogs[22]);
@@ -1303,16 +1110,177 @@ public:
         /*for(int i = 0; i < 99; i++)
             inventory->Add(item_templates["seed"]);*/
 
-        stageList[to_string("lot")] = &player_lot;
+        /*stageList[to_string("lot")] = &player_lot;
         stageList[to_string("house")] = &player_house;
         stageList["forest"] = &forest;
         stageList["shop"] = &general_store;
-        stageList["limbo"] = &limbo;
+        stageList["limbo"] = &limbo;*/
+
+        LoadStages();
 
         currentstage = (stageList["lot"]);
 
         SwitchStage(stageList["lot"]);
 
+    }
+
+    void LoadStage(string stage)
+    {
+
+        cout << "Loading stage: " << stage << "\n";
+        using namespace tinyxml2;
+
+        XMLDocument doc;
+
+        doc.LoadFile(stage.c_str());
+
+        XMLElement * pElement = doc.FirstChildElement();
+
+        if(pElement)
+        {
+            Stage * new_stage = new Stage();
+
+            new_stage->name = pElement->FirstChildElement("name")->GetText();
+            stageNames.push_back(new_stage->name);
+
+            string sizes = pElement->FirstChildElement("size")->GetText();
+            new_stage->w = new_stage->tilemap.w = atoi(FirstWord(sizes).c_str());
+            new_stage->h = new_stage->tilemap.h =atoi(SecondWord(sizes).c_str());
+
+            if(pElement->FirstChildElement("indoors"))
+                new_stage->indoors = true;
+
+            if(pElement->FirstChildElement("attributes"))
+            {
+                XMLElement * attribute = pElement->FirstChildElement("attributes")->FirstChildElement();
+
+                while(attribute)
+                {
+                    new_stage->attributes[attribute->Name()] = attribute->GetText();
+
+                    attribute = attribute->NextSiblingElement();
+                }
+            }
+            XMLElement * rowElement = pElement->FirstChildElement("row");
+            int height = 0;
+            while(rowElement)
+            {
+                std::stringstream ss;
+
+                string row = rowElement->GetText();
+
+                ss << row;
+
+                fr(0,new_stage->w)
+                    {
+                        string current;
+                        ss >> current;
+                        new_stage->tilemap.tile[i][height] = atoi(current);
+                    }
+
+                rowElement = rowElement->NextSiblingElement("row");
+                height++;
+            }
+
+            XMLElement * objectElement = pElement->FirstChildElement("object");
+
+            while(objectElement)
+            {
+                Entity * new_object;
+
+                string name = objectElement->FirstChildElement("name")->GetText();
+                string position = objectElement->FirstChildElement("pos")->GetText();
+
+                if(name != "door")
+                {
+                    new_object = new Entity(object_templates[name],atoi(FirstWord(position).c_str()),atoi(SecondWord(position)));
+
+                }
+                else
+                {
+                    new_object = new Entity(Door("lot",atoi(FirstWord(position).c_str()),atoi(SecondWord(position))));
+
+                }
+
+
+                XMLElement* attributeElement = NULL;
+                if(objectElement->FirstChildElement("attributes") != NULL)
+                    attributeElement = objectElement->FirstChildElement("attributes")->FirstChildElement();
+
+                while(attributeElement)
+                {
+                    string name = attributeElement->Name();
+                    string value = attributeElement->GetText();
+
+                    if(is_number(value))
+                        new_object->int_attribs[name] = atoi(value);
+                    else
+                        new_object->string_attribs[name] = value;
+
+                    attributeElement = attributeElement->NextSiblingElement();
+                }
+
+
+                new_stage->Add(new_object);
+                new_stage->objects.push_back(new_object);
+
+                objectElement = objectElement->NextSiblingElement("object");
+            }
+            XMLElement * npcElement = pElement->FirstChildElement("npc");
+
+            while(npcElement)
+            {
+                NPC * new_object;
+
+                string name = npcElement->FirstChildElement("name")->GetText();
+                string position = npcElement->FirstChildElement("pos")->GetText();
+
+                new_object = new NPC(npc_templates[name],atoi(FirstWord(position)),atoi(SecondWord(position).c_str()));
+
+                if(npcElement->FirstChildElement("met"))
+                    new_object->met = true;
+
+                new_stage->npcs.push_back(new_object);
+
+
+                npcElement = npcElement->NextSiblingElement("npc");
+            }
+
+            stageList[new_stage->name] = new_stage;
+        }
+
+    }
+    void LoadStages()
+    {
+        cout << "Loading stages\n";
+
+        vector<string> stages;
+
+        using namespace tinyxml2;
+
+        XMLDocument doc;
+
+        doc.LoadFile("data/stage/list.xml");
+
+        XMLElement * root = doc.FirstChildElement();
+
+        if(root)
+        {
+            XMLElement * stageElem = root->FirstChildElement("stage");
+
+            while(stageElem)
+            {
+                stages.push_back(stageElem->GetText());
+
+                stageElem = stageElem->NextSiblingElement();
+
+            }
+        }
+
+        for(auto stage : stages)
+        {
+            LoadStage("data/stage/" + stage + ".xml");
+        }
     }
 
     bool Load()
@@ -1322,6 +1290,8 @@ public:
         LoadObjects();
         LoadNPCs();
         LoadRecipes();
+
+        player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
 
         setupStuff();
 
@@ -1354,7 +1324,6 @@ public:
         funds = atoi(pRoot->FirstChildElement("funds")->GetText());
         string player_pos = pRoot->FirstChildElement("player")->GetText();
 
-        player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
         player->x = atoi(FirstWord(player_pos).c_str());
         player->y = atoi(SecondWord(player_pos).c_str());
 
@@ -1449,6 +1418,18 @@ public:
 
             if(pElement->FirstChildElement("indoors"))
                 new_stage->indoors = true;
+
+            if(pElement->FirstChildElement("attributes"))
+            {
+                XMLElement * attribute = pElement->FirstChildElement("attributes")->FirstChildElement();
+
+                while(attribute)
+                {
+                    new_stage->attributes[attribute->Name()] = attribute->GetText();
+
+                    attribute = attribute->NextSiblingElement();
+                }
+            }
 
             XMLElement * rowElement = pElement->FirstChildElement("row");
             int height = 0;
@@ -1545,7 +1526,7 @@ public:
         gamephase = DIALOG;
         dialogSystem->Add(dialogs[1]);
 
-        fade_progress = FADE_MAX;
+        fade_progress = g("fade-max");
         fade_direction = FADE_OUT;
 
         SwitchStage(stageList["house"]);
@@ -1831,16 +1812,16 @@ public:
 
                                             }
 
+                                            particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,globals["particle-decay"]);
+
                                             if(e->leftover == "" || sel->name == "delete")
                                             {
-                                                particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,globals["particle-decay"]);
                                                 remove_entity(e);
                                                 //cout << e << " " << currentstage->grid[click_x][click_y] << endl;
 
                                             }
                                             else
                                             {
-                                                particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,globals["particle-decay"]);
                                                 change_entity(e,new Entity(object_templates[e->leftover],e->x,e->y));
                                                 //e = new Entity(object_templates[e->leftover],e->x,e->y);
                                             }
@@ -1896,7 +1877,7 @@ public:
                     iY+=TILESIZE;
                     break;
                 }
-                particlesys.Add(Entity(im("sword"),iX,iY,TILESIZE,TILESIZE));
+                particlesys.Add(Entity(sel->img,iX,iY,TILESIZE,TILESIZE), g("particle-decay"));
                 player->setCooldown(500/sel->int_attribs["attack-speed"]);
                 for(auto &n : currentstage->npcs)
                 if(n)
@@ -1904,12 +1885,21 @@ public:
 
                     if(Intersect(n,iX,iY,player->w,player->h) && n->int_attribs.count("health"))
                     {
-                        string npc_name =  Capitalize(n->name);
-                        cout << npc_name<< " was hit for 1 dmg!" << endl;
-                        cout << npc_name << "'s health changed from " << n->int_attribs["health"];
-                        n->int_attribs["health"] -= sel->int_attribs["damage-min"];
-                        cout << " to " << n->int_attribs["health"] << endl;
 
+                        if(!n->int_attribs.count("hp"))
+                        {
+                            n->int_attribs["hp"]=n->int_attribs["health"];
+                        }
+
+                        string npc_name =  Capitalize(n->name);
+                        cout << npc_name<< " was hit for " << sel->int_attribs["damage-min"] << " dmg!" << endl;
+                        cout << npc_name << "'s health changed from " << n->int_attribs["hp"];
+
+                        n->int_attribs["hp"] -= sel->int_attribs["damage-min"];
+
+                        cout << " to " << n->int_attribs["hp"] << endl;
+
+                        healthbar.Add(n);
                         ///PUSH NPC
                         if(abs(n->x-player->x)>abs(n->y-player->y))
                         {
@@ -1928,9 +1918,9 @@ public:
 
                         }
 
-                        particlesys.Add(n->x,n->y,n->w,n->h,n->img,true,4);
+                        particlesys.Add(n->x,n->y,n->w,n->h,n->img,true,g("particle-decay"));
 
-                        if(n->int_attribs["health"]<=0) ///DIED
+                        if(n->int_attribs["hp"]<=0) ///DIED
                         {
                             cout << npc_name << " died!\n";
                             if(n->attributes.count("drops"))
@@ -1946,6 +1936,7 @@ public:
                             }
                             removeNPC(n);
                         }
+
                         else
                         {
 
@@ -2207,18 +2198,11 @@ public:
 
             canMove = ValidatePlayer(tempx,tempy);
 
+
             if(canMove)
             for(auto& e : currentstage->objects)
             {
-                /*for(int i = 0 ; i < 2; i++)
-                    for(int j = 0; j < 2; j++)
-                {
-                    int gridx = std::floor((player->x+i*player->w)/TILESIZE);
-                    int gridy = std::floor((player->y+j*player->h)/TILESIZE);
 
-                    Entity * e = NULL;
-                    if(gridx < currentstage->w && gridy < currentstage->h)
-                        currentstage->grid[gridx][gridy];*/
 
                     if(e)
                     {
@@ -2251,11 +2235,21 @@ public:
 
             }
             //if(currentstage->tilemap.tile[tempx/TILESIZE][tempy/TILESIZE] == 0)
-                if(canMove)
+            for(int i = 0 ; i < 2; i++)
+                for(int j = 0; j < 2; j++)
                 {
-                    player->x = tempx;
-                    player->y = tempy;
+                    int gridx = std::floor((tempx+i*player->w)/TILESIZE);
+                    int gridy = std::floor((tempy+j*player->h)/TILESIZE);
+
+                    if(currentstage->IsSolid(gridx,gridy))
+                        canMove = false;
+
                 }
+            if(canMove)
+            {
+                player->x = tempx;
+                player->y = tempy;
+            }
         }
         if(moved)
         {
@@ -2381,7 +2375,7 @@ public:
             if(fade_direction == FADE_IN)
             {
                 fade_progress++;
-                if(fade_progress == FADE_MAX)
+                if(fade_progress == g("fade-max"))
                 {
                     fade_direction = FADE_OUT;
                     player->x = fade_x;
@@ -2433,11 +2427,13 @@ public:
             gui->Scroll(-1);
         if(KeyData.MouseMove)
         {
+            gui->HandleMouseMove(KeyData.MouseX,KeyData.MouseY);
             cursor->text = "";
             if(gui->type == "inventory")
             {
                 int id;
                 Item* it = gui->GetClick(KeyData.MouseX,KeyData.MouseY,id);
+
                 if(it)
                     cursor->text = it->formal;
             }
@@ -2445,12 +2441,12 @@ public:
             {
                 if(Contains(gui,KeyData.MouseX,KeyData.MouseY,0,0))
                 {
-                    int id = -1;
+                    /*int id = -1;
                     Item* i = gui->GetClick(KeyData.MouseX,KeyData.MouseY,id);
                     if(i)
                     {
                         cursor->text = "click to buy";
-                    }
+                    }*/
                 }
 
             }
@@ -2473,11 +2469,11 @@ public:
         }
         if(KeyData.Click)
         {
-            if(gui->type == "shop")
+            if(Contains(gui,KeyData.MouseX,KeyData.MouseY,0,0))
             {
-                if(Contains(gui,KeyData.MouseX,KeyData.MouseY,0,0))
+                if(gui->type == "shop")
                 {
-                    int id;
+                    /*int id;
                     Item* i = gui->GetClick(KeyData.MouseX,KeyData.MouseY,id);
                     if(i)
                     if(i->int_attribs["price"] <= funds)
@@ -2485,15 +2481,15 @@ public:
                         eventSystem->Event("BUY");
                         funds -= i->int_attribs["price"];
                         inventory->Add(*i);
+                    }*/
+                    if(gui->HandleClick(KeyData.MouseX,KeyData.MouseY))
+                    {
+                        eventSystem->Event("BUY");
                     }
-                }
 
-            }
-            else if(gui->type == "sell")
-            {
-                if(Contains(gui,KeyData.MouseX,KeyData.MouseY,0,0))
+                }
+                else if(gui->type == "sell")
                 {
-                    //printf("szia\n");
                     int id = -1;
                     Item* i = gui->GetClick(KeyData.MouseX,KeyData.MouseY,id);
                     if(i)
@@ -2509,28 +2505,21 @@ public:
 
 
                     }
-                }
 
-            }
-            else if(gui->type == "crafting")
-            {
-                if(Contains(gui,KeyData.MouseX,KeyData.MouseY,0,0))
+                }
+                else if(gui->type == "crafting")
                 {
-                    //printf("szia\n");
                     if(gui->HandleClick(KeyData.MouseX,KeyData.MouseY))
                         eventSystem->Event("CRAFT");
 
-
                 }
-            }
-            else if(gui->type == "inventory")
-            {
-                if(Contains(gui,KeyData.MouseX,KeyData.MouseY,0,0))
+                else if(gui->type == "inventory")
                 {
                     gui->HandleClick(KeyData.MouseX,KeyData.MouseY);
 
                 }
             }
+
         }
         if(KeyData.EscapePress)
         {
@@ -2573,7 +2562,7 @@ public:
                     dialogSystem->selected_answer = 0;
 
             }
-            if(KeyData.Click || KeyData.EnterPress)
+            if(KeyData.Click || KeyData.EnterPress || KeyData.EPress)
             {
                 if(!dialogSystem->finished_chain)
                 {
@@ -2608,6 +2597,7 @@ public:
         particlesys.Update();
         lightsys.Update();
         weathersys.Update();
+        healthbar.Update();
 
     }
     void DrawSaving()
@@ -2637,9 +2627,11 @@ public:
         weathersys.Draw();
         lightsys.Draw();
 
-        DrawRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,(float)fade_progress/FADE_MAX);
+        DrawRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,(float)fade_progress/g("fade-max"));
 
         inventory->Draw();
+
+        healthbar.Draw();
 
         timedisplay->Draw();
 

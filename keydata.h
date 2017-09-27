@@ -29,6 +29,7 @@ struct
     bool FPress = false;
     bool EPress = false;
     bool Click = false;
+    bool MouseLeftDown = false;
     bool RightClick = false;
     bool numPress[10];
 

@@ -3,4 +3,7 @@
 	<stage>house</stage>
 	<stage>lot</stage>
 	<stage>forest</stage>
+	<stage>desert</stage>
+	<stage>limbo</stage>
+	<stage>shop</stage>
 </root>

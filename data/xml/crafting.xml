@@ -33,12 +33,19 @@
 		<medium>stove</medium>	
 	</recipe>
 	<recipe>
-		<item>apple pie</item>
+		<item>apple-pie</item>
 		<skill>cooking</skill>
 		<level>1</level>
 		<ingredient>flour</ingredient>
 		<ingredient count="3">apple</ingredient>
 		<ingredient>sugar</ingredient>
+		<medium>stove</medium>
+	</recipe>
+	<recipe>
+		<item>bread</item>
+		<skill>cooking</skill>
+		<level>1</level>
+		<ingredient>flour</ingredient>
 		<medium>stove</medium>
 	</recipe>
 	<recipe>
@@ -56,6 +63,14 @@
 		<item>juice</item>
 		<skill>cooking</skill>
 		<ingredient count="3">apple</ingredient>
+		<medium>stove</medium>
+	</recipe>
+	<recipe>
+		<item>pizza</item>
+		<skill>cooking</skill>
+		<ingredient>flour</ingredient>
+		<ingredient>cheese</ingredient>
+		<ingredient>tomato</ingredient>
 		<medium>stove</medium>
 	</recipe>
 	<recipe>

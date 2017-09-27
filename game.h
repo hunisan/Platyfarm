@@ -181,6 +181,7 @@ public:
                 {
                     case SDL_BUTTON_LEFT:
                         KeyData.Click = true;
+                        KeyData.MouseLeftDown = true;
                         break;
                     case SDL_BUTTON_RIGHT:
                         KeyData.RightClick = true;
@@ -188,6 +189,10 @@ public:
 
                 }
                 break;
+            case SDL_MOUSEBUTTONUP:
+                KeyData.MouseLeftDown = false;
+                break;
+
             case SDL_MOUSEWHEEL:
                 if(eventQueue.wheel.y < 0)
                     KeyData.wheel = -1;
@@ -218,35 +223,34 @@ public:
             case CREATE:
                 SwitchState(new CreateGame());
                 break;
+            case EDITOR:
+                SwitchState(new Editor());
+                break;
             case START:
-                SwitchState(new NewGame());///még nem használt "játék létrehozása" interfész
+                SwitchState(new NewGame());
             default:
                 return;
         }
     }
     void Update()
     {
-        ///Bemeneti perifériák kezelése
         HandleEvents();
 
-        ///Frissítse a játékhelyzetet
         int returnstate = currentState->Update();
-         ///Ha a frissítés során más helyzetbe került a program
         if(returnstate != NOTHING)
-            ///Cserélje ki a currentState objektumot
             SwitchState(returnstate);
 
         audioSystem->Update();
-       ///Nullázza le a bemeneti perifériákra vonatkozó adatokat
+
         KeyData.Update();
 
     }
 
     void Draw()
     {
-        graphicsEngine->Clear(); ///képernyő törlése
-        currentState->Draw(); ///jelenlegi helyzet kirajzolása
-        graphicsEngine->Finalize(); ///kirajzolás véglegesítése
+        graphicsEngine->Clear();
+        currentState->Draw();
+        graphicsEngine->Finalize();
     }
 
     void Quit()

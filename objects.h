@@ -331,6 +331,8 @@ bool Sorter(Entity* ent1, Entity* ent2)
 
     return (ent1)->y < (ent2)->y;
 }
+
+
 class Creature : public Entity
 {
 public:
@@ -780,7 +782,7 @@ public:
             {
                 if(i >= 0 && i < w && j >= 0 && j < h)
                 {
-                    DrawClip(images[ids["tileset"]],i*TILESIZE-cX,j*TILESIZE-cY,TILESIZE,TILESIZE,tile[i][j]*TILESIZE,0,TILESIZE,TILESIZE,g("tiles")*TILESIZE,TILESIZE);
+                    DrawClip(images[ids["tileset"]],i*TILESIZE-cX,j*TILESIZE-cY,TILESIZE,TILESIZE,(tile[i][j]%g("tiles-horizontal"))*TILESIZE,(tile[i][j]/g("tiles-horizontal"))*TILESIZE,TILESIZE,TILESIZE,g("tiles-horizontal")*TILESIZE,2*TILESIZE);
                 }
             }
         }
@@ -806,10 +808,10 @@ public:
             cooldown--;
     }
 
-    void Add(Entity e)
+    void Add(Entity e, int speed=1)
     {
         particles.push_back(Entity(e.img,e.x*2,e.y*2,e.w*2,e.h*2));
-        particles[particles.size()-1].int_attribs["speed"]=1;
+        particles[particles.size()-1].int_attribs["speed"]=speed;
         particles[particles.size()-1].int_attribs["transparency"]=globals["particle_opacity"];
 
     }
@@ -841,8 +843,9 @@ class WeatherSystem : public Object
 {
 public:
     string weather = "rain";
+    string climate = "mediterranean";
     ParticleSystem * ps = NULL;
-    bool active = false;
+    bool active = true;
     const static int particles = 100;
     float particleSpeed = 8;
     float coordinates[particles][3];
@@ -864,9 +867,14 @@ public:
         }
 
     }
+
+    void FeedClimate(string climate)
+    {
+        this->climate = climate;
+    }
     int Update()
     {
-        if(active && weather!="none")
+        if(active && weather!="none" && climate=="continental")
         fr(0,particles)
         {
             particleSpeed = 8*coordinates[i][2]+6;
@@ -886,7 +894,7 @@ public:
     }
     void Draw(float cX = 0, float cY = 0)
     {
-        if(active && weather != "none")
+        if(active && weather != "none" && climate=="continental")
         fr(0,particles)
         {
             DrawImage((weather=="rain"?images[ids[particle]]:images[ids["snow"]]),coordinates[i][0]+camera_xvel,coordinates[i][1]+camera_yvel,TILESIZE,TILESIZE);
@@ -996,6 +1004,194 @@ map<string, Entity> object_templates;
 vector<string> object_names;
 map<string, CraftingRecipe> recipes;
 
+bool LoadObjects()
+{
+    printf("Loading objects from XML list...\n");
+    using namespace tinyxml2;
+
+    XMLDocument xmlDoc;
+    XMLError result;
+
+    result = xmlDoc.LoadFile("data/xml/object.xml");
+
+    XMLCheckResult(result);
+    printf("XML file loaded..\n");
+
+    XMLElement * pRoot = xmlDoc.FirstChildElement();
+    if(pRoot == NULL)
+    {
+        printf("XML read error (root)\n");
+        return 0;
+    }
+    XMLElement * pElement = pRoot->FirstChildElement();
+    if(pElement == NULL)
+    {
+        printf("XML read error!\n");
+        return 0;
+    }
+    int id;
+
+    //object_templates.push_back(Entity());
+    object_templates.clear();
+    object_names.clear();
+
+    while (pElement != NULL)
+    {
+        printf("Loading object\n");
+
+        //pElement->QueryIntAttribute("id", &id);
+
+        Entity newobject;
+
+        newobject.name = pElement->FirstChildElement("name")->GetText();
+
+        object_names.push_back(newobject.name);
+
+        newobject.img = images[ids[pElement->FirstChildElement("img")->GetText()]];
+        //newobject.max_stack = atoi(pElement->FirstChildElement("stack")->GetText());
+        newobject.category = pElement->FirstChildElement("category")->GetText();
+        newobject.type = pElement->FirstChildElement("type")->GetText();
+        newobject.w = (pElement->FirstChildElement("width")?atoi(pElement->FirstChildElement("width")->GetText())*TILESIZE:TILESIZE);
+        newobject.h = (pElement->FirstChildElement("height")?atoi(pElement->FirstChildElement("height")->GetText())*TILESIZE:TILESIZE);
+
+        if(pElement->FirstChildElement("rigid") != NULL)
+            newobject.rigid = true;
+
+        if(pElement->FirstChildElement("pick") != NULL)
+        {
+            newobject.pickable = true;
+            newobject.pick = pElement->FirstChildElement("pick")->GetText();
+        }
+        if(pElement->FirstChildElement("leftover") != NULL)
+        {
+            newobject.leftover = pElement->FirstChildElement("leftover")->GetText();
+        }
+        if(pElement->FirstChildElement("growth")!= NULL)
+        {
+            newobject.int_attribs["growth"] = 0;
+            newobject.int_attribs["cycle"] = atoi(pElement->FirstChildElement("growth")->GetText());
+            newobject.string_attribs["ripe"] = pElement->FirstChildElement("ripe")->GetText();
+        }
+        else
+        {
+            //newobject.int_attribs["growth"] = 0;
+            //newobject.int_attribs["cycle"] = 1;
+
+        }
+
+        if(pElement->FirstChildElement("destroy") != NULL)
+            newobject.destroy = pElement->FirstChildElement("destroy")->GetText();
+
+        if(pElement->FirstChildElement("hits") != NULL)
+            newobject.hits = atoi(pElement->FirstChildElement("hits")->GetText());
+        else
+            newobject.hits = 1;
+
+        newobject.health = newobject.hits;
+
+        if(pElement->FirstChildElement("alt_img") != NULL)
+            newobject.alts["damaged"] = images[ids[pElement->FirstChildElement("alt_img")->GetText()]];
+
+        if(pElement->FirstChildElement("fade") != NULL)
+            newobject.alts["fade"] = images[ids[pElement->FirstChildElement("fade")->GetText()]];
+
+        if(pElement->FirstChildElement("damaged_fade") != NULL)
+            newobject.alts["damaged_fade"] = images[ids[pElement->FirstChildElement("damaged_fade")->GetText()]];
+
+        if(pElement->FirstChildElement("alt") != NULL)
+        {
+            newobject.alt = atoi(pElement->FirstChildElement("alt")->GetText())*TILESIZE;
+        }
+
+        if(pElement->FirstChildElement("offset") != NULL)
+        {
+            newobject.offset = atoi(pElement->FirstChildElement("offset")->GetText())*TILESIZE;
+        }
+
+        if(pElement->FirstChildElement("imgw") != NULL)
+            newobject.imgw = atoi(pElement->FirstChildElement("imgw")->GetText())*TILESIZE;
+        else
+            newobject.imgw = TILESIZE;
+
+        if(pElement->FirstChildElement("imgh") != NULL)
+            newobject.imgh = atoi(pElement->FirstChildElement("imgh")->GetText())*TILESIZE;
+        else
+            newobject.imgh = TILESIZE;
+
+        if(pElement->FirstChildElement("clipw") != NULL)
+            newobject.clipw = atoi(pElement->FirstChildElement("clipw")->GetText())*TILESIZE;
+        else
+            newobject.clipw = newobject.imgw;
+
+        if(pElement->FirstChildElement("cliph") != NULL)
+            newobject.cliph = atoi(pElement->FirstChildElement("cliph")->GetText())*TILESIZE;
+        else
+            newobject.cliph = newobject.imgh;
+
+        if(pElement->FirstChildElement("portal")!= NULL)
+        {
+            newobject.string_attribs["portal"] = pElement->FirstChildElement("portal")->GetText();
+        }
+        if(pElement->FirstChildElement("attributes")!=NULL)
+        {
+            XMLElement * listElement = pElement->FirstChildElement("attributes")->FirstChildElement();
+
+            while(listElement)
+            {
+                if(listElement->GetText())
+                {
+                    if(is_number(listElement->GetText()))
+                    {
+                        newobject.int_attribs[listElement->Name()] = atoi(listElement->GetText());
+
+                    }
+                    else
+                    {
+                        newobject.string_attribs[listElement->Name()] = listElement->GetText();
+
+                    }
+                }
+                else
+                    newobject.int_attribs[listElement->Name()] = 1;
+                listElement = listElement->NextSiblingElement();
+            }
+        }
+        if(pElement->FirstChildElement("drops")!=NULL)
+        {
+            XMLElement * listElement = pElement->FirstChildElement("drops")->FirstChildElement();
+
+            while(listElement)
+            {
+                newobject.drops.push_back(listElement->FirstChildElement("item")->GetText());
+                newobject.mins.push_back(atoi(listElement->FirstChildElement("min")->GetText()));
+                newobject.maxs.push_back(atoi(listElement->FirstChildElement("max")->GetText()));
+                listElement = listElement->NextSiblingElement();
+            }
+        }
+        if(pElement->FirstChildElement("interactions"))
+        {
+            XMLElement* interaction = pElement->FirstChildElement("interactions")->FirstChildElement("i");
+
+            while(interaction)
+            {
+                Entity::Interaction intr;
+                intr.obj = interaction->FirstChildElement("obj")->GetText();
+                intr.script = interaction->FirstChildElement("script")->GetText();
+                newobject.interactions.push_back(intr);
+                interaction = interaction->NextSiblingElement();
+            }
+        }
+        object_templates[newobject.name]=newobject;
+
+        //object_ids[newobject.name]=id;
+
+        pElement = pElement->NextSiblingElement("object");
+    };
+
+    printf("Finished loading objects!\n");
+    return 1;
+}
+
 class PickupObject : public Entity
 {
 public:
@@ -1055,6 +1251,8 @@ class Stage : public Object
 {
 public:
     bool indoors = false;
+    map<string,string> attributes;
+
     int w, h;
     string name;
     Map tilemap;
@@ -1072,6 +1270,15 @@ public:
         WOOD,
         TILLED,
     };
+    void Resize(int w, int h)
+    {
+        this->w = w;
+        this->h = h;
+        if(tilemap.w != w)
+            tilemap.w = w;
+        if(tilemap.h != h)
+            tilemap.h = h;
+    }
     void ClearGrid()
     {
         for(int i = 0; i < w; i++)
@@ -1087,53 +1294,8 @@ public:
             grid[(int)o->x/TILESIZE][(int)o->y/TILESIZE]=o;
 
     }
-    void Forest()
-    {
-        for(int i = 0; i < 100; i++)
-            for(int j = 0; j < 100; j++)
-        {
-            tilemap.tile[i][j]=0;
-        }
-        for(int i = 0; i < 30; i++)
-        {
-            objects.push_back(new Entity(object_templates["tree"],(rand()%((SCREEN_WIDTH-TILESIZE)/TILESIZE))*TILESIZE+TILESIZE, (rand()%((SCREEN_HEIGHT-TILESIZE)/TILESIZE))*TILESIZE+TILESIZE));
-        }
 
-        objects.push_back(new Entity(Door("lot",4,8,16,2)));
-    }
-    void House()
-    {
-        tilemap = Map(SCREEN_HEIGHT/TILESIZE/2);
-        w = h = tilemap.w;
 
-        objects.push_back(new Entity(Door("lot",tilemap.w/2*TILESIZE,(tilemap.h-2)*TILESIZE)));
-
-        objects.push_back(new Entity(object_templates["bed"],tilemap.w/2*TILESIZE, TILESIZE));
-        objects.push_back(new Entity(object_templates["chair"],tilemap.w/2*TILESIZE+TILESIZE*2, TILESIZE));
-        objects.push_back(new Entity(object_templates["stove"],tilemap.w/2*TILESIZE+TILESIZE*3, TILESIZE*2));
-
-        ClearGrid();
-    }
-    void Shop()
-    {
-        tilemap = Map(SCREEN_HEIGHT/TILESIZE*2/3);
-        w = h = tilemap.w;
-
-        npcs.push_back(new NPC(npc_templates["shopkeeper"], 3*TILESIZE,4*TILESIZE));
-        objects.push_back(new Entity(object_templates["chair"],tilemap.w/2*TILESIZE+TILESIZE*2, TILESIZE));
-        objects.push_back(new Entity(Door("lot",tilemap.w/2*TILESIZE,(tilemap.h-2)*TILESIZE)));
-
-        ClearGrid();
-    }
-    void Limbo()
-    {
-        tilemap = Map(SCREEN_HEIGHT/TILESIZE);
-
-        w = h = tilemap.w;
-        npcs.push_back(new NPC(npc_templates["???"], 3*TILESIZE,4*TILESIZE));
-
-        ClearGrid();
-    }
     Stage()
     {
         w = h = 100;
@@ -1151,6 +1313,10 @@ public:
     bool IsFree(int x, int y)
     {
         return grid[x][y]==NULL;
+    }
+    bool IsSolid(int x, int y)
+    {
+        return tilemap.tile[x][y] == 38 || tilemap.tile[x][y] == 16;
     }
     bool CanPlant(int x, int y)
     {
@@ -1200,6 +1366,84 @@ public:
     void Draw(float cX = 0, float cY = 0)
     {
         tilemap.Draw(cX,cY);
+    }
+};
+
+class XMLManager
+{
+public:
+    static void SaveStage(Stage * st, string path)
+    {
+        using namespace tinyxml2;
+
+        XMLDocument doc;
+
+        XMLNode * root = doc.NewElement("root");
+
+        doc.InsertFirstChild(root);
+
+        XMLElement * pElement;
+
+        auto InsertInt = [&pElement, &root, &doc](string name, int value, XMLNode* elem)
+        {
+            pElement = doc.NewElement(name.c_str());
+            pElement->SetText(value);
+            elem->InsertEndChild(pElement);
+
+        };
+        auto InsertString = [&pElement, &root, &doc](string name, string value, XMLNode* elem )
+        {
+            pElement = doc.NewElement(name.c_str());
+            pElement->SetText(value.c_str());
+            elem->InsertEndChild(pElement);
+
+        };
+
+        InsertString("name",st->name,root);
+        InsertString("size",to_string(st->w)+" "+to_string(st->h),root);
+
+        if(st->indoors)
+            root->InsertEndChild(doc.NewElement("indoors"));
+
+        fr(0,st->h)
+        {
+            string row = "";
+            for(int j = 0; j < st->w; j++)
+                row.append(to_string(st->tilemap.tile[j][i])+" ");
+
+            InsertString("row",row,root);
+        }
+        for(auto e : st->objects)
+        if(e)
+        {
+            XMLElement * obj = doc.NewElement("object");
+
+            if(e->name != "")
+                InsertString("name",e->name,obj);
+            else
+                InsertString("name","door",obj);
+
+            InsertString("pos",to_string(e->x)+" "+to_string(e->y),obj);
+
+            XMLElement * attribs = doc.NewElement("attributes");
+
+            for(auto a : e->int_attribs)
+            {
+                InsertString(a.first,to_string(a.second),attribs);
+            }
+            for(auto a : e->string_attribs)
+            {
+                InsertString(a.first,a.second,attribs);
+            }
+            if(attribs->FirstChildElement())
+                obj->InsertEndChild(attribs);
+
+            root->InsertEndChild(obj);
+
+
+        }
+
+        doc.SaveFile(path.c_str());
     }
 };
 
@@ -1270,6 +1514,58 @@ public:
         }
     }
 };
+
+class HealthBar : public Entity
+{
+    public:
+    NPC * n = NULL;
+    bool active = false;
+    int d = 5;
+    int maxfade = 15;
+    int fade = 15;
+    HealthBar()
+    {
+        y = 0;
+        h = d+FONTSIZE+d+TILESIZE/2+d;
+        w = SCREEN_WIDTH/4;
+        x = SCREEN_WIDTH/2-w/2;
+    }
+    void Add(NPC *n)
+    {
+        this->n = n;
+        active = true;
+        fade = maxfade;
+    }
+
+    int Update()
+    {
+        if(n && n->int_attribs["hp"]<=0)
+        {
+            n->int_attribs["hp"] = 0;
+            if(fade > 1)
+                fade--;
+            else
+                active = false;
+
+        }
+    }
+
+    void Draw(float cX = 0, float cY = 0)
+    {
+        if(active && n)
+        {
+            float alph = (float)fade/maxfade;
+            DrawImage(im("gui"),x,y,w,h, alph);
+            DrawString(n->fullname,x+w/2-lineWidth(n->fullname)/2,d);
+            DrawImage(im("dark"),x+d,y+d+FONTSIZE+d,w-2*d,TILESIZE/2,alph);
+            DrawImage(im("gui2"),x+d,y+d+FONTSIZE+d,n->int_attribs["hp"]*(w-2*d)/n->int_attribs["health"],TILESIZE/2,alph);
+        }
+        else
+        {
+            active = false;
+        }
+    }
+};
 class TimeDisplay : public Entity
 {
 public:
@@ -1327,9 +1623,10 @@ public:
         //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(timestring),y+FONTSIZE,w,h);
         //DrawString(timestring,SCREEN_WIDTH-lineWidth(timestring),y+FONTSIZE,-1,"font2");
 
+        if(p)
         DrawLine("Health: " + to_string(p->stat_levels["health"]),pY);
 
-        DrawLine(hunger_levels[(int)floor(hunger/HUNGER_SCALE)],pY);
+        DrawLine("Hunger: " + hunger_levels[(int)floor(hunger/HUNGER_SCALE)],pY);
         //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),FONTSIZE);
         //DrawString(hunger_levels[(int)floor(hunger/HUNGER_SCALE)],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,-1,"font2");
 
@@ -1618,14 +1915,14 @@ public:
 
 };
 
-class Gui : public Entity
+class GUI : public Entity
 {
 public:
     string type;
 
-    Gui()
+    GUI()
     {
-
+        x=y=w=h=0;
     }
 
     virtual void Scroll(int dir)
@@ -1644,13 +1941,26 @@ public:
     {
         return 0;
     }
+    virtual int HandleRightClick(int mX, int mY)
+    {
+        return 0;
+    }
+    virtual int HandleMouseMove(int mX, int mY)
+    {
+        return 0;
+    }
     virtual void Exit()
     {
 
     }
+    virtual void SetPosition(int x, int y)
+    {
+        this->x = x;
+        this->y = y;
+    }
 };
 
-class NumberSelector : public Gui
+class NumberSelector : public GUI
 {
 public:
     int number=0,max=99;
@@ -1694,176 +2004,46 @@ public:
         DrawImage(im("gui2"),x,y,w,h);
 
         DrawImage(im("itemtile"),x+w-TILESIZE,y,TILESIZE,h/2);
+        DrawStringCentered("+",x+w-TILESIZE/2,y,10);
         DrawImage(im("itemtile"),x+w-TILESIZE,y+h/2,TILESIZE,h/2);
+        DrawStringCentered("-",x+w-TILESIZE/2,y+h/2,10);
 
         DrawString(to_string(number),x,y+h/2-FONTSIZE/2);
 
     }
 };
-
-
-
-class GUIShopScreen : public Gui
-{
-public:
-
-    vector<Item> item_list;
-    GUIShopScreen()
-    {
-        type = "shop";
-        w = 400;
-        h = std::min(SCREEN_HEIGHT*3/4,(int)item_templates.size()*TILESIZE+TILESIZE);
-        x = SCREEN_WIDTH/2-w/2;
-        y = SCREEN_HEIGHT/2-h/2;
-        for(auto& e : allWord(s("general-store-inventory")))
-            item_list.push_back(item_templates[e]);
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        DrawImage(images[ids["gui"]],x,y,w,h);
-        DrawString("funds: " + to_string(funds) + " " + CURRENCY,x+TILESIZE,y);
-
-        int i = 0;
-        for(auto& e : item_list)
-        {
-            DrawSeparator(x,y+TILESIZE+i*TILESIZE,w,TILESIZE);
-            DrawImage(e.img,x,y+TILESIZE+i*TILESIZE,TILESIZE,TILESIZE);
-            DrawString(e.formal,x+TILESIZE,y+TILESIZE+i*TILESIZE);
-            string pricestring = to_string(e.int_attribs["price"])+"" + CURRENCY;
-            DrawString(pricestring,x+w-lineWidth(pricestring)-FONTSIZE,y+TILESIZE+i*TILESIZE);
-            i++;
-
-        }
-    }
-    Item *GetClick(int mX, int mY, int& id)
-    {
-        int clickY = mY - y - TILESIZE;
-        if(clickY < 0)
-            return NULL;
-        clickY /= TILESIZE;
-
-        if(clickY < item_list.size())
-            return &item_list[clickY];
-
-        return NULL;
-    }
-};
-class GUISellScreen : public Gui
-{
-public:
-    Inventory * inv;
-    GUISellScreen(){};
-    GUISellScreen(Inventory * _inv)
-    {
-        type = "sell";
-        inv = _inv;
-        w = INVENTORY_TOOLBAR_SIZE*TILESIZE;
-        h = 2*TILESIZE;
-        x = SCREEN_WIDTH/2-w/2;
-        y = SCREEN_HEIGHT/2-h/2;
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        DrawImage(images[ids["gui"]],x,y,w,h);
-        DrawString("funds: " + to_string(funds) + " " + CURRENCY,x,y);
-        //DrawString("funds: " + to_string(funds) + " " + CURRENCY,x+TILESIZE,y);
-
-        for(int i = 0; i < INVENTORY_TOOLBAR_SIZE; i++)
-        {
-            DrawImage(images[ids["itemtile"]],x+i*TILESIZE,y+h-TILESIZE,TILESIZE,TILESIZE);
-            if(inv->toolbar[i])
-            {
-                DrawImage(inv->toolbar[i]->img,x+i*TILESIZE,y+h-TILESIZE,TILESIZE,TILESIZE);
-                if(inv->toolbar[i]->quantity > 1)
-                    DrawString(to_string(inv->toolbar[i]->quantity),x+i*TILESIZE+TILESIZE-(inv->toolbar[i]->quantity >= 10 ? 2 : 1 ) * DIGITWIDTH,y+h-FONTSIZE,-1,"font2");
-            }
-        }
-    }
-    Item *GetClick(int mX, int mY, int& id)
-    {
-        int clickX = mX - x;
-        int clickY = mY - y;
-        clickX /= TILESIZE;
-
-        if(clickY > TILESIZE)
-        {
-            id = clickX;
-            return inv->toolbar[clickX];
-
-        }
-
-        return NULL;
-    }
-};
-
-class GUIElemSkills : public Gui
+class GUIElemContainer : public GUI
 {
     public:
-    vector<string> skill_names = {"Skills"};
-    vector<string> skill_levels = {""};
-    int maxwidth = 0;
+    vector<GUI*> GUIElems;
 
-    GUIElemSkills(int _x, int _y)
+    void ArrangeElems()
     {
-        w = 2*globals["gui-border"]+globals["gui-width"]*3/4;
-        h = 2*globals["gui-border"]+FONTSIZE;
-
-        for(auto skill : skills)
+        int pX = x;
+        for(auto e : GUIElems)
         {
-            h += FONTSIZE + globals["gui-margin"];
-            skill_names.push_back(skill.first);
-            skill_levels.push_back(to_string(skill.second));
-            if(lineWidth(skill.first + ":") > maxwidth)
-                maxwidth = lineWidth(skill.first + ":");
+            e->SetPosition(pX,y);
+            pX += e->w;
+            e->h = h;
 
         }
-        x = _x;
-        y = _y;
-
     }
-
-    void Draw(float cX = 0, float cY = 0)
+    void SetPosition(int x, int y)
     {
-        DrawImage(images[ids["gui"]],x,y,w,h);
-        int pY = y+globals["gui-border"];//y+h/2-skill_names.size()*(FONTSIZE+globals["gui-margin"]);
-        for(int i = 0; i < skill_names.size(); i++)
-        {
-            DrawString(skill_names[i]+":",x+globals["gui-margin"],pY);
-            if(i > 0)
-            {
-
-                int maximumw = x+w-globals["gui-margin"]-FONTSIZE-globals["gui-margin"]-x-maxwidth-globals["gui-margin"];
-                DrawImage(images[ids["fade"]],x+maxwidth+globals["gui-margin"],pY,maximumw,FONTSIZE);
-                DrawImage(images[ids["dark"]],x+maxwidth+globals["gui-margin"],pY,xps[skill_names[i]]*maximumw/levelcap(skills[skill_names[i]]),FONTSIZE);
-                DrawString(skill_levels[i],x+w-globals["gui-margin"]-FONTSIZE,pY);
-
-            }
-            pY += FONTSIZE+globals["gui-margin"];
-        }
+        this->x = x;
+        this->y = y;
+        ArrangeElems();
     }
-};
-
-class GUIElemContainer : public Gui
-{
-    public:
-    vector<Gui*> GUIElems;
-
-    void AddElem(Gui* elem)
+    void AddElem(GUI* elem)
     {
         GUIElems.push_back(elem);
         w += elem->w;
         if(elem->h > h)
             h = elem->h;
+        x = SCREEN_WIDTH/2-w/2;
+        y = SCREEN_HEIGHT/2-h/2;
 
-        int pX = SCREEN_WIDTH/2-w/2;
-        for(auto e : GUIElems)
-        {
-            e->x = pX;
-            e->y = SCREEN_HEIGHT/2-h/2;
-            pX += e->w;
-            e->h = h;
-
-        }
+        ArrangeElems();
     }
     void Draw(float cX = 0, float cY = 0)
     {
@@ -1877,110 +2057,158 @@ class GUIElemContainer : public Gui
         }
     }
 
+    int HandleClick(int mX, int mY)
+    {
+        for(auto g : GUIElems)
+        {
+            if(Contains(g,mX,mY,0,0))
+            {
+                g->HandleClick(mX,mY);
+            }
+        }
+    }
+
+    void Exit()
+    {
+        for(auto g : GUIElems)
+        {
+            g->Exit();
+        }
+    }
+
 };
 
-
-class GUIElemEquips : public Gui
+class GUIRowContainer : public GUI
 {
-    public:
-    GUIElemEquips(int _x, int _y)
-    {
-        x = _x;
-        y = _y;
-        w = globals["gui-width"]/4;
-        h = 2*globals["gui-border"]+FONTSIZE+skills.size()*(FONTSIZE + globals["gui-margin"]);
-    }
-    void DrawSlot(int &pY, string str)
-    {
-        DrawString(str,x+w/2-lineWidth(str)/2,pY);
-        pY+=FONTSIZE;
-        DrawImage(im("itemtile"),x+w/2-TILESIZE/2,pY,TILESIZE,TILESIZE);
-        pY+=TILESIZE;
+public:
 
+    vector<GUI*> rows;
+
+    void ArrangeRows()
+    {
+        int pY = y;
+        for(auto e : rows)
+        {
+            e->SetPosition(x,pY);
+            pY += e->h;
+            e->w = w;
+
+        }
+    }
+    void SetPosition(int x, int y)
+    {
+        this->x = x;
+        this->y = y;
+        ArrangeRows();
+    }
+    void AddElem(GUI* elem)
+    {
+        rows.push_back(elem);
+        h += elem->h;
+        if(elem->w > w)
+            w = elem->w;
+        x = SCREEN_WIDTH/2-w/2;
+        y = SCREEN_HEIGHT/2-h/2;
+
+        ArrangeRows();
     }
     void Draw(float cX = 0, float cY = 0)
     {
-        DrawImage(images[ids["gui"]],x,y,w,h);
-        int pY = y+g("gui-border");
-        DrawSlot(pY,"Hat");
-        DrawSlot(pY,"Ring");
-        DrawSlot(pY,"Shoes");
+        for(auto g : rows)
+        {
+            g->Draw();
+        }
+        for(auto g : rows)
+        {
+            DrawImage(im("gui2"),g->x,g->y+g->h,g->w,1);
+        }
+    }
+
+    int HandleClick(int mX, int mY)
+    {
+        for(auto g : rows)
+        {
+            if(Contains(g,mX,mY,0,0))
+            {
+                g->HandleClick(mX,mY);
+            }
+        }
+    }
+    void Exit()
+    {
+        for(auto g : rows)
+        {
+            g->Exit();
+        }
     }
 };
 
-class GUIElemStats : public Gui
+class GUITabContainer : public GUI
 {
-    public:
-    vector<string> lines;
-    vector<int> modifications;
+public:
+    vector<GUI*> tabs;
+    int activeTab = 0;
+    int toolbarHeight = TILESIZE;
 
-    int spacing = 5;
-    Player * pl;
-
-    GUIElemStats(Player * player)
+    void AddElem(GUI * elem)
     {
-        w = 20;
-        h = 20;
-        pl = player;
-        lines = allWord(s("player-stats"));
-        h = lines.size()*(FONTSIZE+spacing);
-        x = 0;
-        y = SCREEN_HEIGHT/2-h/2;
-        for(auto &l : lines)
-        {
-            if(lineWidth(Capitalize(l))>w)
-                w = lineWidth(Capitalize(l));
-
-            int currentModification = 0;
-            for(int i = 0; i < pl->modifiers.size(); i++)
-            {
-                if(pl->modifiers[i].stat == l)
-                    currentModification += pl->modifiers[i].points;
-            }
-            modifications.push_back(currentModification);
-        }
-        w+=5 + TILESIZE*3;
+        tabs.push_back(elem);
+        w = elem->w;
+        h = elem->h + toolbarHeight;
+        elem->SetPosition(SCREEN_WIDTH/2-w/2,SCREEN_HEIGHT/2-h/2+toolbarHeight);
+    }
+    GUITabContainer()
+    {
 
     }
+
     void Draw(float cX = 0, float cY = 0)
     {
         DrawImage(im("gui"),x,y,w,h);
-        int pY = y+h/2-lines.size()*(FONTSIZE+spacing)/2.0;
-        for(int i = 0; i < lines.size(); i++)
+
+        for(int i = 0; i < tabs.size(); i++)
         {
-            string l = lines[i];
-            DrawString(Capitalize(l)+":",x,pY);
-            string statNumberString = to_string(pl->stat_levels[l])+(modifications[i]>0?"+"+to_string(modifications[i]):"")+(modifications[i]<0?"-"+to_string(-modifications[i]):"");
-            DrawString(statNumberString,x+w-lineWidth(statNumberString)-TILESIZE/2,pY);
-            pY += FONTSIZE+spacing;
+            DrawImage(im("itemtile"),x+i*toolbarHeight,y,toolbarHeight,toolbarHeight);
+        }
+        if(tabs.size() > activeTab)
+        {
+            tabs[activeTab]->Draw();
+        }
+    }
+
+    void SwitchTab(int i)
+    {
+        activeTab = i;
+        w = tabs[i]->w;
+        h = tabs[i]->h + toolbarHeight;
+        x = SCREEN_WIDTH/2-w/2;
+        y = SCREEN_HEIGHT/2-h/2;
+    }
+    int HandleClick(int mX, int mY)
+    {
+        if(mY-y < toolbarHeight)
+        {
+            if(mX-x < toolbarHeight * tabs.size())
+            {
+                SwitchTab(floor((mX-x)/toolbarHeight));
+            }
+        }
+        else
+        {
+            tabs[activeTab]->HandleClick(mX,mY);
+
+        }
+    }
+    void Exit()
+    {
+        for(auto g : tabs)
+        {
+            g->Exit();
         }
     }
 };
-class GUICharacterScreen : public GUIElemContainer
-{
-    public:
-    GUIElemSkills *skills;
-    GUIElemEquips *equips;
-    Player * pl;
 
-    GUICharacterScreen(Player * player)
-    {
-        pl = player;
-        w = 0;//2*globals["gui-border"]+1.5*globals["gui-width"];
-        h = 2*globals["gui-border"]+FONTSIZE;
-        skills = new GUIElemSkills(SCREEN_WIDTH/2-w/2+globals["gui-width"]/2,SCREEN_HEIGHT/2-h/2);
-        equips = new GUIElemEquips(SCREEN_WIDTH/2-w/2,SCREEN_HEIGHT/2-h/2);
-
-        AddElem(equips);
-        AddElem(skills);
-        AddElem(new GUIElemStats(pl));
-
-    }
-
-
-
-};
-class GUIInventoryScreen : public Gui
+class GUIInventoryItems : public GUI
 {
   public:
         Inventory * inv;
@@ -1988,11 +2216,11 @@ class GUIInventoryScreen : public Gui
         bool holdingItem = false;
         Item * hold;
 
-        GUIInventoryScreen()
+        GUIInventoryItems()
         {
 
         }
-        GUIInventoryScreen(Inventory * _inv)
+        GUIInventoryItems(Inventory * _inv)
         {
             type = "inventory";
             inv = _inv;
@@ -2154,7 +2382,459 @@ class GUIInventoryScreen : public Gui
         }
 };
 
-class GUIEscapeScreen : public Gui
+class GUIBuyItems : public GUI
+{
+public:
+
+    vector<Item> item_list;
+    Inventory * inv;
+    GUIBuyItems(Inventory * inv)
+    {
+
+        for(auto& e : allWord(s("general-store-inventory")))
+            item_list.push_back(item_templates[e]);
+
+        type = "shop";
+        w = 400;
+        h = std::min(SCREEN_HEIGHT*3/4,(int)item_list.size()*TILESIZE+TILESIZE);
+        x = SCREEN_WIDTH/2-w/2;
+        y = SCREEN_HEIGHT/2-h/2;
+        this->inv = inv;
+
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(images[ids["gui"]],x,y,w,h);
+        DrawString("funds: " + to_string(funds) + " " + CURRENCY,x+TILESIZE,y);
+
+        int i = 0;
+        for(auto& e : item_list)
+        {
+            DrawSeparator(x,y+TILESIZE+i*TILESIZE,w,TILESIZE);
+            DrawImage(e.img,x,y+TILESIZE+i*TILESIZE,TILESIZE,TILESIZE);
+            DrawString(e.formal,x+TILESIZE,y+TILESIZE+i*TILESIZE);
+            string pricestring = to_string(e.int_attribs["price"])+"" + CURRENCY;
+            DrawString(pricestring,x+w-lineWidth(pricestring)-FONTSIZE,y+TILESIZE+i*TILESIZE);
+            i++;
+
+        }
+    }
+    int HandleClick(int mX, int mY)
+    {
+        int clickY = mY - y - TILESIZE;
+        if(clickY < 0)
+            return NULL;
+        clickY /= TILESIZE;
+
+        if(clickY < item_list.size())
+        {
+            if(item_list[clickY].int_attribs["price"] <= funds)
+            {
+                funds -= item_list[clickY].int_attribs["price"];
+                inv->Add(item_list[clickY]);
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+    Item *GetClick(int mX, int mY, int& id)
+    {
+        int clickY = mY - y - TILESIZE;
+        if(clickY < 0)
+            return NULL;
+        clickY /= TILESIZE;
+
+        if(clickY < item_list.size())
+            return &item_list[clickY];
+
+        return NULL;
+    }
+};
+
+class GUIBuyScreen : public GUIRowContainer
+{
+public:
+    GUIBuyScreen(Inventory * inv)
+    {
+        AddElem(new GUIBuyItems(inv));
+        AddElem(new GUIInventoryItems(inv));
+    }
+};
+class GUISellItems : public GUI
+{
+public:
+    Inventory * inv;
+    GUISellItems(){};
+    GUISellItems(Inventory * _inv)
+    {
+        type = "sell";
+        inv = _inv;
+        w = INVENTORY_TOOLBAR_SIZE*TILESIZE;
+        h = 2*TILESIZE;
+        x = SCREEN_WIDTH/2-w/2;
+        y = SCREEN_HEIGHT/2-h/2;
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(images[ids["gui"]],x,y,w,h);
+        DrawString("funds: " + to_string(funds) + " " + CURRENCY,x,y);
+        //DrawString("funds: " + to_string(funds) + " " + CURRENCY,x+TILESIZE,y);
+
+        for(int i = 0; i < INVENTORY_TOOLBAR_SIZE; i++)
+        {
+            DrawImage(images[ids["itemtile"]],x+i*TILESIZE,y+h-TILESIZE,TILESIZE,TILESIZE);
+            if(inv->toolbar[i])
+            {
+                DrawImage(inv->toolbar[i]->img,x+i*TILESIZE,y+h-TILESIZE,TILESIZE,TILESIZE);
+                if(inv->toolbar[i]->quantity > 1)
+                    DrawString(to_string(inv->toolbar[i]->quantity),x+i*TILESIZE+TILESIZE-(inv->toolbar[i]->quantity >= 10 ? 2 : 1 ) * DIGITWIDTH,y+h-FONTSIZE,-1,"font2");
+            }
+        }
+    }
+    Item *GetClick(int mX, int mY, int& id)
+    {
+        int clickX = mX - x;
+        int clickY = mY - y;
+        clickX /= TILESIZE;
+
+        if(clickY > TILESIZE)
+        {
+            id = clickX;
+            return inv->toolbar[clickX];
+
+        }
+        int i;
+        return NULL;
+    }
+};
+
+class GUISellScreen : public GUIRowContainer
+{
+  public:
+    GUISellScreen(Inventory * inv)
+    {
+        AddElem(new GUISellItems(inv));
+        AddElem(new GUIInventoryItems(inv));
+    }
+};
+class GUIElemSkills : public GUI
+{
+    public:
+    vector<string> skill_names = {"Skills"};
+    vector<string> skill_levels = {""};
+    int maxwidth = 0;
+
+    GUIElemSkills(int _x, int _y)
+    {
+        w = 2*globals["gui-border"]+globals["gui-width"]*3/4;
+        h = 2*globals["gui-border"]+FONTSIZE;
+
+        for(auto skill : skills)
+        {
+            h += FONTSIZE + globals["gui-margin"];
+            skill_names.push_back(skill.first);
+            skill_levels.push_back(to_string(skill.second));
+            if(lineWidth(skill.first + ":") > maxwidth)
+                maxwidth = lineWidth(skill.first + ":");
+
+        }
+        x = _x;
+        y = _y;
+
+    }
+
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(images[ids["gui"]],x,y,w,h);
+        int pY = y+globals["gui-border"];//y+h/2-skill_names.size()*(FONTSIZE+globals["gui-margin"]);
+        for(int i = 0; i < skill_names.size(); i++)
+        {
+            DrawString(skill_names[i]+":",x+globals["gui-margin"],pY);
+            if(i > 0)
+            {
+
+                int maximumw = x+w-globals["gui-margin"]-FONTSIZE-globals["gui-margin"]-x-maxwidth-globals["gui-margin"];
+                DrawImage(images[ids["fade"]],x+maxwidth+globals["gui-margin"],pY,maximumw,FONTSIZE);
+                DrawImage(images[ids["dark"]],x+maxwidth+globals["gui-margin"],pY,xps[skill_names[i]]*maximumw/levelcap(skills[skill_names[i]]),FONTSIZE);
+                DrawString(skill_levels[i],x+w-globals["gui-margin"]-FONTSIZE,pY);
+
+            }
+            pY += FONTSIZE+globals["gui-margin"];
+        }
+    }
+};
+
+class GUIShopScreen : public GUITabContainer
+{
+public:
+
+    GUIShopScreen(Inventory * inv) : GUITabContainer()
+    {
+        type = "shop";
+
+        AddElem(new GUIBuyScreen(inv));
+        AddElem(new GUISellScreen(inv));
+
+        SwitchTab(0);
+    }
+};
+
+class GUIToolSelect : public GUI
+{
+public:
+    string * tool;
+
+    GUIToolSelect(string * tool)
+    {
+        x = y = 0;
+        w = 2*TILESIZE;
+        h = 2*TILESIZE;
+        this->tool = tool;
+    }
+    int HandleClick(int mX, int mY)
+    {
+        mX -= x;
+        mY -= y;
+        if(mY < TILESIZE)
+        {
+            if(mX < TILESIZE)
+                *tool = "terraform";
+            else
+                *tool = "object";
+        }
+        else
+        {
+            if(mX < TILESIZE)
+                *tool = "delete";
+        }
+
+    }
+
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(im("gui"),x,y,w,h);
+
+        DrawImage(im("itemtile"),x,y,TILESIZE,TILESIZE);
+        DrawImage(im("hoe"),x,y,TILESIZE,TILESIZE);
+        DrawImage(im("itemtile"),x+TILESIZE,y,TILESIZE,TILESIZE);
+        DrawImage(im("chair"),x+TILESIZE,y,TILESIZE,TILESIZE);
+        DrawImage(im("itemtile"),x,y+TILESIZE,TILESIZE,TILESIZE);
+        DrawImage(im("staff-red"),x,y+TILESIZE,TILESIZE,TILESIZE);
+    }
+};
+class GUIEditorInterface : public GUIRowContainer
+{
+public:
+    NumberSelector * widthSetter,  *heightSetter;
+    Stage * targetStage;
+
+    GUIEditorInterface(Stage * targetStage, string * tool)
+    {
+        x = y = w = h = 0;
+        w = 0;
+
+        this->targetStage = targetStage;
+
+        widthSetter = new NumberSelector(0,0,100,10);
+        heightSetter = new NumberSelector(0,0,100,10);
+
+        AddElem(widthSetter);
+        AddElem(heightSetter);
+        AddElem(new GUIToolSelect(tool));
+
+        x = SCREEN_WIDTH-w;
+
+        for(auto g : rows)
+            g->x = SCREEN_WIDTH-w;
+
+    }
+
+    int Update()
+    {
+        targetStage->Resize(widthSetter->number,heightSetter->number);
+    }
+};
+class GUIElemEquips : public GUI
+{
+    public:
+    GUIElemEquips(int _x, int _y)
+    {
+        x = _x;
+        y = _y;
+        w = globals["gui-width"]/4;
+        h = 2*globals["gui-border"]+FONTSIZE+skills.size()*(FONTSIZE + globals["gui-margin"]);
+    }
+    void DrawSlot(int &pY, string str)
+    {
+        DrawString(str,x+w/2-lineWidth(str)/2,pY);
+        pY+=FONTSIZE;
+        DrawImage(im("itemtile"),x+w/2-TILESIZE/2,pY,TILESIZE,TILESIZE);
+        pY+=TILESIZE;
+
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(images[ids["gui"]],x,y,w,h);
+        int pY = y+g("gui-border");
+        DrawSlot(pY,"Hat");
+        DrawSlot(pY,"Ring");
+        DrawSlot(pY,"Shoes");
+    }
+};
+
+class GUIElemStats : public GUI
+{
+    public:
+    vector<string> lines;
+    vector<int> modifications;
+
+    int spacing = 5;
+    Player * pl;
+
+    GUIElemStats(Player * player)
+    {
+        w = 20;
+        h = 20;
+        pl = player;
+        lines = allWord(s("player-stats"));
+        h = lines.size()*(FONTSIZE+spacing);
+        x = 0;
+        y = SCREEN_HEIGHT/2-h/2;
+        for(auto &l : lines)
+        {
+            if(lineWidth(Capitalize(l))>w)
+                w = lineWidth(Capitalize(l));
+
+            int currentModification = 0;
+            for(int i = 0; i < pl->modifiers.size(); i++)
+            {
+                if(pl->modifiers[i].stat == l)
+                    currentModification += pl->modifiers[i].points;
+            }
+            modifications.push_back(currentModification);
+        }
+        w+=5 + TILESIZE*3;
+
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(im("gui"),x,y,w,h);
+        int pY = y+h/2-lines.size()*(FONTSIZE+spacing)/2.0;
+        for(int i = 0; i < lines.size(); i++)
+        {
+            string l = lines[i];
+            DrawString(Capitalize(l)+":",x,pY);
+            string statNumberString = to_string(pl->stat_levels[l])+(modifications[i]>0?"+"+to_string(modifications[i]):"")+(modifications[i]<0?"-"+to_string(-modifications[i]):"");
+            DrawString(statNumberString,x+w-lineWidth(statNumberString)-TILESIZE/2,pY);
+            pY += FONTSIZE+spacing;
+        }
+    }
+};
+class GUICharacterScreen : public GUIRowContainer
+{
+    public:
+    GUIElemSkills *skills;
+    GUIElemEquips *equips;
+    Player * pl;
+
+    GUICharacterScreen(Player * player)
+    {
+        pl = player;
+        w = 0;//2*globals["gui-border"]+1.5*globals["gui-width"];
+        h = 2*globals["gui-border"]+FONTSIZE;
+        skills = new GUIElemSkills(SCREEN_WIDTH/2-w/2+globals["gui-width"]/2,SCREEN_HEIGHT/2-h/2);
+        equips = new GUIElemEquips(SCREEN_WIDTH/2-w/2,SCREEN_HEIGHT/2-h/2);
+
+        AddElem(equips);
+        AddElem(skills);
+        AddElem(new GUIElemStats(pl));
+
+    }
+
+
+
+};
+
+class GUIItemDescription : public GUI
+{
+public:
+    string focus = "";
+
+    GUIItemDescription()
+    {
+        w = 300;
+        h = 200;
+    }
+
+    void OnNewItemSelected(string new_item)
+    {
+        focus = new_item;
+
+
+    }
+    void DeselectItem()
+    {
+        focus = "";
+    }
+
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(im("gui"),x,y,w,h);
+
+        DrawCentered(im("itemtile"),x+w/2,y+h/4,TILESIZE,TILESIZE);
+        DrawCentered(im("gui2"),x+w/2,y+2*h/3,w*3/4,h/2);
+        if(focus != "")
+        {
+            DrawCentered(item_templates[focus].img,x+w/2,y+h/4,TILESIZE,TILESIZE);
+            DrawStringCentered(item_templates[focus].formal,x+w/2,y+h/4-TILESIZE);
+            if(item_templates[focus].desc != "")
+                DrawWrapped(item_templates[focus].desc,x+w/2-w*3/8,y+2*h/3-h/4,w*3/4);
+        }
+    }
+};
+class GUIInventoryScreen : public GUIElemContainer
+{
+    public:
+
+    GUIInventoryItems *inv_items;
+    GUIItemDescription *item_description;
+    Inventory * inv;
+
+    GUIInventoryScreen()
+    {
+
+    }
+    GUIInventoryScreen(Inventory * inv)
+    {
+        w = 0;
+        h = 0;
+        type = "inventory";
+        inv_items = new GUIInventoryItems(inv);
+        item_description = new GUIItemDescription();
+        this->inv = inv;
+
+        AddElem(inv_items);
+        AddElem(item_description);
+    }
+
+    int HandleMouseMove(int mX, int mY)
+    {
+        if(Contains(inv_items,mX,mY,0,0))
+        {
+            //inv_items->HandleClick(mX,mY);
+            int id;
+            if(inv_items->GetClick(mX,mY,id))
+            {
+                item_description->OnNewItemSelected(inv_items->GetClick(mX,mY,id)->name);
+            }
+            else
+                item_description->DeselectItem();
+        }
+    }
+
+};
+class GUIEscapeScreen : public GUI
 {
 public:
     GUIEscapeScreen()
@@ -2166,7 +2846,7 @@ public:
 
     }
 };
-class GUICraftingScreen : public Gui
+class GUICraftingScreen : public GUI
 {
 public:
     Inventory * inv;

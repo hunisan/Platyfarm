@@ -7,11 +7,12 @@
 	</screen>
 	<tilesize>32</tilesize>
 	<lightsize>12</lightsize>
-	<fontsize>19</fontsize>
+	<fontsize>17</fontsize>
+	<character-scale>19</character-scale>
 	<globals>
 		<particle_opacity value="50"/>
 		<particle-cooldown value="10"/>
-		<particle-decay value="3"/>
+		<particle-decay value="7"/>
 		<particle-size value="12"/>
 		<sleep_energy value="100"/>
 		<movement_energy_cost value="2"/>
@@ -28,11 +29,15 @@
 		<number-selector-h value="30"/>
 		<audio-start-muted value="1"/>
 		<player-anim-frames value="9"/>
-		<tiles value="16"/>
+		<character-scale value="19"/>
+		<fade-max value="20"/>	
+		<tiles value="40"/>
+		<tiles-horizontal value="22"/>
 		<debug value="1"/>
 	</globals>
 	<strings>
 		<general-store-inventory value="seed acorn flour jar poppy_seed beer"/>
 		<player-stats value="health stamina speed attack defense"/>
+		<title value="Platypia"/>
 	</strings>
 </root>

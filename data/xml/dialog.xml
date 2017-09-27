@@ -206,8 +206,8 @@
 	<dialog id="22">
 		<speaker>narrator</speaker>
 		<chain>
-			<text id="1">Welcome to PlatyFarm! Press ENTER to continue</text>
-			<text id="2">This game is still in alpha</text>
+			<text id="1">Welcome to Platypia! Click or press Enter to continue</text>
+			<text id="2">This game is still in alpha.</text>
 			<text id="3">Move around using the WASD keys</text>
 		</chain>
 		<question>

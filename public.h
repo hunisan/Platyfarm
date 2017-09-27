@@ -130,7 +130,7 @@ const int TILESIZE = GetInt("tilesize");//32;
 const int LIGHTSIZE = GetInt("lightsize");//8;
 
 const int FONTSIZE = GetInt("fontsize");
-const int FONTCLIP = 21;
+const int CHARACTER_SCALE = GetInt("character-scale");
 
 const int DIGITWIDTH = 14;
 
@@ -183,13 +183,14 @@ int characterWidth(char c)
     return 18;
 }
 
+
 int lineWidth(string s, int ptSize = -1)
 {
     if(ptSize == -1)
         ptSize = FONTSIZE;
-    int sum = 0;
+    float sum = 0;
     for(int i = 0; i < s.size(); i++)
-        sum += characterWidth(s[i])*ptSize/FONTSIZE;
+        sum += characterWidth(s[i])*ptSize/CHARACTER_SCALE+1;
 
     return sum;
 }
@@ -297,7 +298,7 @@ enum {
 int fade_x = 0, fade_y = 0;
 int fade_direction = FADE_IN;
 int fade_progress = 0;
-const int FADE_MAX = 30;
+//const int FADE_MAX = 30;
 
 
 /*struct alpha_map
@@ -411,6 +412,7 @@ enum
     GAME,
     LOAD,
     CREATE,
+    EDITOR,
     NOTHING,
 };
 bool LoadGlobals()

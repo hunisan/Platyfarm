@@ -4,6 +4,7 @@
 		<name>axe</name>
 		<formal>Axe</formal>
 		<category>tool</category>
+		<desc>Use it to chop drown trees or vandalise public property</desc>
 		<type>woodcutting</type>
 		<img>axe</img>
 		<stack>1</stack>
@@ -13,6 +14,7 @@
 		<name>rare-axe</name>
 		<formal>Hatchet</formal>
 		<category>tool</category>
+		<desc>Swings through wood like a knife through butter</desc>
 		<type>woodcutting</type>
 		<img>axe</img>
 		<stack>1</stack>
@@ -25,6 +27,7 @@
 		<name>apple</name>
 		<formal>Apple</formal>
 		<category>organic</category>
+		<desc>A very common fruit. Doctors are terrified of it.</desc>
 		<type>fruit</type>
 		<price>250</price>
 		<sell>200</sell>
@@ -39,6 +42,7 @@
 		<name>cherry</name>
 		<formal>Cherry</formal>
 		<category>organic</category>
+		<desc>A small red fruit with a hard pit. Grows on trees.</desc>
 		<type>fruit</type>
 		<price>250</price>
 		<sell>200</sell>
@@ -53,6 +57,7 @@
 		<name>strawberry</name>
 		<formal>Strawberry</formal>
 		<category>organic</category>
+		<desc>A sweet soft red fruit.</desc>
 		<type>fruit</type>
 		<price>250</price>
 		<sell>200</sell>
@@ -67,6 +72,7 @@
 		<name>tomato</name>
 		<formal>Tomato</formal>
 		<category>organic</category>
+		<desc>A fruit. Or is it a vegetable? Nevermind</desc>
 		<type>fruit</type>
 		<price>250</price>
 		<sell>200</sell>
@@ -81,6 +87,7 @@
 		<name>grapes</name>
 		<formal>Grapes</formal>
 		<category>organic</category>
+		<desc>Eaten as a fruit or used in making wine</desc>
 		<type>fruit</type>
 		<price>250</price>
 		<sell>200</sell>
@@ -111,6 +118,7 @@
 		<name>carrot</name>
 		<formal>Carrot</formal>
 		<category>organic</category>
+		<desc>It is said that carrots help you whistle and make you see sharp</desc>
 		<type>vegetable</type>
 		<price>250</price>
 		<sell>200</sell>
@@ -145,6 +153,7 @@
 		<name>swiss</name>
 		<formal>Swiss Knife</formal>
 		<category>tool</category>
+		<desc>Military issue tool, used for countless things</desc>
 		<type>omni</type>
 		<price>10000</price>
 		<sell>5000</sell>
@@ -156,6 +165,7 @@
 		<name>seed</name>
 		<formal>Lily Seeds</formal>
 		<category>organic</category>
+		<desc>They grow into beautiful lilies</desc>
 		<type>seed</type>
 		<price>25</price>
 		<sell>10</sell>
@@ -191,6 +201,7 @@
 		<name>scythe</name>
 		<formal>Scythe</formal>
 		<category>tool</category>
+		<desc>Tool for harvesting crops. Reminder: You reap what you sow</desc>
 		<type>reaping</type>
 		<img>scythe</img>
 		<stack>1</stack>
@@ -200,6 +211,7 @@
 		<name>grass</name>
 		<formal>Grass</formal>
 		<category>organic</category>
+		<desc>It's just grass. What else is there to say?</desc>
 		<type>grass</type>
 		<img>bush</img>
 		<stack>99</stack>
@@ -208,6 +220,7 @@
 		<name>staff</name>
 		<formal>Magic Staff</formal>
 		<category>tool</category>
+		<desc>A staff overwhelmed by magical powers. Few can control it</desc>
 		<type>omni</type>
 		<price>15000</price>
 		<sell>7000</sell>
@@ -220,6 +233,7 @@
 		<name>delete</name>
 		<formal>Delete Rod</formal>
 		<category>tool</category>
+		<desc>Don't try it on yourself</desc>
 		<type>omni</type>
 		<price>15000</price>
 		<sell>7000</sell>
@@ -235,6 +249,7 @@
 		<formal>God Rod</formal>
 		<category>debug</category>
 		<type>omni</type>
+		<desc>Who gave that to you?</desc>
 		<price>15000</price>
 		<sell>7000</sell>
 		<img>staff</img>
@@ -246,6 +261,7 @@
 		<name>lily</name>
 		<formal>Lily</formal>
 		<category>organic</category>
+		<desc>Symbolizes purity and refined beauty.</desc>
 		<type>flower</type>
 		<price>200</price>
 		<sell>100</sell>
@@ -265,7 +281,19 @@
 		<stack>99</stack>
 	</item>
 	<item>
-		<name>apple pie</name>
+		<name>pine-cone</name>
+		<formal>Pine Cone</formal>
+		<desc>The woody fruit of a pine tree. There are lots of small seeds inside</desc>
+		<category>organic</category>
+		<type>fruit</type>
+		<price>25</price>
+		<sell>10</sell>
+		<img>pine-cone</img>
+		<place>pine</place>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>apple-pie</name>
 		<formal>Apple Pie</formal>
 		<desc>A delicious pie, baked with love.</desc>
 		<category>organic</category>
@@ -282,9 +310,22 @@
 		<formal>Fried Platty</formal>
 		<desc>A healthy freshly fried platty, with protein and fishbones</desc>
 		<category>organic</category>
-		<type>fish</type>
+		<type>dish</type>
 		<sell>1000</sell>
 		<img>fried fish</img>
+		<stack>1</stack>
+		<attributes>
+			<edible/>
+		</attributes>
+	</item>
+	<item>
+		<name>pizza</name>
+		<formal>Pizza</formal>
+		<desc>A tasty dish of mediterranean origin made of a round dough, tomatoes, cheese and meat</desc>
+		<category>food</category>
+		<type>dish</type>
+		<sell>1000</sell>
+		<img>pizza</img>
 		<stack>1</stack>
 		<attributes>
 			<edible/>
@@ -313,7 +354,7 @@
 	<item>
 		<name>apple jam</name>
 		<formal>Apple Jam</formal>
-		<desc>Jam made from apples</desc>
+		<desc>A fruity preserve that usually goes on toast or in sandwiches</desc>
 		<category>organic</category>
 		<type>preserve</type>
 		<img>applejam</img>
@@ -326,6 +367,7 @@
 		<name>cider</name>
 		<formal>Cider</formal>
 		<category>organic</category>
+		<desc>Bittersweet apple juice fermented and then drunk, particularly in the summertime.</desc>
 		<type>drink</type>
 		<img>cider</img>
 		<sell>1000</sell>
@@ -349,9 +391,22 @@
 		</attributes>
 	</item>
 	<item>
+		<name>potion</name>
+		<formal>Red Potion</formal>
+		<desc>The combined healing effects of many herbs contained in a single slightly bitter drink</desc>
+		<category>potion</category>
+		<type>healing</type>
+		<img>potion</img>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+		</attributes>
+	</item>
+	<item>
 		<name>juice</name>
 		<formal>Apple Juice</formal>
 		<category>organic</category>
+		<desc>A refreshing beverage, made with apples</desc>
 		<type>drink</type>
 		<img>juice</img>
 		<sell>500</sell>
@@ -364,6 +419,7 @@
 		<name>potato</name>
 		<formal>Potato</formal>
 		<category>organic</category>
+		<desc>A root vegetable. Can be boiled, mashed, and stuck in a stew</desc>
 		<type>vegetable</type>
 		<price>250</price>
 		<sell>200</sell>
@@ -375,6 +431,7 @@
 		<name>moonshine</name>
 		<formal>Moonshine</formal>
 		<category>organic</category>
+		<desc>A strong homemade drink made out of potatoes</desc>
 		<type>drink</type>
 		<img>moonshine</img>
 		<stack>99</stack>
@@ -386,11 +443,24 @@
 		<name>beer</name>
 		<formal>Beer</formal>
 		<category>organic</category>
+		<desc>It's liquid bread. Too much may reduce productivity though.</desc>
 		<type>drink</type>
 		<img>Beer</img>
 		<stack>99</stack>
 		<attributes>
 			<drinkable/>
+		</attributes>
+	</item>
+	<item>
+		<name>bread</name>
+		<formal>Bread</formal>
+		<category>organic</category>
+		<desc>A baked food made from a dough of flour mixed with water.</desc>
+		<type>food</type>
+		<img>bread</img>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
 		</attributes>
 	</item>
 	<item>
@@ -427,6 +497,7 @@
 		<name>poppy</name>
 		<formal>Poppy</formal>
 		<category>organic</category>
+		<desc>A pretty flower. It is also the source of opium</desc>
 		<type>flower</type>
 		<price>200</price>
 		<sell>100</sell>
@@ -436,7 +507,7 @@
 	<item>
 		<name>amanita</name>
 		<formal>Fly Amanita</formal>
-		<desc>A poisonous mushroom</desc>
+		<desc>A poisonous mushroom. I dare you to try eat one.</desc>
 		<category>organic</category>
 		<type>fungi</type>
 		<price>200</price>
@@ -462,6 +533,7 @@
 		<name>tulip</name>
 		<formal>Tulip</formal>
 		<category>organic</category>
+		<desc>A spring plant with cup-shaped flowers</desc>
 		<type>flower</type>
 		<price>200</price>
 		<sell>100</sell>
@@ -472,6 +544,7 @@
 		<name>rose</name>
 		<formal>Rose</formal>
 		<category>organic</category>
+		<desc>The most romantic of all flowers</desc>
 		<type>flower</type>
 		<price>200</price>
 		<sell>100</sell>
@@ -482,6 +555,7 @@
 		<name>poppy_seed</name>
 		<formal>Poppy Seeds</formal>
 		<category>organic</category>
+		<desc>Plant it to grow poppies. I hope you're not using them for bad intentions though.</desc>
 		<type>seed</type>
 		<price>25</price>
 		<sell>10</sell>
@@ -496,6 +570,7 @@
 		<name>carrot_seed</name>
 		<formal>Carrot Seeds</formal>
 		<category>organic</category>
+		<desc>Grows carrots</desc>
 		<type>seed</type>
 		<price>25</price>
 		<sell>10</sell>
@@ -509,7 +584,7 @@
 	<item>
 		<name>stone</name>
 		<formal>Stone</formal>
-		<desc>A material that has many uses</desc>
+		<desc>A material that has many uses. Be careful when throwing them.</desc>
 		<category>raw material</category>
 		<type>stone</type>
 		<img>stone</img>
@@ -549,7 +624,7 @@
 	<item>
 		<name>potato stew</name>
 		<formal>Potato Stew</formal>
-		<desc>Stew made from potatoes</desc>
+		<desc>Stew made from potatoes. Delicious!</desc>
 		<category>organic</category>
 		<type>stew</type>
 		<img>applejam</img>
@@ -578,7 +653,7 @@
 	<item>
 		<name>table</name>
 		<formal>Table</formal>
-		<desc>A structure used to separate various spaces</desc>
+		<desc>You can place stuff on it. Or not. Whatever you wish.</desc>
 		<category>structure</category>
 		<type>furniture</type>
 		<img>table</img>
@@ -620,9 +695,22 @@
 		</attributes>
 	</item>
 	<item>
+		<name>cheese</name>
+		<formal>Cheese</formal>
+		<img>cheese</img>
+		<desc>A food made from milk</desc>
+		<category>food</category>
+		<type>idevalamit</type>
+		<stack>1</stack>
+		<attributes>
+			
+		</attributes>
+		
+	</item>
+	<item>
 		<name>torch</name>
 		<formal>Torch</formal>
-		<desc>asdasd</desc>
+		<desc>Use it to control one of nature's powerful elements</desc>
 		<category>tool</category>
 		<type>fire</type>
 		<img>torch</img>
@@ -631,7 +719,7 @@
 	<item>
 		<name>bag</name>
 		<formal>Fertilizer</formal>
-		<desc>Makes plants grow faster</desc>
+		<desc>Makes plants grow faster.</desc>
 		<category>misc</category>
 		<type>fertilizer</type>
 		<img>bag</img>
@@ -648,7 +736,7 @@
 			<damage-min>1</damage-min>
 			<damage-max>4</damage-max>
 			<range>1</range>
-			<attack-speed>18</attack-speed>
+			<attack-speed>25</attack-speed>
 		</attributes>
 		<stack>1</stack>
 	</item>
@@ -666,5 +754,89 @@
 			<attack-speed>14</attack-speed>
 		</attributes>
 		<stack>1</stack>
+	</item>
+	<item>
+		<name>scimitar</name>
+		<formal>Scimitar</formal>
+		<desc>A curved blade to slash your enemies with.</desc>
+		<category>weapon</category>
+		<type>melee</type>
+		<img>scimitar</img>
+		<attributes>
+			<damage-min>4</damage-min>
+			<damage-max>6</damage-max>
+			<range>1</range>
+			<attack-speed>14</attack-speed>
+		</attributes>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>battleaxe</name>
+		<formal>Battleaxe</formal>
+		<desc>A dwarf's best friend. Slow, but hits hard</desc>
+		<category>weapon</category>
+		<type>melee</type>
+		<img>battleaxe</img>
+		<attributes>
+			<damage-min>6</damage-min>
+			<damage-max>9</damage-max>
+			<range>1</range>
+			<attack-speed>11</attack-speed>
+		</attributes>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>mace</name>
+		<formal>Mace</formal>
+		<desc>Designed by the warlords of Canine Plains. It strikes fear into enemies hearts.</desc>
+		<category>weapon</category>
+		<type>melee</type>
+		<img>mace</img>
+		<attributes>
+			<damage-min>6</damage-min>
+			<damage-max>9</damage-max>
+			<range>1</range>
+			<attack-speed>11</attack-speed>
+		</attributes>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>spear</name>
+		<formal>Spear</formal>
+		<desc>Used by the cat people in the desert. Can also be thrown</desc>
+		<category>weapon</category>
+		<type>melee</type>
+		<img>spear</img>
+		<attributes>
+			<damage-min>1</damage-min>
+			<damage-max>9</damage-max>
+			<range>1</range>
+			<attack-speed>44</attack-speed>
+		</attributes>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>bow</name>
+		<formal>Shortbow</formal>
+		<desc>Brave fighters battle in the front. Smart ones keep a healthy distance.</desc>
+		<category>weapon</category>
+		<type>ranged</type>
+		<img>bow</img>
+		<attributes>
+			<damage-min>6</damage-min>
+			<damage-max>9</damage-max>
+			<range>1</range>
+			<attack-speed>13</attack-speed>
+		</attributes>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>bone</name>
+		<formal>Bone</formal>
+		<desc>The earthly remains of a creature.</desc>
+		<category>misc</category>
+		<type>remains</type>
+		<img>bone</img>
+		<stack>99</stack>
 	</item>
 </root>
