@@ -940,7 +940,7 @@
 1479330957 d:\projects\platyfarm\gamestate.h
 	"public.h"
 
-1505730717 d:\projects\platyfarm\public.h
+1523092573 d:\projects\platyfarm\public.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	<SDL2/SDL_ttf.h>
@@ -979,16 +979,19 @@
 	<android/log.h>
 	<assert.h>
 
-1505729439 d:\projects\platyfarm\images.h
+1523092921 d:\projects\platyfarm\images.h
 	"public.h"
 
-1506541686 d:\projects\platyfarm\objects.h
+1523090521 d:\projects\platyfarm\objects.h
 	"public.h"
 	"keydata.h"
+	"declarations.h"
+	"Object.h"
+	"Visible.h"
 
 1505755346 d:\projects\platyfarm\keydata.h
 
-1506183169 d:\projects\platyfarm\ingame.h
+1523088261 d:\projects\platyfarm\ingame.h
 	"gamestate.h"
 	"objects.h"
 	"keydata.h"
@@ -999,7 +1002,7 @@
 	"gamestate.h"
 	"objects.h"
 
-1505923115 d:\projects\platyfarm\editor.h
+1507463347 d:\projects\platyfarm\editor.h
 	"gamestate.h"
 	"objects.h"
 
@@ -1009,7 +1012,7 @@
 1505563189 d:\projects\platyfarm\graphics.h
 	"images.h"
 
-1500913027 d:\projects\platyfarm\audio.h
+1507403283 d:\projects\platyfarm\audio.h
 	"public.h"
 
 1479649681 source:d:\projects\platyfarm\tinyxml2.cpp
@@ -1019,4 +1022,24 @@
 	<stdarg.h>
 	<cstddef>
 	<cstdarg>
+
+1523088420 d:\projects\platyfarm\declarations.h
+
+1523089879 d:\projects\platyfarm\include\object.h
+
+1523090568 d:\projects\platyfarm\include\visible.h
+	"../images.h"
+	"Object.h"
+
+1523090580 source:d:\projects\platyfarm\src\object.cpp
+	"Object.h"
+
+1523090216 source:d:\projects\platyfarm\src\visible.cpp
+	"Visible.h"
+
+1523092507 source:d:\projects\platyfarm\public.cpp
+	"public.h"
+
+1523092919 source:d:\projects\platyfarm\images.cpp
+	"images.h"
 

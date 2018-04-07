@@ -8,7 +8,8 @@ public:
     Stage * stage;
     GUIEditorInterface * editorInterface;
     Cursor cursor;
-    string cursorMode = "delete";
+    string cursorMode = "terraform";
+    string commands = "";
     int current_tile = 0;
     int current_object = 0;
     float scroll_speed = 4;
@@ -26,7 +27,7 @@ public:
             for(int j = 0; j < 10; j++)
                 stage->Set(i,j,0);
 
-        editorInterface = new GUIEditorInterface(stage,&cursorMode);
+        editorInterface = new GUIEditorInterface(stage,&cursorMode, &commands);
     }
     bool HoverOverInterface()
     {
@@ -131,6 +132,19 @@ public:
             }
         }
 
+        if(commands == "save")
+        {
+            XMLManager::SaveStage(stage,"data/stage/custom.xml");
+
+            commands = "";
+        }
+        else if(commands == "load")
+        {
+            stage = XMLManager::LoadStage("data/stage/lot.xml");
+
+            commands = "";
+        }
+
         return NOTHING;
     }
 
@@ -143,7 +157,7 @@ public:
                 int dX = floor((camera_x+cursor.x)/TILESIZE)*TILESIZE;
                 int dY = floor((camera_y+cursor.y)/TILESIZE)*TILESIZE;
 
-                DrawClip(im("tileset"),dX - camera_x,dY - camera_y,TILESIZE,TILESIZE,(current_tile%g("tiles-horizontal"))*TILESIZE,(current_tile/g("tiles-horizontal"))*TILESIZE,TILESIZE,TILESIZE,g("tiles-horizontal")*TILESIZE,2*TILESIZE,0.5);
+                DrawClip(im("tileset"),dX - camera_x,dY - camera_y,TILESIZE,TILESIZE,(current_tile%g("tiles-horizontal"))*TILESIZE,(current_tile/g("tiles-horizontal"))*TILESIZE,TILESIZE,TILESIZE,g("tiles-horizontal")*TILESIZE,(int)ceil((double)g("tiles")/g("tiles-horizontal"))*TILESIZE,0.5);
             }
             else if(cursorMode == "object")
             {

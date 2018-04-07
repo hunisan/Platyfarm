@@ -17,6 +17,7 @@ private:
     map<string,Stage*> stageList;
     vector<string> stageNames;
 
+    GameVariables gameVars;
     LightingSystem lightsys;
     WeatherSystem weathersys;
     ParticleSystem particlesys;
@@ -108,12 +109,6 @@ public:
 
         //cout << _new->leftover << endl;
     }
-    //vector<Entity *> objects;
-    //vector<NPC *> npcs;
-
-    //map<string, int> object_ids;
-    //map<string, int> item_ids;
-    //map<string, int> npc_ids;
 
     vector<Dialog> dialogs;
 
@@ -201,7 +196,7 @@ public:
             gamephase = GUI;
             string sw = SecondWord(s);
             if(sw == "shop")
-                gui = new GUIShopScreen(inventory);
+                gui = new GUIShopScreen(inventory,tw);
             else if(sw == "sell")
                 gui = new GUISellScreen(inventory);
 
@@ -422,6 +417,7 @@ public:
             elem->InsertEndChild(pElement);
 
         };
+
         InsertInt("year",current_year,pRoot);
 
         InsertInt("season",current_season,pRoot);
@@ -611,7 +607,7 @@ public:
             if(pElement->FirstChildElement("speaker"))
                 newitem.speaker = pElement->FirstChildElement("speaker")->GetText();
             else
-                newitem.speaker = "";
+                newitem.speaker = "any";
 
             XMLElement * chainElement = pElement->FirstChildElement("chain")->FirstChildElement("text");
 
@@ -935,11 +931,12 @@ public:
             else if(newitem.category == "tool")
                 newitem.int_attribs["range"] = 2*TILESIZE;
 
-            if(pElement->FirstChildElement("price")!=NULL)
+            if(pElement->FirstChildElement("price"))
                 newitem.int_attribs["price"] = atoi(pElement->FirstChildElement("price")->GetText());
-            if(pElement->FirstChildElement("sell")!=NULL)
+            if(pElement->FirstChildElement("sell"))
                 newitem.int_attribs["sell"] = atoi(pElement->FirstChildElement("sell")->GetText());
-            if(pElement->FirstChildElement("attributes")!=NULL)
+
+            if(pElement->FirstChildElement("attributes"))
             {
                 XMLElement * listElement = pElement->FirstChildElement("attributes")->FirstChildElement();
 
@@ -1745,8 +1742,11 @@ public:
                     //if(inventory->toolbar[inventory->selected]->type == "seed")
                     int place_x = std::floor((KeyData.MouseX+camera_x)/TILESIZE);
                     int place_y = std::floor((KeyData.MouseY+camera_y)/TILESIZE);
+
+                    int place_range = g("interact-range");
+
                     Entity * newe = new Entity(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]],place_x*TILESIZE,place_y*TILESIZE);
-                    if(GetDistance(player->x+player->w/2,player->y+player->h/2,newe->x + newe->w/2,newe->y + newe->h/2) < sel->int_attribs["range"] + newe->w/2)
+                    if(GetDistance(player->x+player->w/2,player->y+player->h/2,newe->x + newe->w/2,newe->y + newe->h/2) < place_range + newe->w/2)
                     {
 
                         //currentstage->objects.push_back(newe);
@@ -2091,15 +2091,8 @@ public:
         }
 
     }
-    void ControlPhase()
+    void TimeTick()
     {
-        if(alerts.size()>0)
-        {
-            Alert(alerts.front());
-            alerts.pop();
-            return;
-        }
-
         current_seconds++;
         if(current_seconds > 119)
         {
@@ -2116,55 +2109,14 @@ public:
             }
         }
 
-        player->Update();
+    }
+    void MovePlayer()
+    {
 
-        for(auto& n : currentstage->npcs)
-        if(n)
-        {
-            Action(n,n->AI());
-        }
         float tempx = player->x, tempy = player->y;
 
-        if(KeyData.wheel)
-        {
-            inventory->selected -= KeyData.wheel;
-            if(inventory->selected < 0)
-                inventory->selected = 9;
-
-            else if(inventory->selected > 9)
-                inventory->selected = 0;
-            if(inventory->toolbar[inventory->selected])
-            {
-                if(inventory->toolbar[inventory->selected] && inventory->toolbar[inventory->selected]->string_attribs.count("place"))
-                {
-                    preview->Add(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]]);
-
-                }
-                else if(inventory->toolbar[inventory->selected]->type == "watering")
-                {
-                    //preview = new Preview(ent)
-                    //preview->active = true;
-                }
-                else
-                    preview->Disable();
-            }
-            else
-            {
-                preview->Disable();
-
-            }
-
-        }
-        if(KeyData.MouseMove)
-        {
-            HandleMouseMove();
-        }
         bool moved = false;
 
-        if(KeyData.lastv  && KeyData.getKey(1) && KeyData.lasth && KeyData.getKey(0))
-        {
-            //player->movement_speed /= 1.5;
-        }
         for(int i = 0; i < abs(player->movement_speed)*2; i++)
         {
             tempx = player->x;
@@ -2263,11 +2215,64 @@ public:
             FocusCamera();
 
         }
-        if(player->y < -player->h)
+
+    }
+
+    void HandleMouseWheel()
+    {
+            inventory->selected -= KeyData.wheel;
+            if(inventory->selected < 0)
+                inventory->selected = 9;
+
+            else if(inventory->selected > 9)
+                inventory->selected = 0;
+            if(inventory->toolbar[inventory->selected])
+            {
+                if(inventory->toolbar[inventory->selected] && inventory->toolbar[inventory->selected]->string_attribs.count("place"))
+                {
+                    preview->Add(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]]);
+
+                }
+                else if(inventory->toolbar[inventory->selected]->type == "watering")
+                {
+                    //preview = new Preview(ent)
+                    //preview->active = true;
+                }
+                else
+                    preview->Disable();
+            }
+            else
+            {
+                preview->Disable();
+
+            }
+
+    }
+
+
+    void UpdateControlPhase()
+    {
+        if(alerts.size()>0)
         {
-            SwitchStage(&forest);
-            player->x = player->y = SCREEN_HEIGHT/2;
+            Alert(alerts.front());
+            alerts.pop();
+            return;
         }
+
+        player->Update();
+
+        for(auto& n : currentstage->npcs)
+            if(n)
+            {
+                Action(n,n->AI());
+            }
+
+        if(KeyData.wheel)
+            HandleMouseWheel();
+        if(KeyData.MouseMove)
+            HandleMouseMove();
+
+        MovePlayer();
         for(auto& e : currentstage->objects)
         {
             if(e && e->alt > 0)
@@ -2330,13 +2335,9 @@ public:
             gui = new GUISellScreen(inventory);
         }
         if(KeyData.Click)
-        {
             HandleClick();
-        }
         else if(KeyData.RightClick)
-        {
             HandleRightClick();
-        }
 
     }
 
@@ -2400,7 +2401,7 @@ public:
         }
         else if(gamephase == CONTROL)
         {
-            ControlPhase();
+            UpdateControlPhase();
         }
         else if(gamephase == DIALOG)
         {
@@ -2484,6 +2485,7 @@ public:
                     }*/
                     if(gui->HandleClick(KeyData.MouseX,KeyData.MouseY))
                     {
+                        audioCommands.push("sound pop");
                         eventSystem->Event("BUY");
                     }
 
@@ -2496,6 +2498,7 @@ public:
                     {
                         if(i->int_attribs.count("sell"))
                         {
+                            audioCommands.push("sound pop");
                             eventSystem->Event("SELL");
                             funds += i->int_attribs["sell"];
 
@@ -2510,11 +2513,15 @@ public:
                 else if(gui->type == "crafting")
                 {
                     if(gui->HandleClick(KeyData.MouseX,KeyData.MouseY))
+                    {
                         eventSystem->Event("CRAFT");
+                        audioCommands.push("sound pop");
+                    }
 
                 }
                 else if(gui->type == "inventory")
                 {
+                    audioCommands.push("sound pop");
                     gui->HandleClick(KeyData.MouseX,KeyData.MouseY);
 
                 }
@@ -2524,20 +2531,43 @@ public:
         if(KeyData.EscapePress)
         {
             gui->Exit();
+            audioCommands.push("sound pop");
             gamephase = CONTROL;
 
         }
     }
+    bool isPlayingSound = false;
     void UpdateDialog()
     {
+        //if(KeyData.Click)
+
         if(KeyData.EscapePress)
         {
             gamephase = CONTROL;
+            audioCommands.push("stop 1");
+            isPlayingSound = false;
+            return;
         }
         if(!dialogSystem->finished_scroll)
+        {
             dialogSystem->Scroll();
+            if(!isPlayingSound)
+            {
+                audioCommands.push("sound typing 1");
+                isPlayingSound = true;
+            }
+        }
         else
         {
+            audioCommands.push("stop 1");
+            isPlayingSound = false;
+            if(KeyData.MouseMove)
+            {
+                if(Contains(dialogSystem,KeyData.MouseX,KeyData.MouseY,0,0))
+                {
+                    dialogSystem->Hover(KeyData.MouseX,KeyData.MouseY);
+                }
+            }
             if(KeyData.wheel && dialogSystem->finished_chain)
             {
                 dialogSystem->selected_answer -= KeyData.wheel;

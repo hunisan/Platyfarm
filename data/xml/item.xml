@@ -4,7 +4,7 @@
 		<name>axe</name>
 		<formal>Axe</formal>
 		<category>tool</category>
-		<desc>Use it to chop drown trees or vandalise public property</desc>
+		<desc>Use it to chop down trees or vandalise public property</desc>
 		<type>woodcutting</type>
 		<img>axe</img>
 		<stack>1</stack>
@@ -29,10 +29,11 @@
 		<category>organic</category>
 		<desc>A very common fruit. Doctors are terrified of it.</desc>
 		<type>fruit</type>
-		<price>250</price>
-		<sell>200</sell>
+		<price>100</price>
+		<sell>50</sell>
 		<img>apple</img>
 		<stack>99</stack>
+		<place>apple-tree</place>
 		<attributes>
 			<edible/>
 			<fruit/>
@@ -183,14 +184,26 @@
 		<category>organic</category>
 		<type>fish</type>
 		<price>400</price>
-		<sell>600</sell>
+		<sell>200</sell>
 		<img>platty</img>
 		<stack>99</stack>
 	</item>
 	<item>
-		<name>flower</name>
-		<formal>Flower</formal>
+		<name>goldfish</name>
+		<formal>Goldfish</formal>
+		<desc>A freshwater fish that according to fairy tales can grant wishes.</desc>
 		<category>organic</category>
+		<type>fish</type>
+		<price>400</price>
+		<sell>50</sell>
+		<img>goldfish</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>flower</name>
+		<formal>Daisy</formal>
+		<category>organic</category>
+		<desc>An aromatic plant that can be used to make tea.</desc>
 		<type>flower</type>
 		<price>50</price>
 		<sell>40</sell>
@@ -377,8 +390,22 @@
 		</attributes>
 	</item>
 	<item>
+		<name>white-wine</name>
+		<formal>White Wine</formal>
+		<category>organic</category>
+		<desc>Good for your health, but only in moderation</desc>
+		<type>drink</type>
+		<img>white-wine</img>
+		<sell>1000</sell>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+			<consume>script stat speed -1 3600 script stat defense -1 3600</consume>
+		</attributes>
+	</item>
+	<item>
 		<name>wine</name>
-		<formal>Wine</formal>
+		<formal>Red Wine</formal>
 		<category>organic</category>
 		<desc>Good for your health, but only in moderation</desc>
 		<type>drink</type>
@@ -415,6 +442,47 @@
 			<drinkable/>
 		</attributes>
 	</item>
+	<item>
+		<name>honey</name>
+		<formal>Honey</formal>
+		<category>organic</category>
+		<desc>A sweet fluid made by bees from nectar collected from flowers</desc>
+		<type>produce</type>
+		<img>honey</img>
+		<sell>500</sell>
+		<stack>99</stack>
+		<attributes>
+			<edible/>
+		</attributes>
+	</item>
+	<item>
+		<name>coffee</name>
+		<formal>Coffee</formal>
+		<category>organic</category>
+		<desc>A drink to keep you going through the day</desc>
+		<type>drink</type>
+		<img>coffee</img>
+		<price>100</price>
+		<sell>50</sell>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+		</attributes>
+	</item>
+	<item>
+		<name>tea</name>
+		<formal>Tea</formal>
+		<category>organic</category>
+		<desc>A hot drink made from boiling water and crushed leaves</desc>
+		<type>drink</type>
+		<img>tea</img>
+		<price>100</price>
+		<sell>50</sell>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+		</attributes>
+	</item>
 	<item>	
 		<name>potato</name>
 		<formal>Potato</formal>
@@ -440,6 +508,19 @@
 		</attributes>
 	</item>
 	<item>
+		<name>vodka</name>
+		<formal>Vodka</formal>
+		<category>organic</category>
+		<desc>A drink which makes you strong and clever.</desc>
+		<type>drink</type>
+		<img>vodka</img>
+		<stack>99</stack>
+		<attributes>
+			<drinkable/>
+			<flavor>"This vodka tastes piquant, ambrosial, nactareous and divine. I will now go lift some weights."</flavor>
+		</attributes>
+	</item>
+	<item>
 		<name>beer</name>
 		<formal>Beer</formal>
 		<category>organic</category>
@@ -459,6 +540,7 @@
 		<type>food</type>
 		<img>bread</img>
 		<stack>99</stack>
+		<sell>100</sell>
 		<attributes>
 			<edible/>
 		</attributes>
@@ -633,7 +715,7 @@
 	<item>
 		<name>can</name>
 		<formal>Watering Can</formal>
-		<desc>A tool used to water crops</desc>
+		<desc>A tool used to water crops. Don't forget to water your plants every day.</desc>
 		<category>tool</category>
 		<type>watering</type>
 		<img>can</img>
@@ -698,14 +780,78 @@
 		<name>cheese</name>
 		<formal>Cheese</formal>
 		<img>cheese</img>
-		<desc>A food made from milk</desc>
+		<desc>A food made from pressing milk</desc>
 		<category>food</category>
-		<type>idevalamit</type>
+		<type>dairy</type>
 		<stack>1</stack>
 		<attributes>
-			
 		</attributes>
-		
+	</item>
+	<item>
+		<name>butter</name>
+		<formal>Butter</formal>
+		<img>butter</img>
+		<desc>An edible fatty substance made from milk</desc>
+		<category>food</category>
+		<type>dairy</type>
+		<stack>1</stack>
+		<attributes>
+		</attributes>
+	</item>
+	<item>
+		<name>toast</name>
+		<formal>Toast</formal>
+		<img>toast</img>
+		<desc>A popular and simple breakfast.</desc>
+		<category>food</category>
+		<type>dish</type>
+		<stack>1</stack>
+		<attributes>
+		</attributes>
+	</item>
+	<item>
+		<name>pancake</name>
+		<formal>Pancake</formal>
+		<img>pancake</img>
+		<desc>A thin flat dough fried in a pan. Eaten as breakfast or dessert, goes well with syrup.</desc>
+		<category>food</category>
+		<type>dish</type>
+		<stack>1</stack>
+		<attributes>
+		</attributes>
+	</item>
+	<item>
+		<name>milk</name>
+		<formal>Milk</formal>
+		<img>milk</img>
+		<desc>White liquid produced by cows, rich in calcium</desc>
+		<category>food</category>
+		<type>drink</type>
+		<stack>1</stack>
+		<attributes>
+		</attributes>
+	</item>
+	<item>
+		<name>egg</name>
+		<formal>Egg</formal>
+		<img>egg</img>
+		<desc>An oval object laid by a chicken.</desc>
+		<category>food</category>
+		<type>produce</type>
+		<stack>1</stack>
+		<attributes>
+		</attributes>
+	</item>
+	<item>
+		<name>bacon</name>
+		<formal>Bacon</formal>
+		<img>bacon</img>
+		<desc>Delicious strips of juicy, pork heaven. Served often at breakfast with eggs, but perfectly good served alone and at any time of day.</desc>
+		<category>food</category>
+		<type>meat</type>
+		<stack>1</stack>
+		<attributes>
+		</attributes>
 	</item>
 	<item>
 		<name>torch</name>
@@ -732,6 +878,7 @@
 		<category>weapon</category>
 		<type>melee</type>
 		<img>sword</img>
+		<price>200</price>
 		<attributes>
 			<damage-min>1</damage-min>
 			<damage-max>4</damage-max>
@@ -837,6 +984,25 @@
 		<category>misc</category>
 		<type>remains</type>
 		<img>bone</img>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>key</name>
+		<formal>Key</formal>
+		<desc>Where there's a key, there is a lock somewhere.</desc>
+		<category>misc</category>
+		<type>quest</type>
+		<img>key</img>
+		<price>100</price>
+		<stack>99</stack>
+	</item>
+	<item>
+		<name>web</name>
+		<formal>Cobweb</formal>
+		<desc>asd.</desc>
+		<category>misc</category>
+		<type>misc</type>
+		<img>web</img>
 		<stack>99</stack>
 	</item>
 </root>

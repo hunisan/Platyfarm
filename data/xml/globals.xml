@@ -3,7 +3,7 @@
 	<screen>
 		<width>900</width>
 		<height>600</height>
-		<fps>100</fps>
+		<fps>60</fps>
 	</screen>
 	<tilesize>32</tilesize>
 	<lightsize>12</lightsize>
@@ -31,12 +31,14 @@
 		<player-anim-frames value="9"/>
 		<character-scale value="19"/>
 		<fade-max value="20"/>	
-		<tiles value="40"/>
+		<tiles value="46"/>
 		<tiles-horizontal value="22"/>
+		<shop-shown-items value="5"/>
 		<debug value="1"/>
 	</globals>
 	<strings>
-		<general-store-inventory value="seed acorn flour jar poppy_seed beer"/>
+		<general-store-inventory value="sword key apple seed poppy_seed flour jar beer coffee tea wine white-wine vodka"/>
+		<inn-inventory value="beer coffee tea"/>
 		<player-stats value="health stamina speed attack defense"/>
 		<title value="Platypia"/>
 	</strings>

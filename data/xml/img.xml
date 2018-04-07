@@ -68,11 +68,15 @@
 		<name>portraitframe</name>
 		<path>portraitframe.png</path>
 	</img>
-	<img id="18">
+	<img>
 		<name>tree</name>
 		<path>tree.png</path>
 	</img>
-	<img id="19">
+	<img>
+		<name>apple-tree</name>
+		<path>appletree.png</path>
+	</img>
+	<img>
 		<name>scythe</name>
 		<path>scythe.png</path>
 	</img>
@@ -433,11 +437,19 @@
 		<path>Beer.png</path>
 	</img>
 	<img>
+		<name>white-wine</name>
+		<path>white-wine.png</path>
+	</img>
+	<img>
+		<name>vodka</name>
+		<path>vodka.png</path>
+	</img>
+	<img>
 		<name>Wine</name>
 		<path>Wine.png</path>
 	</img>
 	<img>
-		<name>Cheese</name>
+		<name>cheese</name>
 		<path>Cheese.png</path>
 	</img>
 	<img>
@@ -609,8 +621,8 @@
 		<path>remains.png</path>
 	</img>
 	<img>
-		<name>old-shef</name>
-		<path>old-shef.png</path>
+		<name>old-shelf</name>
+		<path>old-shelf.png</path>
 	</img>
 	<img>
 		<name>fireplace</name>
@@ -619,5 +631,61 @@
 	<img>
 		<name>sleeping-mat</name>
 		<path>sleeping-mat.png</path>
+	</img>
+	<img>
+		<name>web</name>
+		<path>web.png</path>
+	</img>
+	<img>
+		<name>fish</name>
+		<path>fish.png</path>
+	</img>
+	<img>
+		<name>pizza</name>
+		<path>pizza.png</path>
+	</img>
+	<img>
+		<name>scrambled-eggs</name>
+		<path>scrambled-eggs.png</path>
+	</img>
+	<img>
+		<name>coffee</name>
+		<path>coffee.png</path>
+	</img>
+	<img>
+		<name>coffee-bean</name>
+		<path>coffee-bean.png</path>
+	</img>
+	<img>
+		<name>vase</name>
+		<path>vase.png</path>
+	</img>
+	<img>
+		<name>key</name>
+		<path>key.png</path>
+	</img>
+	<img>
+		<name>tea</name>
+		<path>tea.png</path>
+	</img>
+	<img>
+		<name>butter</name>
+		<path>butter.png</path>
+	</img>
+	<img>
+		<name>toast</name>
+		<path>toast.png</path>
+	</img>
+	<img>
+		<name>pancake</name>
+		<path>pancake.png</path>
+	</img>
+	<img>
+		<name>egg</name>
+		<path>egg.png</path>
+	</img>
+	<img>
+		<name>milk</name>
+		<path>milk.png</path>
 	</img>
 </root>

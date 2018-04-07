@@ -56,14 +56,6 @@
 	<row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
 	<row>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </row>
 	<object>
-		<name>house</name>
-		<pos>0 64</pos>
-		<attributes>
-			<portal>house</portal>
-			<where>128 224</where>
-		</attributes>
-	</object>
-	<object>
 		<name>shop</name>
 		<pos>224 64</pos>
 		<attributes>
@@ -1260,4 +1252,11 @@
 		<name>catman2</name>
 		<pos>695.967 389.611</pos>
 	</npc>
+    <object>
+        <name>remains</name>
+        <pos>736 0</pos>
+        <attributes>
+            <interact>45</interact>
+        </attributes>
+    </object>
 </root>

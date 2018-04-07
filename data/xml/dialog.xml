@@ -51,31 +51,36 @@
 		<speaker>spock</speaker>
 		<chain>
 			<text id="1">My name is Spock. I am what your kind   would call a ghost. I come from the astral plane</text>
-			<text id="2">I would be happy to chat, but I have    some serious business  affairs to attend to</text>
-			<text id="3">If you ever need me, you can find me at the nearest haunted mansion</text>
+			<text id="2">I would be happy to chat, but I have    some serious business  matters to attend to</text>
+			<text id="3">If you ever need me, you can find me at the nearby haunted mansion</text>
 		</chain>
 	</dialog>
 	<dialog id="6">
 		<speaker>crypto</speaker>
 		<chain>
-			<text id="1">Leave me alone, stupid human!</text>
 		</chain>
+		<question>
+			<text>Leave me alone, stupid human!</text>
+			<response id="1" goto="0">You're not so nice.</response>
+			<response id="2" condition="skill charisma 4" goto="0">You sound like you have a problem with my people.</response>
+		</question>
 	</dialog>
 	<dialog id="7">
 		<speaker>platypus</speaker>
 		<chain>
-			<text id="1">Greetings! I am Percival, your personal steward</text>
-			<text id="2">I will be assisting you during your time here on the lot</text>
-			<text id="3">I can sell your items, purchase materials, livestock and manage your finances</text>
+			<text id="1">Greetings! I am Percival, your personal steward. Welcome to Sunset Clearing! </text>
+			<text id="3">First of all, congratulations for your acquistion of the property.</text>
+			<text id="4">We're not quite sure what happened to the former owner..</text>
+			<text id="5">But I can assure you this is the safest, most peaceful place in all of Platypia.</text>
+			<text id="6">Now, let's get you up to speed. This whole area enclosed by the cliffs is yours</text>
+			<text id="7">That shack right there is where you'll live. It's small but it's cozy. </text>
+			<text id="8">The soil here is ideal for farming, so you should acquire some seeds and plant them right away</text>
+			<text id="9">But first, you should clean the place up a little. It's been a while since anyone did. </text>
+			<text id="10">If you're in need of anything, the general store is your place to go.</text>
+			<text id="11">You can also sell your goods there.</text>
+			<text id="12">In the meantime, I will handle all the bureaucracy and keep track of your finances.</text>
+			<text id="13">Talk to me if you need anything.</text>
 		</chain>
-		<question>
-			<text>What would you like to do today?</text>
-			<response id="1" goto="0" outcome="gui sell">Sell items</response>
-			<response id="2" goto="0" outcome="gui shop">Order resources</response>
-			<response id="3" goto="20">Purchase livestock</response>
-			<response id="4" goto="0">Review finances</response>
-			<response id="5" goto="0">Goodbye</response>
-		</question>
 	</dialog>
 	<dialog id="8">
 		<speaker>shopkeeper</speaker>
@@ -83,10 +88,9 @@
 		</chain>
 		<question>
 			<text>What can I help you with today?</text>
-			<response id="1" goto="0" outcome="gui shop">Buy items</response>
-			<response id="2" goto="0" outcome="gui sell">Sell items</response>
-			<response id="3" goto="0" condition="skill charisma 2">Gamble</response>
-			<response id="4" goto="0" outcome="xp charisma 20">Goodbye</response>
+			<response id="1" goto="0" outcome="gui shop general-store-inventory">Trade</response>
+			<response id="2" goto="0" condition="skill charisma 2">Gamble</response>
+			<response id="3" goto="0" outcome="xp charisma 20">Goodbye</response>
 		</question>
 	</dialog>
 	<dialog id="9">
@@ -107,11 +111,11 @@
 		</chain>
 		<question>
 			<text>What would you like to do today?</text>
-			<response id="1" goto="0" outcome="gui sell">Sell items</response>
-			<response id="2" goto="0" outcome="gui shop">Order resources</response>
-			<response id="3" goto="20">Purchase livestock</response>
-			<response id="4" goto="0">Review finances</response>
-			<response id="5" goto="0">Goodbye</response>
+			<response id="1" goto="0">How do I grow crops?</response>
+			<response id="2" goto="42">What can you tell me about this place?</response>
+			<response id="2" goto="43">Tell me about your past.</response>
+			<response id="3" goto="0">Review finances</response>
+			<response id="4" goto="0">Goodbye</response>
 		</question>
 	</dialog>
 	<dialog id="11">
@@ -277,7 +281,7 @@
 	</dialog>
 	<dialog id="31">
 		<chain>
-			<text id="1">Where can I find some catnip?</text>
+			<text id="1">I tripped over a rock. Now my paw hurts.</text>
 		</chain>
 	</dialog>
 	<dialog id="32">
@@ -288,7 +292,90 @@
 	</dialog>
 	<dialog id="33">
 		<chain>
-			<text id="1">asd</text>
+			<text id="1">So I met this girl yesterday and..</text>
+			<text id="1">Wait, why am I telling this to you?</text>
+		</chain>
+	</dialog>
+	<dialog id="34">
+		<chain>
+			<text id="1">Cats and dogs are natural enemies.</text>
+			<text id="1">It has always been this way, ever since their invasion.</text>
+		</chain>
+		<question>
+			<text>Which side do you support?</text>
+			<response id="1" goto="35">Cats are obviously superior.</response>
+			<response id="2" goto="36">I have always been a dog person</response>
+			<response id="3" goto="37">The winning side</response>
+			<response id="4" goto="38">I'm not interested in this petty conflict</response>
+		</question>
+	</dialog>
+	<dialog id="35">
+		<chain>
+			<text id="1">I see that you are wise, my friend.</text>
+			<text id="2">Maybe you should support our cause</text>
+			<text id="3">The army is always looking for volunteers</text>
+		</chain>
+	</dialog>
+	<dialog id="36">
+		<chain>
+			<text id="1">I thought you were better than that.</text>
+			<text id="2">Perhaps I misjudged you.</text>
+		</chain>
+	</dialog>
+	<dialog id="37">
+		<chain>
+			<text id="1">We both know which one that is.</text>
+		</chain>
+	</dialog>
+	<dialog id="38">
+		<chain>
+			<text id="1">You do know there's a war going on, right?</text>
+			<text id="2">Sooner or later, you're gonna get caught in the crossfire.</text>
+		</chain>
+	</dialog>
+	<dialog id="39">
+		<chain>
+			<text id="1">I live very far from here, you know.</text>
+			<text id="2">These business trips are how I feed my family</text>
+		</chain>
+	</dialog>
+	<dialog id="40">
+		<chain>
+			<text id="1">This is no place for a cat.</text>
+			<text id="2">Way too cold.</text>
+		</chain>
+	</dialog>
+	<dialog id="41">
+		<chain>
+			<text id="1">Have you seen my ball of wool?</text>
+		</chain>
+	</dialog>
+	<dialog id="42">
+		<chain>
+			<text id="1">Sunset Clearing has been my home for all my life.</text>
+			<text id="2">It's a small town, far from the crowded and noisy cities.</text>
+			<text id="3">Some merchants pass through sometimes, but mostly it's just the locals here.</text>
+			<text id="4">They're mostly farmers, since this area is blessed with fertility.</text>
+		</chain>
+	</dialog>	
+	<dialog id="43">
+		<chain>
+			<text id="1">I was born here. Everything was quite different back then</text>
+			<text id="2">I was working as a steward for a rich family living in the old mansion</text>
+			<text id="3">Then one day they left without a warning. I lost my job, but then I met the former owner of this lot.</text>
+			<text id="4">He was a nice fellow, but way too mysterious.</text>
+			<text id="5">No one knows what happened to him. No one saw him leave, he didn't take any of his stuff.</text>
+			<text id="6">He simply vanished.. It puzzles me to this day.</text>
+		</chain>
+	</dialog>
+	<dialog id="44">
+		<chain>
+			<text id="1">It's closed. Gotta find a key.</text>
+		</chain>
+	</dialog>
+	<dialog id="45">
+		<chain>
+			<text id="1">Pretty scary.</text>
 		</chain>
 	</dialog>
 </root>

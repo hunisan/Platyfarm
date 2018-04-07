@@ -44,6 +44,31 @@
 			</drop>
 		</drops>
 		<leftover>tree-stump</leftover>
+	</object><object>
+		<name>apple-tree</name>
+		<category>plant</category>
+		<width>1</width>
+		<height>1</height>
+		<alt>3</alt>
+		<offset>1</offset>
+		<rigid></rigid>
+		<type>tree</type>
+		<img>apple-tree</img>
+		<destroy>woodcutting</destroy>
+		<hits>6</hits>
+		<drops>
+			<drop>
+				<item>log</item>
+				<min>3</min>
+				<max>5</max>
+			</drop>
+			<drop>
+				<item>apple</item>
+				<min>0</min>
+				<max>3</max>
+			</drop>
+		</drops>
+		<leftover>tree-stump</leftover>
 	</object>
 	<object>
 		<name>pine</name>
@@ -98,7 +123,7 @@
 		<drops>
 		</drops>
 	</object>
-	<object id="5">
+	<object>
 		<name>grass</name>
 		<img>bush</img>
 		<width>1</width>
@@ -117,6 +142,20 @@
 			<i>
 				<obj>type reaping</obj>
 				<script>script harvest grass script sound slap</script>
+			</i>
+		</interactions>
+	</object>
+	<object>
+		<name>web</name>
+		<img>web</img>
+		<width>1</width>
+		<height>1</height>
+		<category>misc</category>
+		<type>misc</type>
+		<interactions>
+			<i>
+				<obj>type reaping</obj>
+				<script>script harvest web script sound slap</script>
 			</i>
 		</interactions>
 	</object>
@@ -241,6 +280,16 @@
 		<img>window</img>
 		<width>1</width>
 		<height>1</height>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid></rigid>
+	</object>
+	<object>
+		<name>old-shelf</name>
+		<img>old-shelf</img>
+		<width>1</width>
+		<height>1</height>
+		<alt>1</alt>
 		<category>structure</category>
 		<type>furniture</type>
 		<rigid></rigid>
@@ -596,6 +645,37 @@
 		<rigid/>
 	</object>
 	<object>
+		<name>stone-door</name>
+		<img>stone-door</img>
+		<width>2</width>
+		<height>2</height>
+		<imgw>2</imgw>
+		<imgh>2</imgh>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid/>
+	</object>
+	<object>
+		<name>closed-stone-door</name>
+		<img>stone-door</img>
+		<width>2</width>
+		<height>2</height>
+		<imgw>2</imgw>
+		<imgh>2</imgh>
+		<category>structure</category>
+		<type>furniture</type>
+		<rigid/>
+		<attributes>
+			<interact>44</interact>
+		</attributes>
+		<interactions>
+			<i>
+				<obj>name key</obj>
+				<script>script change stone-door script consume</script>
+			</i>
+		</interactions>
+	</object>
+	<object>
 		<name>chest</name>
 		<img>chest</img>
 		<width>1</width>
@@ -604,6 +684,32 @@
 		<imgh>1</imgh>
 		<category>structure</category>
 		<type>furniture</type>
+		<rigid/>
+	</object>
+	<object>
+		<name>remains</name>
+		<img>remains</img>
+		<width>1</width>
+		<height>1</height>
+		<category>structure</category>
+		<type>decoration</type>
+		<attributes>
+			<interact>45</interact>
+		</attributes>
+		<interactions>
+			<i>
+				<obj>type mining</obj>
+				<script>script delete script item bone 2</script>
+			</i>
+		</interactions>
+	</object>
+	<object>
+		<name>vase</name>
+		<img>vase</img>
+		<width>1</width>
+		<height>1</height>
+		<category>structure</category>
+		<type>decoration</type>
 		<rigid/>
 	</object>
 </root>

@@ -17,7 +17,8 @@ class AudioSystem
         void Mute();
         void LoadContent();
         void PlaySong(string song);
-        void PlaySound(string sound);
+        void PlaySound(string sound, int channel);
+        void StopSound(int channel);
         void Update();
 };
 
@@ -94,11 +95,16 @@ void AudioSystem::PlaySong(string song)
     //cout << "played";
 }
 
-void AudioSystem::PlaySound(string sound)
+void AudioSystem::PlaySound(string sound, int channel = -1)
 {
     cout << "playing sound" << endl;
     if(sounds.count(sound))
-        Mix_PlayChannel(-1,sounds[sound], 0);
+        Mix_PlayChannel(channel,sounds[sound], 0);
+}
+void AudioSystem::StopSound(int channel)
+{
+    Mix_HaltChannel(channel);
+
 }
 void AudioSystem::Mute()
 {
@@ -121,9 +127,16 @@ void AudioSystem::Update()
         if(c == "mute")
             Mute();
         else if(FirstWord(c)=="sound")
-            PlaySound(SecondWord(c));
+        {
+            if(nWord(3,c)!="")
+                PlaySound(SecondWord(c),atoi(nWord(3,c).c_str()));
+            else
+                PlaySound(SecondWord(c));
+        }
         else if(FirstWord(c)=="music")
             PlaySong(SecondWord(c));
+        else if(FirstWord(c)=="stop")
+            StopSound(atoi(SecondWord(c).c_str()));
     }
 }
 #endif

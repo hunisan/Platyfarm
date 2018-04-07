@@ -96,6 +96,29 @@
 		<medium>stove</medium>	
 	</recipe>
 	<recipe>
+		<item>cheese</item>
+		<ingredient>milk</ingredient>
+		<medium>stove</medium>
+	</recipe>
+	<recipe>
+		<item>butter</item>
+		<ingredient>milk</ingredient>
+		<medium>stove</medium>
+	</recipe>
+	<recipe>
+		<item>toast</item>
+		<ingredient>bread</ingredient>
+		<ingredient>butter</ingredient>
+		<medium>stove</medium>
+	</recipe>
+	<recipe>
+		<item>pancake</item>
+		<ingredient>egg</ingredient>
+		<ingredient>butter</ingredient>
+		<ingredient>milk</ingredient>
+		<medium>stove</medium>
+	</recipe>
+	<recipe>
 		<item>column</item>
 		<ingredient count="10">stone</ingredient>
 	</recipe>

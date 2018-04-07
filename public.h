@@ -1,5 +1,6 @@
-#ifndef public_h
-#define public_h
+#ifndef PUBLIC_H
+#define PUBLIC_H
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -26,7 +27,7 @@
 	#define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return false; }
 #endif
 
-#define fr(j,n,t) for(int i = j; i < n; i += t)
+#define frt(j,n,t) for(int i = j; i < n; i += t)
 #define fr(j,n) for(int i = j; i < n; i++)
 #define im(i) images[ids[i]]
 #define g(i) globals[i]
@@ -49,77 +50,38 @@ template < typename T > string to_string( const T& n )
     return stm.str() ;
 }
 
-int atoi(string s){
-    return atoi(s.c_str());}
+int atoi(string s);
 
-tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, string const & elemt_value)
-{
-    using namespace tinyxml2;
-    XMLElement * elem = doc.RootElement(); //Tree root
+tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, string const & elemt_value);
 
-    while (elem)
-        {
-        if (!string(elem->Value()).compare(elemt_value)) return (elem);
-        /*elem = elem->NextSiblingElement();*/
-        if (elem->FirstChildElement())
-        {
-           elem = elem->FirstChildElement();
-        }
-        else if (elem->NextSiblingElement())
-        {
-           elem = elem->NextSiblingElement();
-        }
-        else
-        {
-          while (!elem->Parent()->NextSiblingElement())
-          {
-             if (elem->Parent()->ToElement() == doc.RootElement())
-             {
-                return NULL;
-             }
-             elem = elem->Parent()->NextSiblingElement();
-          }
-       }
-   }
-   return (NULL);
-};
-bool is_number(const string& s)
-{
-    return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
-}
+bool is_number(const string& s);
 
-int GetInt(string name)
-{
-    using namespace tinyxml2;
+int GetInt(string name);
 
-    XMLDocument doc;
-    doc.LoadFile("data/xml/globals.xml");
+int GetIntElement(string node, string name);
 
-    int val;
-    doc.FirstChildElement()->FirstChildElement(name.c_str())->QueryIntText(&val);
-    //getElementByName(doc,name)->QueryIntText(&val);
+int randomer();
 
-    return val;
-}
+int levelcap(int lvl);
 
-int GetIntElement(string node, string name)
-{
-    using namespace tinyxml2;
+int characterWidth(char c);
+int lineWidth(string s, int ptSize = -1);
+int linesCount(string c, int linelen);
 
-    XMLDocument doc;
-    doc.LoadFile("data/xml/globals.xml");
+string Decapitalize(string s);
+string Capitalize(string s);
+string FirstWord(string s);
+string SecondWord(string s);
+string nWord(int n,string s);
 
-    int val;
-    doc.FirstChildElement()->FirstChildElement(node.c_str())->FirstChildElement(name.c_str())->QueryIntText(&val);
-    //getElementByName(doc,name)->QueryIntText(&val);
+vector<string> allWord(string s);
+vector<string> split(string s, string delimiter);
+float GetDistance(float x1, float y1, float x2, float y2);
 
-    return val;
-}
-
-SDL_Renderer* gRenderer = NULL;
-
-SDL_GLContext gContext;
+bool LoadGlobals();
+bool SaveFileExists();
+///functions end here/////////////////////////////////////////////
+///constants begin here///////////////////////////////////////////
 
 const int SCREEN_WIDTH = GetIntElement("screen","width");//800;//1366;
 const int SCREEN_HEIGHT = GetIntElement("screen","height");//600;//768;
@@ -134,8 +96,21 @@ const int CHARACTER_SCALE = GetInt("character-scale");
 
 const int DIGITWIDTH = 14;
 
-int audioFiles = 0;
-queue<string> audioCommands;
+
+const int MAXIDS = 60000;
+
+const int MAP_MAX_SIZE = 100;
+
+const int INVENTORY_TOOLBAR_SIZE = 10;
+const int INVENTORY_SIZE = 10*4;
+
+const int PLAYER_STARTING_FUNDS = 200;
+
+const int CRAFTING_XP = 10;
+
+const int HUNGER_SCALE = 15;
+const int MAX_HUNGER_LEVEL = 4;
+
 
 enum
 {
@@ -144,266 +119,13 @@ enum
     RIGHT,
     UP,
 };
-int characterWidth(char c)
-{
-    if(c == 'W')
-        return 25;
-    else if(c == 'M')
-        return 22;
-    else if(c == 'C')
-        return 22;
-    else if(c == 'I')
-        return 12;
-    else if((int)c >= 65 && (int)c <= 90)
-        return 20;
 
-
-    else if((int)c >= 97 && (int)c <= 122)
-    {
-        if(c == 'm' || c == 'w')
-            return 18;
-        else if(c == 'l' || c == 'i')
-            return 7;
-        else
-            return 13;
-    }
-
-    else if((int)c >= 48 && (int)c <= 57)
-    {
-        return DIGITWIDTH;//DIGIT
-    }
-
-    else if(c == '.' || c == '!' || c == ',' )
-        return 5;
-    else if(c == ':')
-        return 8;
-    else if(c == ' ')
-        return 10;
-
-    return 18;
-}
-
-
-int lineWidth(string s, int ptSize = -1)
-{
-    if(ptSize == -1)
-        ptSize = FONTSIZE;
-    float sum = 0;
-    for(int i = 0; i < s.size(); i++)
-        sum += characterWidth(s[i])*ptSize/CHARACTER_SCALE+1;
-
-    return sum;
-}
-int linesCount(string c, int linelen)
-{
-    std::stringstream ss;
-    vector<string> words;
-    ss << c;
-    string newword;
-    while(ss >> newword){words.push_back(newword);};
-    int i = 0;
-    int current_length = 0;
-    int lines = 1;
-    while(i < words.size())
-    {
-        if(current_length + lineWidth(words[i] + " ") + 1 > linelen)
-        {
-            lines++;
-            current_length = 0;
-        }
-        else
-        {
-            current_length += lineWidth(words[i] + " ");
-            i++;
-        }
-    }
-    return lines;
-}
-const int MAXIDS = 60000;
-
-const int MAP_MAX_SIZE = 100;
-
-const int INVENTORY_TOOLBAR_SIZE = 10;
-const int INVENTORY_SIZE = 10*4;
-
-string seasons[4] = {"Spring","Summer","Fall","Winter"};
-
-string particle = "rain"; ///snow cat
-
-int current_day = 1;
-int current_season = 1;
-int current_year = 1;
-
-int current_hour = 9;
-int current_minute = 0;
-int current_seconds = 0;
-
-const int PLAYER_STARTING_FUNDS = 30000;
-
-const int CRAFTING_XP = 10;
-
-int funds = PLAYER_STARTING_FUNDS;
-
-string CURRENCY = " plotyi";
-
-int hunger = 0;
-
-const int HUNGER_SCALE = 15;
-const int MAX_HUNGER_LEVEL = 4;
-
-string hunger_levels[MAX_HUNGER_LEVEL] = {"Well sated","Slightly hungry","Hungry","Starving"};
-
-string task = "Cut down a tree";
-
-int main_progress = 0;
-
-vector<string> tasks = {"Eat a fruit","Talk to a person", "Buy something", "Cook something"};
-vector<string> events = {"EAT","TALK","BUY","CRAFT"};
-vector<vector<string> > event_string_parameters = {{"fruit"},{},{},{"cooking"}};
-
-queue<string> alerts;
-
-int selectedEntity = 0;
-int randomer()
-{
-    srand(time(0));
-
-    return 0;
-}
-string daily = tasks[randomer()+rand()%tasks.size()];
-
-map<string, int> skills = {{"crafting",1},{"cooking",1},{"woodcutting",1},{"fishing",1},{"charisma",1}};
-
-map<string, int> xps = {{"crafting",0},{"cooking",0},{"woodcutting",0},{"fishing",0},{"charisma",0}};
-
-map<string, vector<string> > unlocks = {{"crafting",{"You can now craft more stuff"}}};
-
-map<string, int> globals;
-map<string, string> strings;
-
-int levelcap(int lvl)
-{
-    return lvl*globals["xp-scale"];
-}
-
-float camera_x = 0, camera_y = 0;
-float camera_xvel = 0, camera_yvel = 0;
-bool GUI_ENABLED = true;
 
 enum {
     FADE_IN,
     FADE_OUT,
 };
 
-int fade_x = 0, fade_y = 0;
-int fade_direction = FADE_IN;
-int fade_progress = 0;
-//const int FADE_MAX = 30;
-
-
-/*struct alpha_map
-{
-    bool alpha[32][32];
-};
-vector<alpha_map> alpha_maps;*/
-
-string Decapitalize(string s)
-{
-    if(s.size()>0)
-    {
-        if(isalpha(s[0])&&s[0]>='A' && s[0]<='Z')
-        {
-            s[0] += 'a'-'A';
-            return s;
-        }
-    }
-    else
-        return s;
-}
-string Capitalize(string s)
-{
-    if(s.size()>0)
-    {
-        if(isalpha(s[0])&&s[0]>='a' && s[0]<='z')
-        {
-            s[0] -= 'a'-'A';
-            return s;
-        }
-    }
-    else
-        return s;
-}
-string FirstWord(string s)
-{
-    std::stringstream ss(s);
-
-    string w;
-
-    ss >> w;
-
-    return w;
-}
-string SecondWord(string s)
-{
-    std::stringstream ss(s);
-
-    string w;
-
-    ss >> w;
-    ss >> w;
-
-    return w;
-}
-string nWord(int n,string s)
-{
-    std::stringstream ss(s);
-
-    string w;
-
-    for(int i = 0; i < n; i++)
-        ss >> w;
-
-    return w;
-}
-
-vector<string> allWord(string s)
-{
-
-    std::stringstream ss(s);
-
-    vector<string> w;
-
-    while(!ss.eof())
-    {
-        string a;
-        ss >> a;
-        w.push_back(a);
-    }
-
-    return w;
-}
-vector<string> split(string s, string delimiter)
-{
-    vector<string> w;
-
-    size_t pos = 0;
-    string token;
-    while ((pos = s.find(delimiter)) != string::npos) {
-        token = s.substr(0, pos);
-        w.push_back(token);
-        s.erase(0, pos + delimiter.length());
-    }
-    if(s!="")
-        w.push_back(s);
-
-    return w;
-}
-float GetDistance(float x1, float y1, float x2, float y2)
-{
-    float dx = x1 - x2;
-    float dy = y1 - y2;
-    return sqrt(dx*dx+dy*dy);
-}
 enum
 {
     EXIT,
@@ -415,62 +137,75 @@ enum
     EDITOR,
     NOTHING,
 };
-bool LoadGlobals()
-{
-    using namespace tinyxml2;
-    XMLDocument xmlDoc;
-    XMLError result;
+///constants end here///////////////////////////////////////////
+///variable declarations begin here//////
 
-    result = xmlDoc.LoadFile("data/xml/globals.xml");
 
-    XMLCheckResult(result);
-    printf("XML file loaded..\n");
+extern SDL_Renderer* gRenderer;// = NULL;
 
-    XMLElement* pRoot = xmlDoc.FirstChildElement();
-    if(pRoot == NULL)
-    {
-        printf("XML read error (root)\n");
-        return 0;
-    }
-    XMLElement * pElement = pRoot->FirstChildElement("globals");
-    if(pElement == NULL)
-    {
-        printf("XML read error!\n");
-        return 0;
-    }
-    XMLElement * globalElement = pElement->FirstChildElement();
+extern SDL_GLContext gContext;
 
-    while(globalElement)
-    {
-        globalElement->QueryIntAttribute("value",&globals[globalElement->Name()]);
 
-        globalElement = globalElement->NextSiblingElement();
-    }
-    globalElement = pRoot->FirstChildElement("strings")->FirstChildElement();
+extern int audioFiles;// = 0;
+extern queue<string> audioCommands;
 
-    while(globalElement)
-    {
 
-        strings[globalElement->Name()] = globalElement->Attribute("value");
+extern string seasons[4];// = {"Spring","Summer","Fall","Winter"};
 
-        globalElement = globalElement->NextSiblingElement();
-    }
-    return 1;
-}
-bool SaveFileExists()
-{
-    using namespace tinyxml2;
-    XMLDocument doc;
-    XMLError err;
+extern string particle;// = "rain"; ///snow cat
 
-    err = doc.LoadFile("data/save/save.xml");
+extern int current_day;// = 1;
+extern int current_season;// = 1;
+extern int current_year;// = 1;
 
-    if(err != XML_SUCCESS){
-        printf("No save file found\n");
-        return false;
-    }
+extern int current_hour;// = 9;
+extern int current_minute;// = 0;
+extern int current_seconds;// = 0;
 
-    return true;
-}
+
+extern int funds; //= PLAYER_STARTING_FUNDS;
+
+extern string CURRENCY; //= "G";
+
+extern int hunger; //= 0;
+
+extern string hunger_levels[MAX_HUNGER_LEVEL]; //= {"Well sated","Slightly hungry","Hungry","Starving"};
+
+extern string task; //= "Cut down a tree";
+
+extern int main_progress; //= 0;
+
+extern vector<string> tasks;// = {"Eat a fruit","Talk to a person", "Buy something", "Cook something"};
+extern vector<string> events;//= {"EAT","TALK","BUY","CRAFT"};
+extern vector<vector<string> > event_string_parameters; //= {{"fruit"},{},{},{"cooking"}};
+
+extern queue<string> alerts;
+
+extern int selectedEntity; //= 0;
+
+
+extern string daily; //= tasks[randomer()+rand()%tasks.size()];
+
+extern map<string, int> skills; //= {{"crafting",1},{"cooking",1},{"woodcutting",1},{"fishing",1},{"charisma",1}};
+
+extern map<string, int> xps; //= {{"crafting",0},{"cooking",0},{"woodcutting",0},{"fishing",0},{"charisma",0}};
+
+extern map<string, vector<string> > unlocks; //= {{"crafting",{"You can now craft more stuff"}}};
+
+extern map<string, int> globals;
+extern map<string, string> strings;
+
+
+extern float camera_x; //= 0,
+extern float camera_y; //= 0;
+extern float camera_xvel; //= 0,
+extern float camera_yvel; // = 0;
+extern bool GUI_ENABLED; // = true;
+
+extern int fade_x; // = 0; //
+extern int fade_y; // = 0;
+extern int fade_direction; // = FADE_IN;
+extern int fade_progress; // = 0;
+
 
 #endif

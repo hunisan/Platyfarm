@@ -1,8 +1,13 @@
-#pragma once
+#ifndef OBJECTS_H
+#define OBJECTS_H
+
 #include "public.h"
 #include "keydata.h"
+#include "declarations.h"
+#include "Object.h"
+#include "Visible.h"
 
-class Object
+/*class Object
 {
 public:
     virtual int Update()
@@ -10,8 +15,8 @@ public:
         return 1;
     }
 };
-
-class Visible : public Object
+*/
+/*class Visible : public Object
 {
 public:
     float x,y;
@@ -30,6 +35,47 @@ public:
     virtual void Draw(float cX = 0, float cY = 0)
     {
         DrawImage(img,x-cX,y-cY,w,h);
+    }
+};
+*/
+class GameVariables : public Object
+{
+public:
+    map<string,string> string_vars;
+    map<string,int> int_vars;
+
+    bool IfDef(string name)
+    {
+        if(string_vars.count(name))
+            return true;
+
+        if(int_vars.count(name))
+            return true;
+
+        return false;
+    }
+
+    int GetInt(string name)
+    {
+        if(int_vars.count(name))
+            return int_vars[name];
+
+        return -1;
+    }
+    string GetString(string name)
+    {
+        if(string_vars.count(name))
+            return string_vars[name];
+
+        return "error";
+    }
+    void SetInt(string name, int value)
+    {
+        int_vars[name] = value;
+    }
+    void SetString(string name, string value)
+    {
+        string_vars[name] = value;
     }
 };
 
@@ -633,6 +679,9 @@ public:
 
 class NPC : public Creature
 {
+protected:
+    Entity * player;
+
 public:
     image portrait;
     int on_meet;
@@ -782,7 +831,7 @@ public:
             {
                 if(i >= 0 && i < w && j >= 0 && j < h)
                 {
-                    DrawClip(images[ids["tileset"]],i*TILESIZE-cX,j*TILESIZE-cY,TILESIZE,TILESIZE,(tile[i][j]%g("tiles-horizontal"))*TILESIZE,(tile[i][j]/g("tiles-horizontal"))*TILESIZE,TILESIZE,TILESIZE,g("tiles-horizontal")*TILESIZE,2*TILESIZE);
+                    DrawClip(images[ids["tileset"]],i*TILESIZE-cX,j*TILESIZE-cY,TILESIZE,TILESIZE,(tile[i][j]%g("tiles-horizontal"))*TILESIZE,(tile[i][j]/g("tiles-horizontal"))*TILESIZE,TILESIZE,TILESIZE,g("tiles-horizontal")*TILESIZE,(int)ceil((double)g("tiles")/g("tiles-horizontal"))*TILESIZE);
                 }
             }
         }
@@ -1316,7 +1365,7 @@ public:
     }
     bool IsSolid(int x, int y)
     {
-        return tilemap.tile[x][y] == 38 || tilemap.tile[x][y] == 16;
+        return (tilemap.tile[x][y] >= 38 && tilemap.tile[x][y] < 46) || tilemap.tile[x][y] == 16 || (tilemap.tile[x][y] >= 4 && tilemap.tile[x][y] <= 12);
     }
     bool CanPlant(int x, int y)
     {
@@ -1372,6 +1421,130 @@ public:
 class XMLManager
 {
 public:
+    static Stage * LoadStage(string path)
+    {
+        Stage * stage = new Stage();
+
+        using namespace tinyxml2;
+
+        XMLDocument doc;
+        doc.LoadFile(path.c_str());
+
+        XMLElement * root = doc.FirstChildElement();
+
+        stage->name = root->FirstChildElement("name")->GetText();
+        string dimensions = root->FirstChildElement("size")->GetText();
+        stage->w = atoi(FirstWord(dimensions).c_str());
+        stage->h = atoi(SecondWord(dimensions).c_str());
+
+        if(root->FirstChildElement("indoors"))
+            stage->indoors = true;
+
+        if(root->FirstChildElement("attributes"))
+        {
+            XMLElement * attribute = root->FirstChildElement("attributes")->FirstChildElement();
+
+            while(attribute)
+            {
+                stage->attributes[attribute->Name()] = attribute->GetText();
+
+                attribute = attribute->NextSiblingElement();
+            }
+
+        }
+
+        XMLElement * rowElement = root->FirstChildElement("row");
+        int height = 0;
+        while(rowElement)
+        {
+            std::stringstream ss;
+
+            string row = rowElement->GetText();
+
+            ss << row;
+
+            fr(0,stage->w)
+                {
+                    string current;
+                    ss >> current;
+                    stage->tilemap.tile[i][height] = atoi(current);
+                }
+
+            rowElement = rowElement->NextSiblingElement("row");
+            height++;
+        }
+
+        XMLElement * objectElement = root->FirstChildElement("object");
+
+        while(objectElement)
+        {
+            Entity * new_object;
+
+            string name = objectElement->FirstChildElement("name")->GetText();
+            string position = objectElement->FirstChildElement("pos")->GetText();
+
+            if(name != "door")
+            {
+                new_object = new Entity(object_templates[name],atoi(FirstWord(position).c_str()),atoi(SecondWord(position)));
+
+            }
+            else
+            {
+                new_object = new Entity(Door("lot",atoi(FirstWord(position).c_str()),atoi(SecondWord(position))));
+
+            }
+
+
+            XMLElement* attributeElement = NULL;
+            if(objectElement->FirstChildElement("attributes") != NULL)
+                attributeElement = objectElement->FirstChildElement("attributes")->FirstChildElement();
+
+            while(attributeElement)
+            {
+                string name = attributeElement->Name();
+                string value = attributeElement->GetText();
+
+                if(is_number(value))
+                    new_object->int_attribs[name] = atoi(value);
+                else
+                    new_object->string_attribs[name] = value;
+
+                attributeElement = attributeElement->NextSiblingElement();
+            }
+
+
+            stage->Add(new_object);
+            stage->objects.push_back(new_object);
+
+            objectElement = objectElement->NextSiblingElement("object");
+
+
+        }
+
+        XMLElement * npcElement = root->FirstChildElement("npc");
+
+        while(npcElement)
+        {
+            NPC * new_object;
+
+            string name = npcElement->FirstChildElement("name")->GetText();
+            string position = npcElement->FirstChildElement("pos")->GetText();
+
+            new_object = new NPC(npc_templates[name],atoi(FirstWord(position)),atoi(SecondWord(position).c_str()));
+
+            new_object->name = name;
+
+            if(npcElement->FirstChildElement("met"))
+                new_object->met = true;
+
+            stage->npcs.push_back(new_object);
+
+
+            npcElement = npcElement->NextSiblingElement("npc");
+        }
+
+        return stage;
+    }
     static void SaveStage(Stage * st, string path)
     {
         using namespace tinyxml2;
@@ -1442,7 +1615,32 @@ public:
 
 
         }
+        for(auto e : st->npcs)
+        if(e)
+        {
+            XMLElement * obj = doc.NewElement("npc");
 
+            InsertString("name",e->name,obj);
+
+            InsertString("pos",to_string(e->x)+" "+to_string(e->y),obj);
+
+            XMLElement * attribs = doc.NewElement("attributes");
+
+            for(auto a : e->int_attribs)
+            {
+                InsertString(a.first,to_string(a.second),attribs);
+            }
+            for(auto a : e->string_attribs)
+            {
+                InsertString(a.first,a.second,attribs);
+            }
+            if(attribs->FirstChildElement())
+                obj->InsertEndChild(attribs);
+
+            root->InsertEndChild(obj);
+
+
+        }
         doc.SaveFile(path.c_str());
     }
 };
@@ -1715,16 +1913,15 @@ Dialog Prompt(string msg, string script, string positive = "Yes", string negativ
     return d;
 }
 
-class DialogSystem : public Dialog
+class DialogSystem : public Dialog, public Entity
 {
 public:
     int base_h;
-    int x,y,w,h;
+    //int x,y,w,h;
     int portrait_size;
     int textLength, currentLength;
     int lineLength, ptSize;
 
-    string default_speaker;
 
     int borderw = 11;
     Dialog Current;
@@ -1736,6 +1933,7 @@ public:
     bool finished_chain = false;
     int namePtSize = FONTSIZE;
     int lines = 0;
+
 
     void calculateLines(string c)
     {
@@ -1776,10 +1974,11 @@ public:
     }
     void Add(Dialog _dialog, string default_sp = "narrator")
     {
-        if(speaker != "")
+        if(_dialog.speaker != "any")
             speaker = _dialog.speaker;
         else
             speaker = default_sp;
+
         chain = _dialog.chain;
         hasQuestion = _dialog.hasQuestion;
         question = _dialog.question;
@@ -1903,6 +2102,18 @@ public:
                 DrawString(answers[i],x+15,y+15+lines*ptSize+i*(ptSize+5),ptSize);
         }
     }
+
+    void Hover(int mx, int my)
+    {
+        if(finished_chain)
+        if(my > y+15+lines*ptSize)
+        {
+            my -= y+15+lines*ptSize;
+            selected_answer = (int)floor(my/(ptSize+5));
+            if(selected_answer > answers.size()-1)
+                selected_answer = answers.size()-1;
+        }
+    }
     DialogSystem()
     {
         w = globals["dialog-width"];
@@ -2017,6 +2228,11 @@ class GUIElemContainer : public GUI
     public:
     vector<GUI*> GUIElems;
 
+    void Scroll(int dir)
+    {
+        for(auto e : GUIElems)
+            e->Scroll(dir);
+    }
     void ArrangeElems()
     {
         int pX = x;
@@ -2084,6 +2300,11 @@ public:
 
     vector<GUI*> rows;
 
+    void Scroll(int dir)
+    {
+        for(auto e : rows)
+            e->Scroll(dir);
+    }
     void ArrangeRows()
     {
         int pY = y;
@@ -2150,6 +2371,11 @@ public:
     int activeTab = 0;
     int toolbarHeight = TILESIZE;
 
+
+    void Scroll(int dir)
+    {
+        tabs[activeTab]->Scroll(dir);
+    }
     void AddElem(GUI * elem)
     {
         tabs.push_back(elem);
@@ -2284,7 +2510,7 @@ class GUIInventoryItems : public GUI
                 hold = NULL;
             }
         }
-        Item* GetClick(int mX, int mY, int& id)
+        Item* GetClick(int mX, int mY)
         {
             if(mX >= x+frame && mX < x+w-frame && mY >= y+frame && mY < y+h-frame-TILESIZE-frame)
             {
@@ -2388,15 +2614,25 @@ public:
 
     vector<Item> item_list;
     Inventory * inv;
-    GUIBuyItems(Inventory * inv)
+    int scrollPosition = 0;
+
+    void Scroll(int dir)
+    {
+        if(item_list.size()>g("shop-shown-items"))
+        {
+            if(scrollPosition + dir >= 0 && scrollPosition+dir <= item_list.size()-g("shop-shown-items"))
+                scrollPosition += dir;
+        }
+    }
+    GUIBuyItems(Inventory * inv, string store_inventory = "general-store-inventory")
     {
 
-        for(auto& e : allWord(s("general-store-inventory")))
+        for(auto& e : allWord(s(store_inventory)))
             item_list.push_back(item_templates[e]);
 
         type = "shop";
         w = 400;
-        h = std::min(SCREEN_HEIGHT*3/4,(int)item_list.size()*TILESIZE+TILESIZE);
+        h = std::min(g("shop-shown-items")*TILESIZE,(int)item_list.size()*TILESIZE+TILESIZE);
         x = SCREEN_WIDTH/2-w/2;
         y = SCREEN_HEIGHT/2-h/2;
         this->inv = inv;
@@ -2408,15 +2644,24 @@ public:
         DrawString("funds: " + to_string(funds) + " " + CURRENCY,x+TILESIZE,y);
 
         int i = 0;
-        for(auto& e : item_list)
+        for(int ii = scrollPosition; ii< scrollPosition+std::min(g("shop-shown-items"),(int)item_list.size()); ii++)
         {
+            Item e = item_list[ii];
+            i = ii-scrollPosition;
             DrawSeparator(x,y+TILESIZE+i*TILESIZE,w,TILESIZE);
             DrawImage(e.img,x,y+TILESIZE+i*TILESIZE,TILESIZE,TILESIZE);
             DrawString(e.formal,x+TILESIZE,y+TILESIZE+i*TILESIZE);
             string pricestring = to_string(e.int_attribs["price"])+"" + CURRENCY;
             DrawString(pricestring,x+w-lineWidth(pricestring)-FONTSIZE,y+TILESIZE+i*TILESIZE);
-            i++;
 
+        }
+
+        if(item_list.size()>g("shop-shown-items"))
+        {
+            DrawImage(im("itemtile"),x+w-5,y,5,h);
+            int nodeh = g("shop-shown-items")/item_list.size()*h;
+
+            DrawImage(im("button"),x+w-5,y+(float)scrollPosition*(nodeh)/item_list.size(),5,5);
         }
     }
     int HandleClick(int mX, int mY)
@@ -2425,6 +2670,7 @@ public:
         if(clickY < 0)
             return NULL;
         clickY /= TILESIZE;
+        clickY += scrollPosition;
 
         if(clickY < item_list.size())
         {
@@ -2455,10 +2701,36 @@ public:
 class GUIBuyScreen : public GUIRowContainer
 {
 public:
-    GUIBuyScreen(Inventory * inv)
+    GUIBuyItems * buyItems;
+    GUIInventoryItems * inventoryItems;
+
+    GUIBuyScreen(Inventory * inv, string shop_inventory)
     {
-        AddElem(new GUIBuyItems(inv));
-        AddElem(new GUIInventoryItems(inv));
+        buyItems = new GUIBuyItems(inv,shop_inventory);
+        inventoryItems = new GUIInventoryItems(inv);
+
+        AddElem(buyItems);
+        AddElem(inventoryItems);
+    }
+
+    void Sell(Item * item)
+    {
+        if(item->int_attribs.count("sell"))
+            funds += item->int_attribs["sell"]*item->quantity;
+        inventoryItems->inv->Remove(item->name,item->quantity);
+    }
+    int HandleClick(int mX, int mY)
+    {
+        if(Contains(inventoryItems,mX,mY,0,0))
+        {
+            Item * clickItem = inventoryItems->GetClick(mX,mY);
+            if(clickItem)
+                Sell(clickItem);
+        }
+        else if(Contains(buyItems,mX,mY,0,0))
+        {
+            buyItems->HandleClick(mX,mY);
+        }
     }
 };
 class GUISellItems : public GUI
@@ -2512,10 +2784,38 @@ public:
 class GUISellScreen : public GUIRowContainer
 {
   public:
+
+    GUISellItems * sellItems;
+    GUIInventoryItems * items;
+
+    bool holdingItem = false;
+    Item selectedItem;
+
     GUISellScreen(Inventory * inv)
     {
-        AddElem(new GUISellItems(inv));
-        AddElem(new GUIInventoryItems(inv));
+        sellItems = new GUISellItems(inv);
+        items = new GUIInventoryItems(inv);
+
+        AddElem(sellItems);
+        AddElem(items);
+    }
+
+    void SwapWithSelected(int id)
+    {
+    }
+    int HandleClick(int mX, int mY)
+    {
+        if(Contains(items,mX,mY,0,0))
+        {
+            int id;
+            if(items->GetClick(mX,mY))
+            {
+            }
+        }
+        else
+        {
+
+        }
     }
 };
 class GUIElemSkills : public GUI
@@ -2569,11 +2869,11 @@ class GUIShopScreen : public GUITabContainer
 {
 public:
 
-    GUIShopScreen(Inventory * inv) : GUITabContainer()
+    GUIShopScreen(Inventory * inv, string shop_inventory) : GUITabContainer()
     {
         type = "shop";
 
-        AddElem(new GUIBuyScreen(inv));
+        AddElem(new GUIBuyScreen(inv, shop_inventory));
         AddElem(new GUISellScreen(inv));
 
         SwitchTab(0);
@@ -2582,6 +2882,7 @@ public:
 
 class GUIToolSelect : public GUI
 {
+
 public:
     string * tool;
 
@@ -2623,13 +2924,50 @@ public:
         DrawImage(im("staff-red"),x,y+TILESIZE,TILESIZE,TILESIZE);
     }
 };
+
+class GUISaveLoadEditor : public GUI
+{
+public:
+    string * commands;
+
+    GUISaveLoadEditor(string * commands)
+    {
+        this->commands = commands;
+        x=y=0;
+        w = 2 * TILESIZE;
+        h = TILESIZE;
+
+    }
+    int HandleClick(int mX, int mY)
+    {
+        mX -= x;
+        mY -= y;
+        if(mX < TILESIZE)
+        {
+            *commands = "save";
+        }
+        else
+        {
+            *commands = "load";
+        }
+    }
+    void Draw(float cX = 0, float cY = 0)
+    {
+        DrawImage(im("gui"),x,y,w,h);
+
+        DrawImage(im("coffee"),x,y,TILESIZE,TILESIZE);
+        DrawImage(im("chest"),x+TILESIZE,y,TILESIZE,TILESIZE);
+    }
+
+};
 class GUIEditorInterface : public GUIRowContainer
 {
 public:
     NumberSelector * widthSetter,  *heightSetter;
     Stage * targetStage;
 
-    GUIEditorInterface(Stage * targetStage, string * tool)
+
+    GUIEditorInterface(Stage * targetStage, string * tool, string * commands)
     {
         x = y = w = h = 0;
         w = 0;
@@ -2642,6 +2980,7 @@ public:
         AddElem(widthSetter);
         AddElem(heightSetter);
         AddElem(new GUIToolSelect(tool));
+        AddElem(new GUISaveLoadEditor(commands));
 
         x = SCREEN_WIDTH-w;
 
@@ -2822,11 +3161,9 @@ class GUIInventoryScreen : public GUIElemContainer
     {
         if(Contains(inv_items,mX,mY,0,0))
         {
-            //inv_items->HandleClick(mX,mY);
-            int id;
-            if(inv_items->GetClick(mX,mY,id))
+            if(inv_items->GetClick(mX,mY))
             {
-                item_description->OnNewItemSelected(inv_items->GetClick(mX,mY,id)->name);
+                item_description->OnNewItemSelected(inv_items->GetClick(mX,mY)->name);
             }
             else
                 item_description->DeselectItem();
@@ -3013,8 +3350,8 @@ public:
                 if(item_templates.count(recipe_list[selected].item))
                 {
                     for(int j = 0; j < numSel.number; j++)
-                    for(int i = 0; i < recipe_list[selected].ingredients.size(); i++)
-                        inv->Remove(recipe_list[selected].ingredients[i],recipe_list[selected].counts[i]);
+                        for(int i = 0; i < recipe_list[selected].ingredients.size(); i++)
+                            inv->Remove(recipe_list[selected].ingredients[i],recipe_list[selected].counts[i]);
 
                     inv->Add(item_templates[recipe_list[selected].item], numSel.number*recipe_list[selected].count);
 
@@ -3037,3 +3374,5 @@ public:
         }
     }
 };
+
+#endif // OBJECTS_H

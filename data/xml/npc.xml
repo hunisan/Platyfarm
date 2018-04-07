@@ -12,7 +12,6 @@
 			<creature/>
 			<sentient/>
 			<race>ghost</race>
-			<sound>meow</sound>
 		</attributes>
 	</npc>
 	<npc id="2">
@@ -172,7 +171,7 @@
 			<sentient/>
 			<race>feline</race>
 			<behaviour-talk>random</behaviour-talk>
-			<lines>27 28 29 30</lines>
+			<lines>27 28 29 30 31 33 34 39 40 41</lines>
 		</attributes>
 	</npc>
 </root>
