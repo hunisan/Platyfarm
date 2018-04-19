@@ -14,13 +14,16 @@ private:
     Stage * currentstage;
     Stage player_lot, player_house, forest, general_store, limbo;
     Stage * fade_stage;
-    map<string,Stage*> stageList;
-    vector<string> stageNames;
+    map<String,Stage*> stageList;
+    vector<String> stageNames;
 
-    GameVariables gameVars;
-    LightingSystem lightsys;
-    WeatherSystem weathersys;
-    ParticleSystem particlesys;
+    GameVariables * gameVars;
+    LightingSystem lightingSystem;
+    WeatherSystem weatherSystem;
+    ParticleSystem particleSystem;
+
+    vector<Object*> systems;
+
     Entity * entity;
     Entity * ent2;
     Inventory * inventory;
@@ -121,7 +124,7 @@ public:
 
     int gamephase;
 
-    void AddXp(string skill, int xp)
+    void AddXp(String skill, int xp)
     {
         xps[skill] += xp;
         while(xps[skill] >= levelcap(skills[skill]))
@@ -133,7 +136,7 @@ public:
                 alerts.push(unlocks[skill][skills[skill]-2]);
         }
     }
-    void Action(Entity * e, string a)
+    void Action(Entity * e, String a)
     {
         if(a == "nothing")
             return;
@@ -177,12 +180,12 @@ public:
             }
         }
     }
-    void RunScript(string s, Entity **e = NULL,string i="")
+    void RunScript(String s, Entity **e = NULL,String i="")
     {
-        string fw = FirstWord(s);
-        string sw = SecondWord(s);
-        string tw = nWord(3,s);
-        string w4 = nWord(4,s);
+        String fw = FirstWord(s);
+        String sw = SecondWord(s);
+        String tw = nWord(3,s);
+        String w4 = nWord(4,s);
 
         cout << s << endl;
 
@@ -194,7 +197,7 @@ public:
         else if(fw == "gui")
         {
             gamephase = GUI;
-            string sw = SecondWord(s);
+            String sw = SecondWord(s);
             if(sw == "shop")
                 gui = new GUIShopScreen(inventory,tw);
             else if(sw == "sell")
@@ -237,7 +240,7 @@ public:
         {
             if(e)
             {
-                particlesys.Add(**e,g("particle-decay"));
+                particleSystem.Add(**e,g("particle-decay"));
                 remove_entity(*e);
 
             }
@@ -269,6 +272,10 @@ public:
         {
             player->increaseStat(sw,atoi(tw),(is_number(w4)?atoi(w4):0));
 
+        }
+        else if(fw == "define")
+        {
+            gameVars->Define(sw);
         }
         else if(fw == "dialog")
         {
@@ -332,7 +339,7 @@ public:
 
     }
 
-    void Alert(string msg)
+    void Alert(String msg)
     {
         gamephase = DIALOG;
         dialogSystem->Add(Dialog(msg));
@@ -383,7 +390,7 @@ public:
         return success;
     }
 
-    void SpawnObjects(string e, int min_x, int min_y, int max_x, int max_y, int _count)
+    void SpawnObjects(String e, int min_x, int min_y, int max_x, int max_y, int _count)
     {
         int c = 0;
         while(c < _count && SpawnObject(new Entity(ent(e)),min_x,min_y,max_x,max_y))
@@ -403,14 +410,14 @@ public:
 
         XMLElement * pElement;
 
-        auto InsertInt = [&pElement, &pRoot, &saveFile](string name, int value, XMLNode* elem)
+        auto InsertInt = [&pElement, &pRoot, &saveFile](String name, int value, XMLNode* elem)
         {
             pElement = saveFile.NewElement(name.c_str());
             pElement->SetText(value);
             elem->InsertEndChild(pElement);
 
         };
-        auto InsertString = [&pElement, &pRoot, &saveFile](string name, string value, XMLNode* elem )
+        auto InsertString = [&pElement, &pRoot, &saveFile](String name, String value, XMLNode* elem )
         {
             pElement = saveFile.NewElement(name.c_str());
             pElement->SetText(value.c_str());
@@ -474,7 +481,7 @@ public:
 
             fr(0,stage.second->h)
             {
-                string row;
+                String row;
                 for(int j = 0; j < stage.second->w; j++)
                     row.append(to_string(stage.second->tilemap.tile[j][i]) + " ");
 
@@ -488,14 +495,14 @@ public:
             if(e && e->x < stage.second->w*TILESIZE && e->y < stage.second->h*TILESIZE)
             {
                 pElement = saveFile.NewElement("object");
-                auto InsertChildInt = [&pElement, &pRoot, &saveFile](string name, int value)
+                auto InsertChildInt = [&pElement, &pRoot, &saveFile](String name, int value)
                 {
                     XMLElement * subElement = saveFile.NewElement(name.c_str());
                     subElement->SetText(value);
                     pElement->InsertEndChild(subElement);
 
                 };
-                auto InsertChildString = [&pElement, &pRoot, &saveFile](string name, string value)
+                auto InsertChildString = [&pElement, &pRoot, &saveFile](String name, String value)
                 {
                     XMLElement * subElement = saveFile.NewElement(name.c_str());
                     subElement->SetText(value.c_str());
@@ -535,14 +542,14 @@ public:
             {
                 printf("Saving npc..\n");
                 pElement = saveFile.NewElement("npc");
-                auto InsertChildInt = [&pElement, &pRoot, &saveFile](string name, int value)
+                auto InsertChildInt = [&pElement, &pRoot, &saveFile](String name, int value)
                 {
                     XMLElement * subElement = saveFile.NewElement(name.c_str());
                     subElement->SetText(value);
                     pElement->InsertEndChild(subElement);
 
                 };
-                auto InsertChildString = [&pElement, &pRoot, &saveFile](string name, string value)
+                auto InsertChildString = [&pElement, &pRoot, &saveFile](String name, String value)
                 {
                     XMLElement * subElement = saveFile.NewElement(name.c_str());
                     subElement->SetText(value.c_str());
@@ -1013,7 +1020,7 @@ public:
 
         FocusCamera();
 
-        weathersys.FeedClimate(currentstage->attributes["climate"]);
+        weatherSystem.FeedClimate(currentstage->attributes["climate"]);
 
 
 
@@ -1037,7 +1044,7 @@ public:
 
 
 
-        setupStuff();
+        setupStage();
 
         //currentstage->objects.push_back(new Entity(object_templates["house"],TILESIZE/2,TILESIZE*2));
 
@@ -1121,7 +1128,7 @@ public:
 
     }
 
-    void LoadStage(string stage)
+    void LoadStage(String stage)
     {
 
         cout << "Loading stage: " << stage << "\n";
@@ -1140,7 +1147,7 @@ public:
             new_stage->name = pElement->FirstChildElement("name")->GetText();
             stageNames.push_back(new_stage->name);
 
-            string sizes = pElement->FirstChildElement("size")->GetText();
+            String sizes = pElement->FirstChildElement("size")->GetText();
             new_stage->w = new_stage->tilemap.w = atoi(FirstWord(sizes).c_str());
             new_stage->h = new_stage->tilemap.h =atoi(SecondWord(sizes).c_str());
 
@@ -1164,13 +1171,13 @@ public:
             {
                 std::stringstream ss;
 
-                string row = rowElement->GetText();
+                String row = rowElement->GetText();
 
                 ss << row;
 
                 fr(0,new_stage->w)
                     {
-                        string current;
+                        String current;
                         ss >> current;
                         new_stage->tilemap.tile[i][height] = atoi(current);
                     }
@@ -1185,8 +1192,8 @@ public:
             {
                 Entity * new_object;
 
-                string name = objectElement->FirstChildElement("name")->GetText();
-                string position = objectElement->FirstChildElement("pos")->GetText();
+                String name = objectElement->FirstChildElement("name")->GetText();
+                String position = objectElement->FirstChildElement("pos")->GetText();
 
                 if(name != "door")
                 {
@@ -1206,8 +1213,8 @@ public:
 
                 while(attributeElement)
                 {
-                    string name = attributeElement->Name();
-                    string value = attributeElement->GetText();
+                    String name = attributeElement->Name();
+                    String value = attributeElement->GetText();
 
                     if(is_number(value))
                         new_object->int_attribs[name] = atoi(value);
@@ -1229,8 +1236,8 @@ public:
             {
                 NPC * new_object;
 
-                string name = npcElement->FirstChildElement("name")->GetText();
-                string position = npcElement->FirstChildElement("pos")->GetText();
+                String name = npcElement->FirstChildElement("name")->GetText();
+                String position = npcElement->FirstChildElement("pos")->GetText();
 
                 new_object = new NPC(npc_templates[name],atoi(FirstWord(position)),atoi(SecondWord(position).c_str()));
 
@@ -1251,7 +1258,7 @@ public:
     {
         cout << "Loading stages\n";
 
-        vector<string> stages;
+        vector<String> stages;
 
         using namespace tinyxml2;
 
@@ -1290,7 +1297,7 @@ public:
 
         player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
 
-        setupStuff();
+        setupStage();
 
         using namespace tinyxml2;
 
@@ -1319,7 +1326,7 @@ public:
         current_season = atoi(pRoot->FirstChildElement("season")->GetText());
         current_day = atoi(pRoot->FirstChildElement("day")->GetText());
         funds = atoi(pRoot->FirstChildElement("funds")->GetText());
-        string player_pos = pRoot->FirstChildElement("player")->GetText();
+        String player_pos = pRoot->FirstChildElement("player")->GetText();
 
         player->x = atoi(FirstWord(player_pos).c_str());
         player->y = atoi(SecondWord(player_pos).c_str());
@@ -1349,7 +1356,7 @@ public:
         while(pElement)
         {
             printf("Loading toolbar item.. \n");
-            string item = pElement->GetText();
+            String item = pElement->GetText();
 
             if(item == "blank")
                 inventory->toolbar[item_index] = NULL;
@@ -1371,7 +1378,7 @@ public:
         while(pElement)
         {
             printf("Loading inventory item.. \n");
-            string item = pElement->GetText();
+            String item = pElement->GetText();
             if(item == "blank")
                 inventory->items[item_index] = NULL;
             else
@@ -1409,7 +1416,7 @@ public:
             new_stage->name = pElement->FirstChildElement("name")->GetText();
             stageNames.push_back(new_stage->name);
 
-            string sizes = pElement->FirstChildElement("size")->GetText();
+            String sizes = pElement->FirstChildElement("size")->GetText();
             new_stage->w = new_stage->tilemap.w = atoi(FirstWord(sizes).c_str());
             new_stage->h = new_stage->tilemap.h =atoi(SecondWord(sizes).c_str());
 
@@ -1434,13 +1441,13 @@ public:
             {
                 std::stringstream ss;
 
-                string row = rowElement->GetText();
+                String row = rowElement->GetText();
 
                 ss << row;
 
                 fr(0,new_stage->w)
                     {
-                        string current;
+                        String current;
                         ss >> current;
                         new_stage->tilemap.tile[i][height] = atoi(current);
                     }
@@ -1455,8 +1462,8 @@ public:
             {
                 Entity * new_object;
 
-                string name = objectElement->FirstChildElement("name")->GetText();
-                string position = objectElement->FirstChildElement("pos")->GetText();
+                String name = objectElement->FirstChildElement("name")->GetText();
+                String position = objectElement->FirstChildElement("pos")->GetText();
 
                 if(name != "door")
                 {
@@ -1476,8 +1483,8 @@ public:
 
                 while(attributeElement)
                 {
-                    string name = attributeElement->Name();
-                    string value = attributeElement->GetText();
+                    String name = attributeElement->Name();
+                    String value = attributeElement->GetText();
 
                     if(is_number(value))
                         new_object->int_attribs[name] = atoi(value);
@@ -1499,8 +1506,8 @@ public:
             {
                 NPC * new_object;
 
-                string name = npcElement->FirstChildElement("name")->GetText();
-                string position = npcElement->FirstChildElement("pos")->GetText();
+                String name = npcElement->FirstChildElement("name")->GetText();
+                String position = npcElement->FirstChildElement("pos")->GetText();
 
                 new_object = new NPC(npc_templates[name],atoi(FirstWord(position)),atoi(SecondWord(position).c_str()));
 
@@ -1538,7 +1545,7 @@ public:
         cout << "Counted " << dialogs.size() << " dialogs\n";
     }
 
-    void setupStuff()
+    void setupStage()
     {
         cursor = new Cursor();
         preview = new Preview();
@@ -1548,15 +1555,17 @@ public:
         eventSystem = new EventSystem;
         timedisplay = new TimeDisplay(eventSystem,player);
 
-        lightsys = LightingSystem();
-        particlesys = ParticleSystem();
-        weathersys = WeatherSystem(&particlesys);
-
+        lightingSystem = LightingSystem();
+        particleSystem = ParticleSystem();
+        weatherSystem = WeatherSystem(&particleSystem);
+        systems.push_back(&particleSystem);
+        systems.push_back(&weatherSystem);
+        systems.push_back(&lightingSystem);
 
         gui = new GUIInventoryScreen();
 
         dialogSystem = new DialogSystem();
-
+        gameVars = new GameVariables();
     }
     void HandleRightClick()
     {
@@ -1583,7 +1592,7 @@ public:
                                 {
                                     if(n->attributes["behaviour-talk"]=="random")
                                     {
-                                        vector<string> lines = allWord(n->attributes["lines"]);
+                                        vector<String> lines = allWord(n->attributes["lines"]);
 
                                         int randomLineIndex = rand()%lines.size();
 
@@ -1636,7 +1645,7 @@ public:
                                 inventory->Add(item_templates[e->pick]);
                                 //e = NULL;
                                 interacted = true;
-                                particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,g("particle-decay"));
+                                particleSystem.Add(e->x,e->y,e->w,e->h,e->img,1,g("particle-decay"));
                                 remove_entity(e);
                                 break;
 
@@ -1736,123 +1745,124 @@ public:
         if(e->Interacts(sel)!=-1)
             RunScript(e->interactions[e->Interacts(sel)].script,&e,sel->name);
 
-        if(sel)
-        if(sel->string_attribs.count("place"))//category == "organic")
-                {
-                    //if(inventory->toolbar[inventory->selected]->type == "seed")
-                    int place_x = std::floor((KeyData.MouseX+camera_x)/TILESIZE);
-                    int place_y = std::floor((KeyData.MouseY+camera_y)/TILESIZE);
-
-                    int place_range = g("interact-range");
-
-                    Entity * newe = new Entity(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]],place_x*TILESIZE,place_y*TILESIZE);
-                    if(GetDistance(player->x+player->w/2,player->y+player->h/2,newe->x + newe->w/2,newe->y + newe->h/2) < place_range + newe->w/2)
+        if(sel){
+            if(sel->string_attribs.count("place"))//category == "organic")
                     {
+                        //if(inventory->toolbar[inventory->selected]->type == "seed")
+                        int place_x = std::floor((KeyData.MouseX+camera_x)/TILESIZE);
+                        int place_y = std::floor((KeyData.MouseY+camera_y)/TILESIZE);
 
-                        //currentstage->objects.push_back(newe);
-                        if(inventory->toolbar[inventory->selected]->category != "organic" || ((!inventory->toolbar[inventory->selected]->int_attribs.count("needs_soil") && currentstage->IsGround(place_x,place_y)) || currentstage->CanPlant(place_x, place_y)))
-                        if((!newe->rigid || !Intersect(newe,player)) && PlaceObject(newe,place_x,place_y))
+                        int place_range = g("interact-range");
+
+                        Entity * newe = new Entity(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]],place_x*TILESIZE,place_y*TILESIZE);
+                        if(GetDistance(player->x+player->w/2,player->y+player->h/2,newe->x + newe->w/2,newe->y + newe->h/2) < place_range + newe->w/2)
                         {
-                            particlesys.Add(newe->x,newe->y,newe->w,newe->h,images[ids["dust"]],1,globals["particle-decay"]);
-                            eventSystem->Event("PLACE",{newe->category});
 
-                            AddDrawable(newe);
+                            //currentstage->objects.push_back(newe);
+                            if(inventory->toolbar[inventory->selected]->category != "organic" || ((!inventory->toolbar[inventory->selected]->int_attribs.count("needs_soil") && currentstage->IsGround(place_x,place_y)) || currentstage->CanPlant(place_x, place_y)))
+                            if((!newe->rigid || !Intersect(newe,player)) && PlaceObject(newe,place_x,place_y))
+                            {
+                                particleSystem.Add(newe->x,newe->y,newe->w,newe->h,images[ids["dust"]],1,globals["particle-decay"]);
+                                eventSystem->Event("PLACE",{newe->category});
 
-                            if(sel->name != "god")
-                                inventory->Remove(inventory->selected);
+                                AddDrawable(newe);
 
+                                if(sel->name != "god")
+                                    inventory->Remove(inventory->selected);
+
+                            }
                         }
                     }
-                }
-        else if(sel->category == "tool")
-        {
-            for(auto& e : currentstage->objects)
-            //auto &e = currentstage->grid[click_x][click_y];
-                if(e)
-                    //if(KeyData.MouseX+camera_x >= e->x && KeyData.MouseX+camera_x <= e->x + e->w &&
-                    //       KeyData.MouseY+camera_y >= e->y && KeyData.MouseY+camera_y <= e->y + e->h  )
-                    if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)){
-                        if(sel->type == "watering")
-                        {
-                            if(e->category == "plant" && e->int_attribs.count("needs_water"))
+            else if(sel->category == "tool")
+            {
+                for(auto& e : currentstage->objects)
+                //auto &e = currentstage->grid[click_x][click_y];
+                    if(e)
+                        //if(KeyData.MouseX+camera_x >= e->x && KeyData.MouseX+camera_x <= e->x + e->w &&
+                        //       KeyData.MouseY+camera_y >= e->y && KeyData.MouseY+camera_y <= e->y + e->h  )
+                        if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)){
+                            if(sel->type == "watering")
                             {
-                                e->int_attribs["watered"] = 1;
-                                particlesys.Add(e->x,e->y,e->w,e->h,images[ids["water"]],1,globals["particle-decay"]);
-                                e->Shake();
-                            }
-
-                        }
-                        else
-                        {
-                            if((e->destroy != "" || sel->name == "delete")
-                               && (sel->type == e->destroy || sel->type == "omni" || e->destroy == "any"))
-                               //&& (e->drops.size()>0 )
+                                if(e->category == "plant" && e->int_attribs.count("needs_water"))
                                 {
-                                    float dx = player->x - e->x;
-                                    float dy = player->y - e->y;
-                                    float distance = sqrt(dx*dx+dy*dy);
+                                    e->int_attribs["watered"] = 1;
+                                    particleSystem.Add(e->x,e->y,e->w,e->h,images[ids["water"]],1,globals["particle-decay"]);
+                                    e->Shake();
+                                }
 
-                                    int strength = 1;
-                                    if(sel->int_attribs.count("strength"))
-                                        strength = sel->int_attribs["strength"];
+                            }
+                            else
+                            {
+                                if((e->destroy != "" || sel->name == "delete")
+                                   && (sel->type == e->destroy || sel->type == "omni" || e->destroy == "any"))
+                                   //&& (e->drops.size()>0 )
+                                    {
+                                        float dx = player->x - e->x;
+                                        float dy = player->y - e->y;
+                                        float distance = sqrt(dx*dx+dy*dy);
 
-                                    if(distance < sel->int_attribs["range"])//TILESIZE*2)
-                                        if(e->health <= strength)
-                                        {
-                                            eventSystem->Event("DESTROY", {e->name});
+                                        int strength = 1;
+                                        if(sel->int_attribs.count("strength"))
+                                            strength = sel->int_attribs["strength"];
 
-                                            if(sel->name != "delete")
-                                            for(int i = 0; i < e->drops.size(); i++)
+                                        if(distance < sel->int_attribs["range"])//TILESIZE*2)
+                                            if(e->health <= strength)
                                             {
+                                                eventSystem->Event("DESTROY", {e->name});
 
-                                                int quantity =(e->maxs[i] == e->mins[i] ? e->mins[i] : rand()%(e->maxs[i]-e->mins[i])+e->mins[i]);
+                                                if(sel->name != "delete")
+                                                for(int i = 0; i < e->drops.size(); i++)
+                                                {
+
+                                                    int quantity =(e->maxs[i] == e->mins[i] ? e->mins[i] : rand()%(e->maxs[i]-e->mins[i])+e->mins[i]);
 
 
-                                                inventory->Add(item_templates[e->drops[i]], quantity);
+                                                    inventory->Add(item_templates[e->drops[i]], quantity);
 
-                                            }
+                                                }
 
-                                            particlesys.Add(e->x,e->y,e->w,e->h,e->img,1,globals["particle-decay"]);
+                                                particleSystem.Add(e->x,e->y,e->w,e->h,e->img,1,globals["particle-decay"]);
 
-                                            if(e->leftover == "" || sel->name == "delete")
-                                            {
-                                                remove_entity(e);
-                                                //cout << e << " " << currentstage->grid[click_x][click_y] << endl;
+                                                if(e->leftover == "" || sel->name == "delete")
+                                                {
+                                                    remove_entity(e);
+                                                    //cout << e << " " << currentstage->grid[click_x][click_y] << endl;
 
+                                                }
+                                                else
+                                                {
+                                                    change_entity(e,new Entity(object_templates[e->leftover],e->x,e->y));
+                                                    //e = new Entity(object_templates[e->leftover],e->x,e->y);
+                                                }
+
+                                                //break;
                                             }
                                             else
                                             {
-                                                change_entity(e,new Entity(object_templates[e->leftover],e->x,e->y));
-                                                //e = new Entity(object_templates[e->leftover],e->x,e->y);
+                                                e->health -= strength;
+                                                e->Shake();
                                             }
-
-                                            //break;
-                                        }
-                                        else
-                                        {
-                                            e->health -= strength;
-                                            e->Shake();
-                                        }
-                                }
+                                    }
+                            }
                         }
+
+                    if(sel->type == "tilling" && (sel->name == "terra" || (currentstage->IsGround(click_x,click_y) && currentstage->IsFree(click_x,click_y) && GetDistance(player->x + player->w/2,player->y + player->h/2,KeyData.MouseX+camera_x,KeyData.MouseY+camera_y) < TILESIZE*2)))
+                    {
+                        particleSystem.Add(click_x*TILESIZE,click_y*TILESIZE,TILESIZE,TILESIZE,images[ids["dust"]],1,globals["particle-decay"]);
+                        if(sel->name == "terra")
+                            currentstage->Set(click_x,click_y,currentstage->Get(click_x,click_y)+1);
+                        else
+                            currentstage->Set(click_x,click_y,Stage::TILLED);
                     }
+            }
+            else if(sel->category == "weapon")
+            {
+                SwingWeapon(sel);
+            }
+            else if(sel->category == "organic")
+            {
 
-                if(sel->type == "tilling" && (sel->name == "terra" || (currentstage->IsGround(click_x,click_y) && currentstage->IsFree(click_x,click_y) && GetDistance(player->x + player->w/2,player->y + player->h/2,KeyData.MouseX+camera_x,KeyData.MouseY+camera_y) < TILESIZE*2)))
-                {
-                    particlesys.Add(click_x*TILESIZE,click_y*TILESIZE,TILESIZE,TILESIZE,images[ids["dust"]],1,globals["particle-decay"]);
-                    if(sel->name == "terra")
-                        currentstage->Set(click_x,click_y,currentstage->Get(click_x,click_y)+1);
-                    else
-                        currentstage->Set(click_x,click_y,Stage::TILLED);
-                }
-        }
-        else if(sel->category == "weapon")
-        {
-            SwingWeapon(sel);
-        }
-        else if(sel->category == "organic")
-        {
-
+            }
         }
 
     }
@@ -1877,7 +1887,7 @@ public:
                     iY+=TILESIZE;
                     break;
                 }
-                particlesys.Add(Entity(sel->img,iX,iY,TILESIZE,TILESIZE), g("particle-decay"));
+                particleSystem.Add(Entity(sel->img,iX,iY,TILESIZE,TILESIZE), g("particle-decay"));
                 player->setCooldown(500/sel->int_attribs["attack-speed"]);
                 for(auto &n : currentstage->npcs)
                 if(n)
@@ -1891,7 +1901,7 @@ public:
                             n->int_attribs["hp"]=n->int_attribs["health"];
                         }
 
-                        string npc_name =  Capitalize(n->name);
+                        String npc_name =  Capitalize(n->name);
                         cout << npc_name<< " was hit for " << sel->int_attribs["damage-min"] << " dmg!" << endl;
                         cout << npc_name << "'s health changed from " << n->int_attribs["hp"];
 
@@ -1918,14 +1928,14 @@ public:
 
                         }
 
-                        particlesys.Add(n->x,n->y,n->w,n->h,n->img,true,g("particle-decay"));
+                        particleSystem.Add(n->x,n->y,n->w,n->h,n->img,true,g("particle-decay"));
 
                         if(n->int_attribs["hp"]<=0) ///DIED
                         {
                             cout << npc_name << " died!\n";
                             if(n->attributes.count("drops"))
                             {
-                                vector<string> drops = allWord(n->attributes["drops"]);
+                                vector<String> drops = allWord(n->attributes["drops"]);
                                 int drop_index = rand()%drops.size();
                                 cout << "Dropped " << drops[drop_index] << endl;
 
@@ -2000,7 +2010,7 @@ public:
             current_year++;
         }
 
-        weathersys.weather = (rand()%100<globals["rain-probability"]?"rain":"none");
+        weatherSystem.weather = (rand()%100<globals["rain-probability"]?"rain":"none");
 
         for(auto& e : stageList)
             NextDay(e.second);
@@ -2207,7 +2217,7 @@ public:
         {
             int psize = globals["particle-size"];
             image targetParticle = images[ids[(currentstage->IsGround(player->x/TILESIZE,player->y/TILESIZE)?"particle_grass":"dust")]];
-            particlesys.Add(player->x+player->w/2-psize/2,player->y+player->h-psize/2,psize,psize,targetParticle);
+            particleSystem.Add(player->x+player->w/2-psize/2,player->y+player->h-psize/2,psize,psize,targetParticle);
             player->current_frame += 0.2;
             if(player->current_frame >= g("player-anim-frames"))
                 player->current_frame = 0;
@@ -2349,7 +2359,7 @@ public:
 
         return object_templates[object_names[selectedEntity]];
     }
-    string getNextEntityName()
+    String getNextEntityName()
     {
         selectedEntity++;
         if(selectedEntity >= object_names.size())
@@ -2357,7 +2367,7 @@ public:
 
         return object_names[selectedEntity];
     }
-    void SwitchPhase(string ph)
+    void SwitchPhase(String ph)
     {
         cursor->text = "";
         cursor->img = NULL;
@@ -2624,9 +2634,9 @@ public:
     {
         cursor->Update();
         timedisplay->Update();
-        particlesys.Update();
-        lightsys.Update();
-        weathersys.Update();
+        fr(0,systems.size())
+            systems[i]->Update();
+
         healthbar.Update();
 
     }
@@ -2642,7 +2652,7 @@ public:
 
         currentstage->Draw(camera_x,camera_y);
 
-        particlesys.Draw(camera_x,camera_y);
+        particleSystem.Draw(camera_x,camera_y);
 
 
         for(auto e : draw_list)
@@ -2654,8 +2664,8 @@ public:
         }
 
 
-        weathersys.Draw();
-        lightsys.Draw();
+        weatherSystem.Draw();
+        lightingSystem.Draw();
 
         DrawRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,(float)fade_progress/g("fade-max"));
 

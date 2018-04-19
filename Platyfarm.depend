@@ -940,7 +940,7 @@
 1479330957 d:\projects\platyfarm\gamestate.h
 	"public.h"
 
-1523092573 d:\projects\platyfarm\public.h
+1523107572 d:\projects\platyfarm\public.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	<SDL2/SDL_ttf.h>
@@ -948,9 +948,9 @@
 	<SDL2/SDL_mixer.h>
 	<GL/GLU.h>
 	<time.h>
-	<string>
+	<String>
 	<cmath>
-	<string>
+	<String>
 	<vector>
 	<queue>
 	<map>
@@ -958,12 +958,12 @@
 	<stdio.h>
 	<iostream>
 	<fstream>
-	<string>
+	<String>
 	<sstream>
 	<algorithm>
 	"tinyxml2.h"
 
-1479651992 d:\projects\platyfarm\tinyxml2.h
+1523107567 d:\projects\platyfarm\tinyxml2.h
 	<ctype.h>
 	<limits.h>
 	<stdio.h>
@@ -979,40 +979,44 @@
 	<android/log.h>
 	<assert.h>
 
-1523092921 d:\projects\platyfarm\images.h
+1523107572 d:\projects\platyfarm\images.h
 	"public.h"
 
-1523090521 d:\projects\platyfarm\objects.h
+1524168538 d:\projects\platyfarm\objects.h
 	"public.h"
 	"keydata.h"
 	"declarations.h"
 	"Object.h"
 	"Visible.h"
+	"Cursor.h"
+	"Item.h"
+	"NPC.h"
 
-1505755346 d:\projects\platyfarm\keydata.h
+1523107572 d:\projects\platyfarm\keydata.h
+	"public.h"
 
-1523088261 d:\projects\platyfarm\ingame.h
+1523464221 d:\projects\platyfarm\ingame.h
 	"gamestate.h"
 	"objects.h"
 	"keydata.h"
 	"tinyxml2.h"
 	<future>
 
-1483905942 d:\projects\platyfarm\newgame.h
+1524167603 d:\projects\platyfarm\newgame.h
 	"gamestate.h"
 	"objects.h"
 
-1507463347 d:\projects\platyfarm\editor.h
+1523107572 d:\projects\platyfarm\editor.h
 	"gamestate.h"
 	"objects.h"
 
 1494088757 d:\projects\platyfarm\timer.h
 	<SDL2/SDL.h>
 
-1505563189 d:\projects\platyfarm\graphics.h
+1523107572 d:\projects\platyfarm\graphics.h
 	"images.h"
 
-1507403283 d:\projects\platyfarm\audio.h
+1523625438 d:\projects\platyfarm\audio.h
 	"public.h"
 
 1479649681 source:d:\projects\platyfarm\tinyxml2.cpp
@@ -1025,21 +1029,99 @@
 
 1523088420 d:\projects\platyfarm\declarations.h
 
-1523089879 d:\projects\platyfarm\include\object.h
+1523107572 d:\projects\platyfarm\include\object.h
+	"../public.h"
 
-1523090568 d:\projects\platyfarm\include\visible.h
+1523108590 d:\projects\platyfarm\include\visible.h
 	"../images.h"
 	"Object.h"
 
-1523090580 source:d:\projects\platyfarm\src\object.cpp
+1523101530 source:d:\projects\platyfarm\src\object.cpp
 	"Object.h"
 
-1523090216 source:d:\projects\platyfarm\src\visible.cpp
+1523108598 source:d:\projects\platyfarm\src\visible.cpp
 	"Visible.h"
 
-1523092507 source:d:\projects\platyfarm\public.cpp
+1523107572 source:d:\projects\platyfarm\public.cpp
 	"public.h"
 
-1523092919 source:d:\projects\platyfarm\images.cpp
+1523107573 source:d:\projects\platyfarm\images.cpp
 	"images.h"
+
+1523107573 d:\projects\platyfarm\include\cursor.h
+	"Visible.h"
+	"../keydata.h"
+
+1523101608 source:d:\projects\platyfarm\src\cursor.cpp
+	"Cursor.h"
+
+1523101675 source:d:\projects\platyfarm\keydata.cpp
+	"keydata.h"
+
+1523107573 d:\projects\platyfarm\include\item.h
+	"Object.h"
+
+1523105244 source:d:\projects\platyfarm\src\item.cpp
+	"Item.h"
+
+1523107573 d:\projects\platyfarm\include\entity.h
+	"Visible.h"
+	"Item.h"
+
+1523107573 source:d:\projects\platyfarm\src\entity.cpp
+	"Entity.h"
+
+1523107573 d:\projects\platyfarm\include\creature.h
+	"Entity.h"
+
+1523107573 source:d:\projects\platyfarm\src\creature.cpp
+	"Creature.h"
+
+1523193403 d:\projects\platyfarm\object.h
+	"public.h"
+
+1523193393 d:\projects\platyfarm\visible.h
+	"images.h"
+	"Object.h"
+
+1523193398 d:\projects\platyfarm\cursor.h
+	"Visible.h"
+	"keydata.h"
+
+1523107573 d:\projects\platyfarm\item.h
+	"Object.h"
+
+1523107573 d:\projects\platyfarm\entity.h
+	"Visible.h"
+	"Item.h"
+
+1523107573 d:\projects\platyfarm\creature.h
+	"Entity.h"
+
+1523107573 source:d:\projects\platyfarm\creature.cpp
+	"Creature.h"
+
+1523101608 source:d:\projects\platyfarm\cursor.cpp
+	"Cursor.h"
+
+1523107573 source:d:\projects\platyfarm\entity.cpp
+	"Entity.h"
+
+1523105244 source:d:\projects\platyfarm\item.cpp
+	"Item.h"
+
+1524167795 d:\projects\platyfarm\npc.h
+	"Creature.h"
+
+1523101530 source:d:\projects\platyfarm\object.cpp
+	"Object.h"
+
+1523108598 source:d:\projects\platyfarm\visible.cpp
+	"Visible.h"
+
+1523193557 source:d:\projects\platyfarm\newgame.cpp
+	"newgame.h"
+
+1524167646 source:d:\projects\platyfarm\npc.cpp
+	"NPC.h"
 

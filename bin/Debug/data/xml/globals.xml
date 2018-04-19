@@ -3,15 +3,16 @@
 	<screen>
 		<width>900</width>
 		<height>600</height>
-		<fps>100</fps>
+		<fps>60</fps>
 	</screen>
 	<tilesize>32</tilesize>
 	<lightsize>12</lightsize>
-	<fontsize>19</fontsize>
+	<fontsize>17</fontsize>
+	<character-scale>19</character-scale>
 	<globals>
 		<particle_opacity value="50"/>
 		<particle-cooldown value="10"/>
-		<particle-decay value="3"/>
+		<particle-decay value="7"/>
 		<particle-size value="12"/>
 		<sleep_energy value="100"/>
 		<movement_energy_cost value="2"/>
@@ -20,13 +21,25 @@
 		<gui-width value="400"/>
 		<xp-scale value="100"/>
 		<rain-probability value="25"/>
-		<interact-range value="64"/>
+		<interact-range value="96"/>
 		<dialog-line-length value="475"/>
 		<dialog-width value="500"/>
 		<dialog-height value="100"/>
 		<number-selector-w value="80"/>
 		<number-selector-h value="30"/>
-		<audio-start-muted value="0"/>
+		<audio-start-muted value="1"/>
+		<player-anim-frames value="9"/>
+		<character-scale value="19"/>
+		<fade-max value="20"/>	
+		<tiles value="46"/>
+		<tiles-horizontal value="22"/>
+		<shop-shown-items value="5"/>
 		<debug value="1"/>
 	</globals>
+	<strings>
+		<general-store-inventory value="sword key apple seed poppy_seed flour jar beer coffee tea wine white-wine vodka"/>
+		<inn-inventory value="beer coffee tea"/>
+		<player-stats value="health stamina speed attack defense"/>
+		<title value="Platypia"/>
+	</strings>
 </root>

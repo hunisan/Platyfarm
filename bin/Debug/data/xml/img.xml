@@ -68,11 +68,15 @@
 		<name>portraitframe</name>
 		<path>portraitframe.png</path>
 	</img>
-	<img id="18">
+	<img>
 		<name>tree</name>
 		<path>tree.png</path>
 	</img>
-	<img id="19">
+	<img>
+		<name>apple-tree</name>
+		<path>appletree.png</path>
+	</img>
+	<img>
 		<name>scythe</name>
 		<path>scythe.png</path>
 	</img>
@@ -232,10 +236,6 @@
 		<name>door</name>
 		<path>door.png</path>
 	</img>
-	<img id="59">
-		<name>house_fade</name>
-		<path>haus_fade.png</path>
-	</img>
 	<img id="60">
 		<name>separator</name>
 		<path>separator.png</path>
@@ -275,10 +275,6 @@
 	<img id="69">
 		<name>lily</name>
 		<path>lily.png</path>
-	</img>
-	<img id="70">
-		<name>column_fade</name>
-		<path>column_fade.png</path>
 	</img>
 	<img id="71">
 		<name>column_ruin</name>
@@ -419,5 +415,277 @@
 	<img>
 		<name>catman</name>
 		<path>catman.png</path>
+	</img>
+	<img>
+		<name>catman-teal</name>
+		<path>catman-teal.png</path>
+	</img>
+	<img>
+		<name>catman-pink</name>
+		<path>catman-pink.png</path>
+	</img>
+	<img>
+		<name>catman-yellow</name>
+		<path>catman-yellow.png</path>
+	</img>
+	<img>
+		<name>Jam</name>
+		<path>Jam.png</path>
+	</img>
+	<img>
+		<name>Beer</name>
+		<path>Beer.png</path>
+	</img>
+	<img>
+		<name>white-wine</name>
+		<path>white-wine.png</path>
+	</img>
+	<img>
+		<name>vodka</name>
+		<path>vodka.png</path>
+	</img>
+	<img>
+		<name>Wine</name>
+		<path>Wine.png</path>
+	</img>
+	<img>
+		<name>cheese</name>
+		<path>Cheese.png</path>
+	</img>
+	<img>
+		<name>Eggplant</name>
+		<path>Eggplant.png</path>
+	</img>
+	<img>
+		<name>Melon</name>
+		<path>Melon.png</path>
+	</img>
+	<img>
+		<name>Cherry</name>
+		<path>Cherry.png</path>
+	</img>
+	<img>
+		<name>Avocado</name>
+		<path>Avocado.png</path>
+	</img>
+	<img>
+		<name>moonshine</name>
+		<path>moonshine.png</path>
+	</img>
+	<img>
+		<name>honey</name>
+		<path>honey.png</path>
+	</img>
+	<img>
+		<name>turnip</name>
+		<path>turnip.png</path>
+	</img>
+	<img>
+		<name>bacon</name>
+		<path>bacon.png</path>
+	</img>
+	<img>
+		<name>tomato</name>
+		<path>tomato.png</path>
+	</img>
+	<img>
+		<name>strawberry</name>
+		<path>strawberry.png</path>
+	</img>
+	<img>
+		<name>pine</name>
+		<path>pine.png</path>
+	</img>
+	<img>
+		<name>girl</name>
+		<path>girl.png</path>
+	</img>
+	<img>
+		<name>staff-red</name>
+		<path>staff-red.png</path>
+	</img>
+	<img>
+		<name>chest</name>
+		<path>chest.png</path>
+	</img>
+	<img>
+		<name>cactus</name>
+		<path>cactus.png</path>
+	</img>
+	<img>
+		<name>tent</name>
+		<path>tent.png</path>
+	</img>
+	<img>
+		<name>sword</name>
+		<path>sword.png</path>
+	</img>
+	<img>
+		<name>dog-king</name>
+		<path>dog-king.png</path>
+	</img>
+	<img>
+		<name>longsword</name>
+		<path>longsword.png</path>
+	</img>
+	<img>
+		<name>spear</name>
+		<path>spear.png</path>
+	</img>
+	<img>
+		<name>war-axe</name>
+		<path>war-axe.png</path>
+	</img>
+	<img>
+		<name>mace</name>
+		<path>mace.png</path>
+	</img>
+	<img>
+		<name>bow</name>
+		<path>bow.png</path>
+	</img>
+	<img>
+		<name>rapier</name>
+		<path>rapier.png</path>
+	</img>
+	<img>
+		<name>battleaxe</name>
+		<path>battleaxe.png</path>
+	</img>
+	<img>
+		<name>scimitar</name>
+		<path>scimitar.png</path>
+	</img>
+	<img>
+		<name>sky</name>
+		<path>sky.png</path>
+	</img>
+	<img>
+		<name>magic-mushroom</name>
+		<path>magic-mushroom.png</path>
+	</img>
+	<img>
+		<name>grapes</name>
+		<path>grapes.png</path>
+	</img>
+	<img>
+		<name>bone</name>
+		<path>bone.png</path>
+	</img>
+	<img>
+		<name>dogman</name>
+		<path>dogman.png</path>
+	</img>
+	<img>
+		<name>bread</name>
+		<path>bread.png</path>
+	</img>
+	<img>
+		<name>ring</name>
+		<path>ring.png</path>
+	</img>
+	<img>
+		<name>pine-cone</name>
+		<path>pine-cone.png</path>
+	</img>
+	<img>
+		<name>potion</name>
+		<path>potion.png</path>
+	</img>
+	<img>
+		<name>piano</name>
+		<path>piano.png</path>
+	</img>
+	<img>
+		<name>shelf</name>
+		<path>shelf.png</path>
+	</img>
+	<img>
+		<name>clock</name>
+		<path>clock.png</path>
+	</img>
+	<img>
+		<name>stone-door</name>
+		<path>stone-door.png</path>
+	</img>
+	<img>
+		<name>sleeping-mat</name>
+		<path>sleeping-mat.png</path>
+	</img>
+	<img>
+		<name>window</name>
+		<path>window.png</path>
+	</img>
+	<img>
+		<name>remains</name>
+		<path>remains.png</path>
+	</img>
+	<img>
+		<name>old-shelf</name>
+		<path>old-shelf.png</path>
+	</img>
+	<img>
+		<name>fireplace</name>
+		<path>fireplace.png</path>
+	</img>
+	<img>
+		<name>sleeping-mat</name>
+		<path>sleeping-mat.png</path>
+	</img>
+	<img>
+		<name>web</name>
+		<path>web.png</path>
+	</img>
+	<img>
+		<name>fish</name>
+		<path>fish.png</path>
+	</img>
+	<img>
+		<name>pizza</name>
+		<path>pizza.png</path>
+	</img>
+	<img>
+		<name>scrambled-eggs</name>
+		<path>scrambled-eggs.png</path>
+	</img>
+	<img>
+		<name>coffee</name>
+		<path>coffee.png</path>
+	</img>
+	<img>
+		<name>coffee-bean</name>
+		<path>coffee-bean.png</path>
+	</img>
+	<img>
+		<name>vase</name>
+		<path>vase.png</path>
+	</img>
+	<img>
+		<name>key</name>
+		<path>key.png</path>
+	</img>
+	<img>
+		<name>tea</name>
+		<path>tea.png</path>
+	</img>
+	<img>
+		<name>butter</name>
+		<path>butter.png</path>
+	</img>
+	<img>
+		<name>toast</name>
+		<path>toast.png</path>
+	</img>
+	<img>
+		<name>pancake</name>
+		<path>pancake.png</path>
+	</img>
+	<img>
+		<name>egg</name>
+		<path>egg.png</path>
+	</img>
+	<img>
+		<name>milk</name>
+		<path>milk.png</path>
 	</img>
 </root>

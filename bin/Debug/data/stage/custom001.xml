@@ -1,0 +1,60 @@
+<root>
+    <name></name>
+    <size>10 10</size>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>38 38 38 38 38 38 38 38 38 38 </row>
+    <row>37 37 37 37 37 37 37 37 37 37 </row>
+    <row>37 37 37 37 37 37 37 37 37 37 </row>
+    <row>37 37 37 37 37 37 37 37 37 37 </row>
+    <row>37 37 37 37 37 37 37 37 37 37 </row>
+    <row>37 37 37 37 37 37 37 37 37 37 </row>
+    <row>37 37 37 37 37 37 37 37 37 37 </row>
+    <row>37 37 37 37 37 37 37 37 37 37 </row>
+    <object>
+        <name>shelf</name>
+        <pos>0 96</pos>
+    </object>
+    <object>
+        <name>piano</name>
+        <pos>0 224</pos>
+    </object>
+    <object>
+        <name>clock</name>
+        <pos>96 96</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>256 32</pos>
+    </object>
+    <object>
+        <name>window</name>
+        <pos>160 32</pos>
+    </object>
+    <object>
+        <name>stove</name>
+        <pos>256 96</pos>
+    </object>
+    <object>
+        <name>table</name>
+        <pos>192 96</pos>
+    </object>
+    <object>
+        <name>chair</name>
+        <pos>32 256</pos>
+        <attributes>
+            <interact>16</interact>
+        </attributes>
+    </object>
+    <object>
+        <name>chair</name>
+        <pos>160 96</pos>
+        <attributes>
+            <interact>16</interact>
+        </attributes>
+    </object>
+    <object>
+        <name>shelf</name>
+        <pos>32 96</pos>
+    </object>
+</root>

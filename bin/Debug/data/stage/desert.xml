@@ -1,0 +1,315 @@
+<root>
+	<name>desert</name>
+	<attributes>
+		<title>Sand Sea</title>
+		<climate>desert</climate>
+	</attributes>
+	<size>40 40</size>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<row>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </row>
+	<object>
+		<name>door</name>
+		<pos>128 256</pos>
+		<attributes>
+			<portal>lot</portal>
+			<where>512 64</where>
+		</attributes>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>64 384</pos>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>192 384</pos>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>64 512</pos>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>192 512</pos>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>64 640</pos>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>192 640</pos>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>64 768</pos>
+	</object>
+	<object>
+		<name>column</name>
+		<pos>192 768</pos>
+	</object>
+	<object>
+		<name>column_ruin</name>
+		<pos>448 832</pos>
+	</object>
+	<object>
+		<name>column_ruin</name>
+		<pos>640 608</pos>
+	</object>
+	<object>
+		<name>column_ruin</name>
+		<pos>576 320</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>192 288</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>512 640</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>416 416</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>768 320</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>896 608</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>768 800</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>1120 768</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>1056 544</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>928 1088</pos>
+	</object>
+	<object>
+		<name>stone</name>
+		<pos>352 64</pos>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>320 320</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>224 128</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>64 32</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>544 224</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>576 448</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>288 640</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>864 416</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>576 768</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>992 800</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>1184 608</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>832 1024</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>576 1024</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>960 1184</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>352 1024</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>192 896</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>32 1056</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>352 1216</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>384 736</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>32 672</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>352 512</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>864 608</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>896 160</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>640 32</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>1088 256</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+	<object>
+		<name>cactus</name>
+		<pos>1152 32</pos>
+		<attributes>
+			<growth>0</growth>
+		</attributes>
+	</object>
+</root>

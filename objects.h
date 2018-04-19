@@ -1,50 +1,21 @@
-#ifndef OBJECTS_H
-#define OBJECTS_H
+#pragma once
 
 #include "public.h"
 #include "keydata.h"
 #include "declarations.h"
 #include "Object.h"
 #include "Visible.h"
+#include "Cursor.h"
+#include "Item.h"
+#include "NPC.h"
 
-/*class Object
-{
-public:
-    virtual int Update()
-    {
-        return 1;
-    }
-};
-*/
-/*class Visible : public Object
-{
-public:
-    float x,y;
-    int w,h;
-    image img;
-    Visible(){};
-
-    Visible(image _img, float _x, float _y, float _w, float _h)
-    {
-        img = _img;
-        x = _x;
-        y = _y;
-        w = _w;
-        h = _h;
-    }
-    virtual void Draw(float cX = 0, float cY = 0)
-    {
-        DrawImage(img,x-cX,y-cY,w,h);
-    }
-};
-*/
 class GameVariables : public Object
 {
 public:
-    map<string,string> string_vars;
-    map<string,int> int_vars;
+    map<String,String> string_vars;
+    map<String,int> int_vars;
 
-    bool IfDef(string name)
+    bool IfDef(String name)
     {
         if(string_vars.count(name))
             return true;
@@ -55,269 +26,36 @@ public:
         return false;
     }
 
-    int GetInt(string name)
+    int GetInt(String name)
     {
         if(int_vars.count(name))
             return int_vars[name];
 
         return -1;
     }
-    string GetString(string name)
+    String GetString(String name)
     {
         if(string_vars.count(name))
             return string_vars[name];
 
         return "error";
     }
-    void SetInt(string name, int value)
+    void SetInt(String name, int value)
     {
         int_vars[name] = value;
     }
-    void SetString(string name, string value)
+    void SetString(String name, String value)
     {
         string_vars[name] = value;
     }
-};
-
-class Cursor : public Visible
-{
-public:
-    enum
+    void Define(String name)
     {
-        NORMAL,
-        WAIT,
-        PICK,
-        INTERACT,
-        GIVE,
-        TALK,
-        INSPECT,
-        ADD,
-    };
-
-    int state = 0;
-    int states = 8;
-    string text;
-    image preview;
-    bool isPreview = false;
-
-    Cursor() : Visible(images[ids["cursor"]],0,0,24,24)
-    {
-        //state = "cursor";
-    }
-    int Update()
-    {
-
-        x = KeyData.MouseX;
-        y = KeyData.MouseY;
-
-        return 1;
-    }
-
-    void Draw(float cX = 0, float cY = 0)
-    {
-        DrawClip(img,x,y,w,h,state*64,0,64,64,states*64,2*64);
-        if(isPreview)
-        {
-            int place_x = std::floor((x+camera_x)/TILESIZE);
-            int place_y = std::floor((y+camera_y)/TILESIZE);
-            DrawImage(preview,place_x*TILESIZE-camera_x,place_y*TILESIZE-camera_y,TILESIZE,TILESIZE);
-
-        }
-        DrawImage(images[ids["fade"]],x+w,y,lineWidth(text),FONTSIZE);
-        DrawString(text,x+w,y,-1,"font2");
-    }
-};
-class Item : public Object
-{
-public:
-    string name;
-    string formal, desc;
-    string category, type;
-    image img;
-    int id;
-    int max_stack;
-    int buy,sell;
-    int quantity = 1;
-
-    map<string, int> int_attribs;
-    map<string, string> string_attribs;
-
-    Item(){};
-    Item(image _img)
-    {
-        img = _img;
-    };
-
-};
-
-class Entity : public Visible
-{
-public:
-
-    struct Interaction
-    {
-        string obj;
-        string script;
-    };
-    vector<Interaction> interactions;
-
-    bool Interacts(Item * i, int n)
-    {
-        Interaction intr = interactions[n];
-
-        if((FirstWord(intr.obj)=="name" && SecondWord(intr.obj)==i->name)||
-               (FirstWord(intr.obj)=="category" && SecondWord(intr.obj)==i->category)||
-               (FirstWord(intr.obj)=="type" && SecondWord(intr.obj)==i->type)||
-               (FirstWord(intr.obj)=="attr" && i->string_attribs.count(SecondWord(intr.obj)) && nWord(3,intr.obj)==i->string_attribs[SecondWord(intr.obj)]))
-               return true;
-
-        return false;
-    }
-    int Interacts(Item * i)
-    {
-        for(int j = 0; j < interactions.size(); j++)
-            if(Interacts(i,j))
-                return j;
-
-        return -1;
-    }
-    int id;
-
-    float alt, offset;
-
-    int shake = 0;
-    int flip = 1;
-
-    int destx, desty;
-
-    int clipw, cliph, imgw, imgh;
-
-    string name;
-
-    string anim_state = "none";
-
-    string type, category;
-
-    string leftover;
-
-    bool pickable = false;
-    bool fade = false;
-    bool rigid = false;
-
-    string pick;
-
-    string destroy;
-
-    int hits;
-    int health;
-
-    vector<string> drops;
-    vector<int> mins;
-    vector<int> maxs;
-
-    //vector<image> alts;
-    map<string, image> alts;
-
-    map<string, int> int_attribs;
-    map<string, string> string_attribs;
-
-    string runScript(string s)
-    {
-        string response = "";
-        string c = FirstWord(s);
-        string p1 = SecondWord(s);
-        string p2 = nWord(3,s);
-
-        if(c=="script")
-        {
-            for(auto d : split(s,"script"))
-                response += "script " + runScript(d) + " ";
-        }
-        else if(c=="attrib")
-        {
-            string_attribs[p1]=p2;
-        }
-        else if(c=="harvest")
-        {
-            response = "script item " + p1 + " " + p2;
-            response += " script delete";
-        }
-        else if(c =="change")
-        {
-            response = "change " + p1;
-        }
-        else if(c == "dialog")
-        {
-            response = "dialog " + p1;
-        }
-
-
-        return response;
-    }
-    Entity()
-    {
-        alt=0;
-        offset=0;
-    }
-    Entity(Entity _ent, float _x, float _y) : Entity(_ent)
-    {
-        x = _x;
-        y = _y;
-        //alt = 0;
-        //offset = 0;
-    }
-    Entity(image _img, float _x, float _y, float _w, float _h) : Visible(_img,_x,_y,_w,_h)
-    {
-        alt=0;
-        offset=0;
-        destx = _x;
-        desty = _y;
-        clipw = imgw = _w;
-        cliph = imgh = _h;
-        health = 1;
-    }
-    void Shake(int amplitude = -1)
-    {
-        if(!(rand()%2))
-            shake = 1;
-        else
-            shake = amplitude;
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        if(anim_state != "none" && alts.count(anim_state))
-        {
-            DrawClip(alts[anim_state],x-offset/2-cX+shake,y-alt-cY+shake,w+offset,h+alt,0,0,clipw,cliph,imgw,imgh,(float)(!fade)/2 + 0.5);
-        }
-        else if(alts.count("damaged") != 0 && health < hits)
-        {
-            DrawClip(alts["damaged"],x-offset/2-cX+shake,y-alt-cY+shake,w+offset,h+alt,0,0,clipw,cliph,imgw,imgh,(float)(!fade)/2 + 0.5);
-        }
-        else if(category == "plant")
-        {
-            DrawClip(img,x-offset/2-cX+shake,y-alt-cY+shake,w+offset,h+alt,int_attribs["growth"]*clipw,0,clipw,cliph,imgw,imgh,(float)(!fade)/2 + 0.5);
-        }
-        else
-            DrawClip(img,x-offset/2-cX+shake+(flip>0?0:w),y-alt-cY+shake,flip*(w+offset),h+alt,0,0,clipw,cliph,imgw,imgh,(float)(!fade)/2 + 0.5);
-        /*if(GUI_ENABLED)
-        {
-
-            for(int i = 0; i < 32; i++)
-                for(int j = 0; j < 32; j++)
-            {
-                if(alpha_maps[std::distance(images.begin(),std::find(images.begin(),images.end(),img))].alpha[i][j])
-                {
-                    DrawImage(images[std::distance(images.begin(),std::find(images.begin(),images.end(),img))],x+i-cX,y+j-cY,1,1);
-
-                }
-            }
-        }*/
-        shake = 0;
+        SetString(name,"true");
     }
 };
 
 
-Entity Door(string portal, int x, int y,int wherex= 0, int wherey = 0)
+static Entity Door(String portal, int x, int y,int wherex= 0, int wherey = 0)
 {
     Entity ent;
     ent = Entity(images[ids["door"]],x,y,TILESIZE,TILESIZE);
@@ -327,7 +65,7 @@ Entity Door(string portal, int x, int y,int wherex= 0, int wherey = 0)
 
     return ent;
 }
-bool OnScreen(Entity * ent, float cX, float cY)
+static bool OnScreen(Entity * ent, float cX, float cY)
 {
     if(ent->x - ent->offset/2 > cX + SCREEN_WIDTH || ent->x + ent->w + ent->offset/2 < cX
         || ent->y - ent->alt > cY + SCREEN_HEIGHT || ent->y + ent->h < cY)
@@ -335,7 +73,7 @@ bool OnScreen(Entity * ent, float cX, float cY)
 
     return true;
 }
-bool Intersect(Entity * ent1, Entity* ent2)
+static bool Intersect(Entity * ent1, Entity* ent2)
 {
     if(ent1->x+1 > ent2->x + ent2->w-1 || ent1->x + ent1->w-1 < ent2->x+1
     || ent1->y+1 > ent2->y + ent2->h-1 || ent1->y + ent1->h-1 < ent2->y+1)
@@ -343,7 +81,7 @@ bool Intersect(Entity * ent1, Entity* ent2)
 
     return true;
 }
-bool Intersect(Entity * ent, int x, int y, int w, int h)
+static bool Intersect(Entity * ent, int x, int y, int w, int h)
 {
     if(ent->x+1 > x+w-1 || ent->x + ent->w < x+1
     || ent->y+1 > y+h-1 || ent->y + ent->h-1 < y+1)
@@ -351,14 +89,14 @@ bool Intersect(Entity * ent, int x, int y, int w, int h)
 
     return true;
 }
-bool Contains(Entity * e, int mX, int mY, int cx, int cy)
+static bool Contains(Entity * e, int mX, int mY, int cx, int cy)
 {
     return (mX+cx >= e->x-e->offset/2 && mX+cx <= e->x + e->w + e->offset/2 &&
        mY+cy >= e->y - e->alt && mY+cy <= e->y + e->h);
 
 }
 
-bool Sorter(Entity* ent1, Entity* ent2)
+static bool Sorter(Entity* ent1, Entity* ent2)
 {
     if(!(ent1))
         return false;
@@ -377,89 +115,6 @@ bool Sorter(Entity* ent1, Entity* ent2)
 
     return (ent1)->y < (ent2)->y;
 }
-
-
-class Creature : public Entity
-{
-public:
-    struct Modifier
-    {
-        string stat;
-        int points;
-        int duration;
-        Modifier(string s, int p, int d) : stat(s),points(p),duration(d)
-        {
-
-        }
-    };
-    float movement_speed;
-    int cooldown = 0;
-    vector<string> stats;
-    map<string, int> stat_levels;
-    vector<Modifier> modifiers;
-
-    void recalculateStats()
-    {
-        movement_speed = stat_levels["speed"];
-        for(auto m : modifiers)
-        {
-            if(m.stat == "speed")
-            {
-                movement_speed+=m.points;
-            }
-        }
-        if(movement_speed<10)
-            movement_speed=10;
-
-        movement_speed/=10;
-    }
-    void increaseStat(string targetStat, int points, int duration)
-    {
-        cout << "increasing stat " << targetStat << " by " << points << " points" << endl;
-        if(!duration)
-            stat_levels[targetStat]+=points;
-        else
-        {
-            modifiers.push_back(Modifier(targetStat,points,duration));
-        }
-
-        recalculateStats();
-    }
-    Creature()
-    {
-        movement_speed=1;
-    }
-
-    Creature(image _img, float _x, float _y, float _w, float _h, float _alt = 0) : Entity(_img,_x,_y,_w,_h)
-    {
-        movement_speed=3;
-        alt = _alt;
-    }
-
-
-    void setCooldown(int cd)
-    {
-        cooldown = cd;
-    }
-    int Update()
-    {
-        for(int i = 0; i < modifiers.size(); i++)
-        {
-            modifiers[i].duration--;
-            if(!modifiers[i].duration)
-            {
-                modifiers.erase(modifiers.begin()+i);
-                i--;
-                recalculateStats();
-            }
-
-        }
-        if(cooldown)
-            cooldown--;
-
-        return 1;
-    }
-};
 
 class Inventory : public Entity
 {
@@ -555,7 +210,7 @@ public:
                 items[id] = NULL;
         }
     }
-    void Remove(string target)
+    void Remove(String target)
     {
         bool removed = false;
         for(int i = 0; i < INVENTORY_SIZE; i++)
@@ -575,7 +230,7 @@ public:
             }
 
     }
-    int Count(string target)
+    int Count(String target)
     {
         int _count = 0;
         for(int i = 0; i < INVENTORY_SIZE; i++)
@@ -596,7 +251,7 @@ public:
     {
         return Count(_item.name);
     }
-    void Remove(string target, int nr)
+    void Remove(String target, int nr)
     {
         for(int i = 0; i < nr; i++)
             Remove(target);
@@ -627,13 +282,13 @@ public:
 class CraftingRecipe
 {
 public:
-    string item;
+    String item;
     int count;
-    vector<string> ingredients;
+    vector<String> ingredients;
     vector<int> counts;
-    string medium;
-    string unlock;
-    string skill;
+    String medium;
+    String unlock;
+    String skill;
     int level;
     bool unlocked;
 
@@ -677,118 +332,6 @@ public:
     }
 };
 
-class NPC : public Creature
-{
-protected:
-    Entity * player;
-
-public:
-    image portrait;
-    int on_meet;
-    int on_greet;
-    map<string,string> attributes;
-
-    string behaviour="passive";
-
-    bool met = false;
-    string fullname;
-
-    map<string,int> AIprams;
-
-    string AI()
-    {
-        if(behaviour == "passive")
-        {
-
-        }
-        else if(FirstWord(behaviour)=="follow")
-        {
-
-        }
-        else if(behaviour == "lazy")
-        {
-            if(AIprams["action"]==0)///sleep
-            {
-                anim_state="sleep";
-                AIprams["energy"]++;
-                if(AIprams["energy"] >= globals["sleep_energy"])
-                {
-                    AIprams["action"]=2;///roam
-                    anim_state="none";
-                }
-            }
-            else if(AIprams["action"]==2)
-            {
-                if(AIprams["move"])
-                {
-                    float angle = AIprams["angle"]/100.0;
-                    if(cos(angle)<0)
-                        flip = 1;
-                    else
-                        flip = -1;
-
-                    /*x += cos(angle);
-                    y += sin(angle);
-                    if(x < 0)
-                        x = 0;
-                    if(y < 0)
-                        y = 0;*/
-
-                    AIprams["move"]--;
-                    AIprams["energy"] -= globals["movement_energy_cost"];
-                    if(AIprams["energy"]<=0)
-                        AIprams["action"]=0;
-
-                    return "move " + to_string(angle);
-                }
-                else
-                {
-                    int c = rand()%100;
-                    if(c==1)
-                    {
-                        AIprams["move"]=10;
-                        AIprams["angle"]=rand()%620;
-                    }
-                }
-            }
-        }
-        else if(behaviour == "roam")
-        {
-            if(AIprams["move"])
-            {
-                float angle = AIprams["angle"]/100.0;
-                //x += cos(angle);
-                //y += sin(angle);
-                AIprams["move"]--;
-                return "move " + to_string(angle);
-
-            }
-            else
-            {
-                int c = rand()%100;
-                if(c==1)
-                {
-                    AIprams["move"]=10;
-                    AIprams["angle"]=rand()%620;
-                }
-            }
-        }
-
-
-        return "nothing";
-    }
-
-    NPC(NPC _npc, int _x, int _y) : NPC(_npc)
-    {
-        x = _x;
-        y = _y;
-    }
-
-    NPC()
-    {
-
-    }
-};
 
 class Map : public Object
 {
@@ -891,8 +434,8 @@ public:
 class WeatherSystem : public Object
 {
 public:
-    string weather = "rain";
-    string climate = "mediterranean";
+    String weather = "rain";
+    String climate = "mediterranean";
     ParticleSystem * ps = NULL;
     bool active = true;
     const static int particles = 100;
@@ -917,7 +460,7 @@ public:
 
     }
 
-    void FeedClimate(string climate)
+    void FeedClimate(String climate)
     {
         this->climate = climate;
     }
@@ -1045,15 +588,13 @@ public:
     }
 };
 
-///SABLONOK
+static map<String, NPC> npc_templates;
+static map<String, Item> item_templates;
+static map<String, Entity> object_templates;
+static vector<String> object_names;
+static map<String, CraftingRecipe> recipes;
 
-map<string, NPC> npc_templates;
-map<string, Item> item_templates;
-map<string, Entity> object_templates;
-vector<string> object_names;
-map<string, CraftingRecipe> recipes;
-
-bool LoadObjects()
+static bool LoadObjects()
 {
     printf("Loading objects from XML list...\n");
     using namespace tinyxml2;
@@ -1244,7 +785,7 @@ bool LoadObjects()
 class PickupObject : public Entity
 {
 public:
-    PickupObject(int _x, int _y, int _w, int _h, string item) : Entity(item_templates[item].img,_x,_y,_w,_h)
+    PickupObject(int _x, int _y, int _w, int _h, String item) : Entity(item_templates[item].img,_x,_y,_w,_h)
     {
         name = "nothing";
 
@@ -1300,10 +841,10 @@ class Stage : public Object
 {
 public:
     bool indoors = false;
-    map<string,string> attributes;
+    map<String,String> attributes;
 
     int w, h;
-    string name;
+    String name;
     Map tilemap;
     Stage * exits[100];
 
@@ -1421,7 +962,7 @@ public:
 class XMLManager
 {
 public:
-    static Stage * LoadStage(string path)
+    static Stage * LoadStage(String path)
     {
         Stage * stage = new Stage();
 
@@ -1433,7 +974,7 @@ public:
         XMLElement * root = doc.FirstChildElement();
 
         stage->name = root->FirstChildElement("name")->GetText();
-        string dimensions = root->FirstChildElement("size")->GetText();
+        String dimensions = root->FirstChildElement("size")->GetText();
         stage->w = atoi(FirstWord(dimensions).c_str());
         stage->h = atoi(SecondWord(dimensions).c_str());
 
@@ -1459,13 +1000,13 @@ public:
         {
             std::stringstream ss;
 
-            string row = rowElement->GetText();
+            String row = rowElement->GetText();
 
             ss << row;
 
             fr(0,stage->w)
                 {
-                    string current;
+                    String current;
                     ss >> current;
                     stage->tilemap.tile[i][height] = atoi(current);
                 }
@@ -1480,8 +1021,8 @@ public:
         {
             Entity * new_object;
 
-            string name = objectElement->FirstChildElement("name")->GetText();
-            string position = objectElement->FirstChildElement("pos")->GetText();
+            String name = objectElement->FirstChildElement("name")->GetText();
+            String position = objectElement->FirstChildElement("pos")->GetText();
 
             if(name != "door")
             {
@@ -1501,8 +1042,8 @@ public:
 
             while(attributeElement)
             {
-                string name = attributeElement->Name();
-                string value = attributeElement->GetText();
+                String name = attributeElement->Name();
+                String value = attributeElement->GetText();
 
                 if(is_number(value))
                     new_object->int_attribs[name] = atoi(value);
@@ -1527,8 +1068,8 @@ public:
         {
             NPC * new_object;
 
-            string name = npcElement->FirstChildElement("name")->GetText();
-            string position = npcElement->FirstChildElement("pos")->GetText();
+            String name = npcElement->FirstChildElement("name")->GetText();
+            String position = npcElement->FirstChildElement("pos")->GetText();
 
             new_object = new NPC(npc_templates[name],atoi(FirstWord(position)),atoi(SecondWord(position).c_str()));
 
@@ -1545,7 +1086,7 @@ public:
 
         return stage;
     }
-    static void SaveStage(Stage * st, string path)
+    static void SaveStage(Stage * st, String path)
     {
         using namespace tinyxml2;
 
@@ -1557,14 +1098,14 @@ public:
 
         XMLElement * pElement;
 
-        auto InsertInt = [&pElement, &root, &doc](string name, int value, XMLNode* elem)
+        auto InsertInt = [&pElement, &root, &doc](String name, int value, XMLNode* elem)
         {
             pElement = doc.NewElement(name.c_str());
             pElement->SetText(value);
             elem->InsertEndChild(pElement);
 
         };
-        auto InsertString = [&pElement, &root, &doc](string name, string value, XMLNode* elem )
+        auto InsertString = [&pElement, &root, &doc](String name, String value, XMLNode* elem )
         {
             pElement = doc.NewElement(name.c_str());
             pElement->SetText(value.c_str());
@@ -1580,7 +1121,7 @@ public:
 
         fr(0,st->h)
         {
-            string row = "";
+            String row = "";
             for(int j = 0; j < st->w; j++)
                 row.append(to_string(st->tilemap.tile[j][i])+" ");
 
@@ -1649,20 +1190,20 @@ class Task
 {
 public:
     bool complete = false;
-    string text;
-    string name;
-    vector<string> strings;
+    String text;
+    String name;
+    vector<String> strings;
     vector<int> ints;
 
     Task()
     {}
-    Task( string t,  string n, vector<string> ss = {}, vector<int> is = {}) : text(t), name(n), strings(ss), ints(is)
+    Task( String t,  String n, vector<String> ss = {}, vector<int> is = {}) : text(t), name(n), strings(ss), ints(is)
     {
 
     }
 };
-vector<Task> main_tasks{Task("Cut down a tree","DESTROY",{"tree"}),Task("Talk to the shopkeeper","TALK",{"shopkeeper"}),Task("Plant 10 crops","PLACE",{"plant"})};
-vector<Task> daily_tasks{Task("Eat an apple","EAT",{"apple"})};
+static vector<Task> main_tasks{Task("Cut down a tree","DESTROY",{"tree"}),Task("Talk to the shopkeeper","TALK",{"shopkeeper"}),Task("Plant 10 crops","PLACE",{"plant"})};
+static vector<Task> daily_tasks{Task("Eat an apple","EAT",{"apple"})};
 
 class EventSystem : public Object
 {
@@ -1677,7 +1218,7 @@ public:
         dailyTask = Task(tasks[randnumber],events[randnumber]);
 
     }
-    void Event(string name, vector<string> strings = {}, vector<int> ints = {})
+    void Event(String name, vector<String> strings = {}, vector<int> ints = {})
     {
         //cout << strings[0] << endl;
         if(!mainTask.complete && name == mainTask.name)
@@ -1767,10 +1308,10 @@ class HealthBar : public Entity
 class TimeDisplay : public Entity
 {
 public:
-    string displaystring;
-    string timestring;
-    string taskstring = "Main Task:";
-    string dailystring = "Daily Task:";
+    String displaystring;
+    String timestring;
+    String taskstring = "Main Task:";
+    String dailystring = "Daily Task:";
 
     EventSystem * eventsys;
     Player * p;
@@ -1779,7 +1320,7 @@ public:
     {
         displaystring = "Year " + to_string(current_year) + ", " + seasons[current_season-1] + ", Day " + to_string(current_day);
 
-        timestring = "Time:" + (current_hour < 10 ? string(" 0") : string(" ")) + to_string(current_hour) + (current_minute < 10 ? string(":0") : string(":")) + to_string(current_minute);
+        timestring = "Time:" + (current_hour < 10 ? String(" 0") : String(" ")) + to_string(current_hour) + (current_minute < 10 ? String(":0") : String(":")) + to_string(current_minute);
 
         w = displaystring.size()*FONTSIZE;
         h = FONTSIZE;
@@ -1794,7 +1335,7 @@ public:
     {
         displaystring = "Year " + to_string(current_year) + ", " + seasons[current_season-1] + ", Day " + to_string(current_day);
 
-        timestring = "Time:" + (current_hour < 10 ? string(" 0") : string(" ")) + to_string(current_hour) + (current_minute < 10 ? string(":0") : string(":")) + to_string(current_minute);
+        timestring = "Time:" + (current_hour < 10 ? String(" 0") : String(" ")) + to_string(current_hour) + (current_minute < 10 ? String(":0") : String(":")) + to_string(current_minute);
 
         w = displaystring.size()*FONTSIZE;
         h = FONTSIZE;
@@ -1803,7 +1344,7 @@ public:
 
         return 1;
     }
-    void DrawLine(string s, int &cY)
+    void DrawLine(String s, int &cY)
     {
         DrawImage(im("fade"),SCREEN_WIDTH-lineWidth(s),cY,lineWidth(s),FONTSIZE);
         DrawString(s,SCREEN_WIDTH-lineWidth(s),cY,-1,"font2");
@@ -1862,7 +1403,7 @@ public:
         }
         if(g("debug"))
         {
-            string coordinates = to_string(camera_x+KeyData.MouseX)+ " " + to_string(camera_y+KeyData.MouseY);
+            String coordinates = to_string(camera_x+KeyData.MouseX)+ " " + to_string(camera_y+KeyData.MouseY);
             DrawImage(im("fade"),0,0,lineWidth(coordinates),FONTSIZE);
             DrawString(coordinates,0,0,-1,"font2");
 
@@ -1875,18 +1416,18 @@ class Dialog
 public:
     image portrait;
 
-    string speaker;
-    vector<string> chain;
+    String speaker;
+    vector<String> chain;
     bool hasQuestion = false;
 
-    string question;
-    vector<string> answers;
-    vector<string> outcomes;
+    String question;
+    vector<String> answers;
+    vector<String> outcomes;
     vector<int> gotos;
-    vector<string> conditions;
+    vector<String> conditions;
 
     Dialog(){};
-    Dialog(string msg){
+    Dialog(String msg){
         speaker="narrator";
         question=msg;
         answers.push_back("OK");
@@ -1897,7 +1438,7 @@ public:
 
 };
 
-Dialog Prompt(string msg, string script, string positive = "Yes", string negative = "No")
+static Dialog Prompt(String msg, String script, String positive = "Yes", String negative = "No")
 {
     Dialog d;
     d.speaker = "narrator";
@@ -1926,7 +1467,7 @@ public:
     int borderw = 11;
     Dialog Current;
     int currentstring;
-    string displaystring;
+    String displaystring;
     int stringsize;
     int selected_answer = 0;
     bool finished_scroll = false;
@@ -1935,12 +1476,12 @@ public:
     int lines = 0;
 
 
-    void calculateLines(string c)
+    void calculateLines(String c)
     {
         std::stringstream ss;
-        vector<string> words;
+        vector<String> words;
         ss << c;
-        string newword;
+        String newword;
         while(ss >> newword){words.push_back(newword);};
         int i = 0;
         int current_length = 0;
@@ -1959,7 +1500,7 @@ public:
             }
         }
     }
-    bool ProcessCondition(string s)
+    bool ProcessCondition(String s)
     {
         if(s == "")
             return true;
@@ -1972,7 +1513,7 @@ public:
 
         return false;
     }
-    void Add(Dialog _dialog, string default_sp = "narrator")
+    void Add(Dialog _dialog, String default_sp = "narrator")
     {
         if(_dialog.speaker != "any")
             speaker = _dialog.speaker;
@@ -2086,7 +1627,7 @@ public:
             DrawImage(images[ids["portraitframe"]],x-base_h,y,base_h,base_h);
             DrawString(npc_templates[speaker].fullname,x-base_h,y+base_h-namePtSize,namePtSize);
         }
-        string drawstring;
+        String drawstring;
         for(int i = 0; i < stringsize; i++)
             drawstring.push_back(displaystring[i]);
 
@@ -2129,7 +1670,7 @@ public:
 class GUI : public Entity
 {
 public:
-    string type;
+    String type;
 
     GUI()
     {
@@ -2624,7 +2165,7 @@ public:
                 scrollPosition += dir;
         }
     }
-    GUIBuyItems(Inventory * inv, string store_inventory = "general-store-inventory")
+    GUIBuyItems(Inventory * inv, String store_inventory = "general-store-inventory")
     {
 
         for(auto& e : allWord(s(store_inventory)))
@@ -2651,7 +2192,7 @@ public:
             DrawSeparator(x,y+TILESIZE+i*TILESIZE,w,TILESIZE);
             DrawImage(e.img,x,y+TILESIZE+i*TILESIZE,TILESIZE,TILESIZE);
             DrawString(e.formal,x+TILESIZE,y+TILESIZE+i*TILESIZE);
-            string pricestring = to_string(e.int_attribs["price"])+"" + CURRENCY;
+            String pricestring = to_string(e.int_attribs["price"])+"" + CURRENCY;
             DrawString(pricestring,x+w-lineWidth(pricestring)-FONTSIZE,y+TILESIZE+i*TILESIZE);
 
         }
@@ -2704,7 +2245,7 @@ public:
     GUIBuyItems * buyItems;
     GUIInventoryItems * inventoryItems;
 
-    GUIBuyScreen(Inventory * inv, string shop_inventory)
+    GUIBuyScreen(Inventory * inv, String shop_inventory)
     {
         buyItems = new GUIBuyItems(inv,shop_inventory);
         inventoryItems = new GUIInventoryItems(inv);
@@ -2776,7 +2317,6 @@ public:
             return inv->toolbar[clickX];
 
         }
-        int i;
         return NULL;
     }
 };
@@ -2821,8 +2361,8 @@ class GUISellScreen : public GUIRowContainer
 class GUIElemSkills : public GUI
 {
     public:
-    vector<string> skill_names = {"Skills"};
-    vector<string> skill_levels = {""};
+    vector<String> skill_names = {"Skills"};
+    vector<String> skill_levels = {""};
     int maxwidth = 0;
 
     GUIElemSkills(int _x, int _y)
@@ -2869,7 +2409,7 @@ class GUIShopScreen : public GUITabContainer
 {
 public:
 
-    GUIShopScreen(Inventory * inv, string shop_inventory) : GUITabContainer()
+    GUIShopScreen(Inventory * inv, String shop_inventory) : GUITabContainer()
     {
         type = "shop";
 
@@ -2884,9 +2424,9 @@ class GUIToolSelect : public GUI
 {
 
 public:
-    string * tool;
+    String * tool;
 
-    GUIToolSelect(string * tool)
+    GUIToolSelect(String * tool)
     {
         x = y = 0;
         w = 2*TILESIZE;
@@ -2928,9 +2468,9 @@ public:
 class GUISaveLoadEditor : public GUI
 {
 public:
-    string * commands;
+    String * commands;
 
-    GUISaveLoadEditor(string * commands)
+    GUISaveLoadEditor(String * commands)
     {
         this->commands = commands;
         x=y=0;
@@ -2967,7 +2507,7 @@ public:
     Stage * targetStage;
 
 
-    GUIEditorInterface(Stage * targetStage, string * tool, string * commands)
+    GUIEditorInterface(Stage * targetStage, String * tool, String * commands)
     {
         x = y = w = h = 0;
         w = 0;
@@ -3004,7 +2544,7 @@ class GUIElemEquips : public GUI
         w = globals["gui-width"]/4;
         h = 2*globals["gui-border"]+FONTSIZE+skills.size()*(FONTSIZE + globals["gui-margin"]);
     }
-    void DrawSlot(int &pY, string str)
+    void DrawSlot(int &pY, String str)
     {
         DrawString(str,x+w/2-lineWidth(str)/2,pY);
         pY+=FONTSIZE;
@@ -3025,7 +2565,7 @@ class GUIElemEquips : public GUI
 class GUIElemStats : public GUI
 {
     public:
-    vector<string> lines;
+    vector<String> lines;
     vector<int> modifications;
 
     int spacing = 5;
@@ -3062,9 +2602,9 @@ class GUIElemStats : public GUI
         int pY = y+h/2-lines.size()*(FONTSIZE+spacing)/2.0;
         for(int i = 0; i < lines.size(); i++)
         {
-            string l = lines[i];
+            String l = lines[i];
             DrawString(Capitalize(l)+":",x,pY);
-            string statNumberString = to_string(pl->stat_levels[l])+(modifications[i]>0?"+"+to_string(modifications[i]):"")+(modifications[i]<0?"-"+to_string(-modifications[i]):"");
+            String statNumberString = to_string(pl->stat_levels[l])+(modifications[i]>0?"+"+to_string(modifications[i]):"")+(modifications[i]<0?"-"+to_string(-modifications[i]):"");
             DrawString(statNumberString,x+w-lineWidth(statNumberString)-TILESIZE/2,pY);
             pY += FONTSIZE+spacing;
         }
@@ -3098,7 +2638,7 @@ class GUICharacterScreen : public GUIRowContainer
 class GUIItemDescription : public GUI
 {
 public:
-    string focus = "";
+    String focus = "";
 
     GUIItemDescription()
     {
@@ -3106,7 +2646,7 @@ public:
         h = 200;
     }
 
-    void OnNewItemSelected(string new_item)
+    void OnNewItemSelected(String new_item)
     {
         focus = new_item;
 
@@ -3189,7 +2729,7 @@ public:
     Inventory * inv;
     NumberSelector numSel;
     vector<CraftingRecipe> recipe_list;
-    string medium;
+    String medium;
     int selected = 0;
     bool can_craft = false;
 
@@ -3199,7 +2739,7 @@ public:
     {
 
     }
-    GUICraftingScreen(Inventory * _inv, string _medium)
+    GUICraftingScreen(Inventory * _inv, String _medium)
     {
         type = "crafting";
         inv = _inv;
@@ -3374,5 +2914,3 @@ public:
         }
     }
 };
-
-#endif // OBJECTS_H

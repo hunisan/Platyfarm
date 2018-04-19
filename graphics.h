@@ -11,7 +11,7 @@ public:
 
     }
 
-
+    ///this will never work
     /*bool GetBoundingBox()
     {
         //while(1)
@@ -218,7 +218,7 @@ public:
             return 0;
         }
         int id;
-        string name,path;
+        String name,path;
 
         images.push_back(NULL);
 

@@ -1,6 +1,7 @@
 #pragma once
+#include "public.h"
 
-struct
+struct Keydata
 {
     bool AnyPress = false;
     bool UpDown = false;
@@ -33,7 +34,7 @@ struct
     bool RightClick = false;
     bool numPress[10];
 
-    map<string,bool> keyInfo;
+    map<String,bool> keyInfo;
 
     int lasth = 0;
     int lastv = 0;
@@ -92,4 +93,6 @@ struct
             i = false;
         wheel = 0;
     }
-} KeyData;
+};
+
+extern Keydata KeyData;

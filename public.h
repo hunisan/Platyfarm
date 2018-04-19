@@ -8,9 +8,9 @@
 #include <SDL2/SDL_mixer.h>
 #include <GL/GLU.h>
 #include <time.h>
-#include <string>
+#include <String>
 #include <cmath>
-#include <string>
+#include <String>
 #include <vector>
 #include <queue>
 #include <map>
@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <String>
 #include <sstream>
 #include <algorithm>
 #include "tinyxml2.h"
@@ -34,7 +34,7 @@
 #define s(i) strings[i]
 #define ent(i) object_templates[i]
 #define it(i) item_templates[i]
-#define string std::string
+#define String std::string
 #define vector std::vector
 #define cout std::cout
 #define endl std::endl
@@ -43,39 +43,39 @@
 #define map std::map
 #define image GLuint
 
-template < typename T > string to_string( const T& n )
+template < typename T > String to_string( const T& n )
 {
     std::ostringstream stm ;
     stm << n ;
     return stm.str() ;
 }
 
-int atoi(string s);
+int atoi(String s);
 
-tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, string const & elemt_value);
+tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, String const & elemt_value);
 
-bool is_number(const string& s);
+bool is_number(const String& s);
 
-int GetInt(string name);
+int GetInt(String name);
 
-int GetIntElement(string node, string name);
+int GetIntElement(String node, String name);
 
 int randomer();
 
 int levelcap(int lvl);
 
 int characterWidth(char c);
-int lineWidth(string s, int ptSize = -1);
-int linesCount(string c, int linelen);
+int lineWidth(String s, int ptSize = -1);
+int linesCount(String c, int linelen);
 
-string Decapitalize(string s);
-string Capitalize(string s);
-string FirstWord(string s);
-string SecondWord(string s);
-string nWord(int n,string s);
+String Decapitalize(String s);
+String Capitalize(String s);
+String FirstWord(String s);
+String SecondWord(String s);
+String nWord(int n,String s);
 
-vector<string> allWord(string s);
-vector<string> split(string s, string delimiter);
+vector<String> allWord(String s);
+vector<String> split(String s, String delimiter);
 float GetDistance(float x1, float y1, float x2, float y2);
 
 bool LoadGlobals();
@@ -147,12 +147,12 @@ extern SDL_GLContext gContext;
 
 
 extern int audioFiles;// = 0;
-extern queue<string> audioCommands;
+extern queue<String> audioCommands;
 
 
-extern string seasons[4];// = {"Spring","Summer","Fall","Winter"};
+extern String seasons[4];// = {"Spring","Summer","Fall","Winter"};
 
-extern string particle;// = "rain"; ///snow cat
+extern String particle;// = "rain"; ///snow cat
 
 extern int current_day;// = 1;
 extern int current_season;// = 1;
@@ -165,35 +165,35 @@ extern int current_seconds;// = 0;
 
 extern int funds; //= PLAYER_STARTING_FUNDS;
 
-extern string CURRENCY; //= "G";
+extern String CURRENCY; //= "G";
 
 extern int hunger; //= 0;
 
-extern string hunger_levels[MAX_HUNGER_LEVEL]; //= {"Well sated","Slightly hungry","Hungry","Starving"};
+extern String hunger_levels[MAX_HUNGER_LEVEL]; //= {"Well sated","Slightly hungry","Hungry","Starving"};
 
-extern string task; //= "Cut down a tree";
+extern String task; //= "Cut down a tree";
 
 extern int main_progress; //= 0;
 
-extern vector<string> tasks;// = {"Eat a fruit","Talk to a person", "Buy something", "Cook something"};
-extern vector<string> events;//= {"EAT","TALK","BUY","CRAFT"};
-extern vector<vector<string> > event_string_parameters; //= {{"fruit"},{},{},{"cooking"}};
+extern vector<String> tasks;// = {"Eat a fruit","Talk to a person", "Buy something", "Cook something"};
+extern vector<String> events;//= {"EAT","TALK","BUY","CRAFT"};
+extern vector<vector<String> > event_string_parameters; //= {{"fruit"},{},{},{"cooking"}};
 
-extern queue<string> alerts;
+extern queue<String> alerts;
 
 extern int selectedEntity; //= 0;
 
 
-extern string daily; //= tasks[randomer()+rand()%tasks.size()];
+extern String daily; //= tasks[randomer()+rand()%tasks.size()];
 
-extern map<string, int> skills; //= {{"crafting",1},{"cooking",1},{"woodcutting",1},{"fishing",1},{"charisma",1}};
+extern map<String, int> skills; //= {{"crafting",1},{"cooking",1},{"woodcutting",1},{"fishing",1},{"charisma",1}};
 
-extern map<string, int> xps; //= {{"crafting",0},{"cooking",0},{"woodcutting",0},{"fishing",0},{"charisma",0}};
+extern map<String, int> xps; //= {{"crafting",0},{"cooking",0},{"woodcutting",0},{"fishing",0},{"charisma",0}};
 
-extern map<string, vector<string> > unlocks; //= {{"crafting",{"You can now craft more stuff"}}};
+extern map<String, vector<String> > unlocks; //= {{"crafting",{"You can now craft more stuff"}}};
 
-extern map<string, int> globals;
-extern map<string, string> strings;
+extern map<String, int> globals;
+extern map<String, String> strings;
 
 
 extern float camera_x; //= 0,

@@ -8,8 +8,8 @@ public:
     Stage * stage;
     GUIEditorInterface * editorInterface;
     Cursor cursor;
-    string cursorMode = "terraform";
-    string commands = "";
+    String cursorMode = "terraform";
+    String commands = "";
     int current_tile = 0;
     int current_object = 0;
     float scroll_speed = 4;

@@ -12,7 +12,7 @@
 			<creature/>
 			<sentient/>
 			<race>ghost</race>
-			<sound>meow</sound>
+			
 		</attributes>
 	</npc>
 	<npc id="2">
@@ -124,6 +124,23 @@
 		<attributes>
 			<creature/>
 			<race>canine</race>
+			<health>2</health>
+			<drops>melon cherry bone</drops>
+		</attributes>
+	</npc>
+	<npc>
+		<name>boss-dog</name>
+		<fullname>Shiba Rex</fullname>
+		<portrait>dog-king</portrait>
+		<img>dog-king</img>
+		<onmeet>14</onmeet>
+		<ongreet>14</ongreet>
+		<behaviour>roam</behaviour>
+		<attributes>
+			<creature/>
+			<race>canine</race>
+			<health>15</health>
+			<drops>skillbook longsword</drops>
 		</attributes>
 	</npc>
 	<npc>
@@ -139,6 +156,23 @@
 			<creature/>
 			<sentient/>
 			<race>feline</race>
+		</attributes>
+	</npc>
+	<npc>
+		<name>catman2</name>
+		<fullname>Ross</fullname>
+		<portrait>catman-pink</portrait>
+		<img>catman-pink</img>
+		<alt>0.5</alt>
+		<onmeet>27</onmeet>
+		<ongreet>27</ongreet>
+		<behaviour>roam</behaviour>
+		<attributes>
+			<creature/>
+			<sentient/>
+			<race>feline</race>
+			<behaviour-talk>random</behaviour-talk>
+			<lines>27 28 29 30 31 33 34 39 40 41</lines>
 		</attributes>
 	</npc>
 </root>

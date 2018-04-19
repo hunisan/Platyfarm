@@ -7,10 +7,10 @@
 
 extern vector<image> images;
 extern image gif[8];
-extern map<string, int> ids;
+extern map<String, int> ids;
 
 
-image loadImage(string path);
+image loadImage(String path);
 
 void DrawImage(image img, float x, float y, float w, float h, float alpha=1.0);
 
@@ -26,13 +26,13 @@ void DrawRect(float x, float y, float w, float h, float alpha);
 
 void DrawSeparator(float x, float y, float w, float h);
 
-void DrawLetter(char c, int x, int y,int ptsize = -1, string font = "font");
+void DrawLetter(char c, int x, int y,int ptsize = -1, String font = "font");
 
 
-void DrawString(string c, int x, int y, int ptsize = -1, string font = "font");
+void DrawString(String c, int x, int y, int ptsize = -1, String font = "font");
 
-void DrawStringCentered(string c, int x, int y, int ptsize = -1, string font = "font");
+void DrawStringCentered(String c, int x, int y, int ptsize = -1, String font = "font");
 
-void DrawWrapped(string c, int x, int y, float linelen, int ptsize = -1, string font = "font");
+void DrawWrapped(String c, int x, int y, float linelen, int ptsize = -1, String font = "font");
 
 #endif

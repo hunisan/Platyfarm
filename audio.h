@@ -7,17 +7,17 @@ class AudioSystem
 {
     public:
         bool muted;
-        map<string, Mix_Music*> songs;
-        map<string, Mix_Chunk*> sounds;
+        map<String, Mix_Music*> songs;
+        map<String, Mix_Chunk*> sounds;
 
-        Mix_Music* LoadSong(string path);
-        Mix_Chunk* LoadSound(string path);
+        Mix_Music* LoadSong(String path);
+        Mix_Chunk* LoadSound(String path);
         AudioSystem();
         void Init();
         void Mute();
         void LoadContent();
-        void PlaySong(string song);
-        void PlaySound(string sound, int channel);
+        void PlaySong(String song);
+        void PlaySound(String sound, int channel);
         void StopSound(int channel);
         void Update();
 };
@@ -43,23 +43,23 @@ void AudioSystem::Init()
     }
 }
 
-Mix_Music* AudioSystem::LoadSong(string path)
+Mix_Music* AudioSystem::LoadSong(String path)
 {
     if(path=="")
         return NULL;
 
     cout << "Loading " << path << "...";
-    Mix_Music* mus = Mix_LoadMUS(string("data/music/"+path).c_str());
+    Mix_Music* mus = Mix_LoadMUS(String("data/music/"+path).c_str());
     cout << "Done!\n";
     return mus;
 }
-Mix_Chunk* AudioSystem::LoadSound(string path)
+Mix_Chunk* AudioSystem::LoadSound(String path)
 {
     if(path=="")
         return NULL;
 
     cout << "Loading " << path << "...";
-    Mix_Chunk* sound = Mix_LoadWAV(string("data/music/"+path).c_str());
+    Mix_Chunk* sound = Mix_LoadWAV(String("data/music/"+path).c_str());
     cout << "Done!\n";
     return sound;
 }
@@ -69,7 +69,7 @@ void AudioSystem::LoadContent()
     ifstream in("data/music/songs.txt");
     ifstream in2("data/music/sounds.txt");
 
-    string line;
+    String line;
     while(!in.eof())
     {
         std::getline(in,line);
@@ -88,15 +88,18 @@ void AudioSystem::LoadContent()
 }
 
 
-void AudioSystem::PlaySong(string song)
+void AudioSystem::PlaySong(String song)
 {
     if(songs.count(song))
         Mix_PlayMusic(songs[song], -1);
     //cout << "played";
 }
 
-void AudioSystem::PlaySound(string sound, int channel = -1)
+void AudioSystem::PlaySound(String sound, int channel = -1)
 {
+    if(this->muted)
+        return;
+
     cout << "playing sound" << endl;
     if(sounds.count(sound))
         Mix_PlayChannel(channel,sounds[sound], 0);
@@ -122,7 +125,7 @@ void AudioSystem::Update()
 {
     while(audioCommands.size()>0)
     {
-        string c = audioCommands.front();
+        String c = audioCommands.front();
         audioCommands.pop();
         if(c == "mute")
             Mute();

@@ -2,12 +2,12 @@
 
 vector<image> images;
 image gif[8];
-map<string, int> ids;
+map<String, int> ids;
 
-image loadImage(string path)
+image loadImage(String path)
 {
     image TextureID = 0;
-    string imgpath = "data/img/" + path;
+    String imgpath = "data/img/" + path;
     SDL_Surface * img = IMG_Load(imgpath.c_str());
 
     if(!img)
@@ -116,7 +116,7 @@ void DrawSeparator(float x, float y, float w, float h)
     DrawImage(images[ids["separator_right"]],x+w-TILESIZE,y,TILESIZE,TILESIZE);
 
 }
-void DrawLetter(char c, int x, int y,int ptsize, string font)
+void DrawLetter(char c, int x, int y,int ptsize, String font)
 {
     int cy = (int)c/16;
     int cx = (int)c%16;
@@ -126,7 +126,7 @@ void DrawLetter(char c, int x, int y,int ptsize, string font)
     DrawClip(images[ids[font]],x,y,(float)characterWidth(c)*ptsize/g("character-scale"),ptsize,cx*32+16-characterWidth(c)/2,cy*32,characterWidth(c),32,512,512);
 
 }
-void DrawString(string c, int x, int y, int ptsize, string font)
+void DrawString(String c, int x, int y, int ptsize, String font)
 {
     int dx=x;
     if(ptsize == -1)
@@ -146,13 +146,13 @@ void DrawString(string c, int x, int y, int ptsize, string font)
     }
 }
 
-void DrawStringCentered(string c, int x, int y, int ptsize, string font)
+void DrawStringCentered(String c, int x, int y, int ptsize, String font)
 {
     if(ptsize == -1)
         ptsize = FONTSIZE;
     DrawString(c,x-lineWidth(c,ptsize)/2,y,ptsize,font);
 }
-void DrawWrapped(string c, int x, int y, float linelen, int ptsize, string font)
+void DrawWrapped(String c, int x, int y, float linelen, int ptsize, String font)
 {
     //string a = c;
     int dx = x;
@@ -164,14 +164,14 @@ void DrawWrapped(string c, int x, int y, float linelen, int ptsize, string font)
     ///EZT AT KELL IRNI
     ///MOSTMAR NEM KELL ATIRNI
     std::stringstream ss;
-    vector<string> words;
+    vector<String> words;
     ss << c;
-    string newword;
+    String newword;
     while(ss >> newword){words.push_back(newword);};
 
     int i = 0;
     int current_length = 0;
-    string line = "";
+    String line = "";
     int lines = 0;
     while(i < words.size())
     {

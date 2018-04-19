@@ -8,21 +8,9 @@ private:
     Cursor * cursor;
 public:
 
-    void Init()
-    {
-        cursor = new Cursor();
+    void Init();
 
-    }
-    int Update()
-    {
-        cursor->Update();
+    int Update();
 
-        return NOTHING;
-    }
-    void Draw()
-    {
-        DrawImage(images[ids["background"]],0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-
-        cursor->Draw();
-    }
+    void Draw();
 };

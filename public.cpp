@@ -1,17 +1,17 @@
 #include "public.h"
 
-int atoi(string s){
+int atoi(String s){
     return atoi(s.c_str());}
 
 
-tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, string const & elemt_value)
+tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, String const & elemt_value)
 {
     using namespace tinyxml2;
     XMLElement * elem = doc.RootElement(); //Tree root
 
     while (elem)
         {
-        if (!string(elem->Value()).compare(elemt_value)) return (elem);
+        if (!String(elem->Value()).compare(elemt_value)) return (elem);
         /*elem = elem->NextSiblingElement();*/
         if (elem->FirstChildElement())
         {
@@ -36,13 +36,13 @@ tinyxml2::XMLElement * getElementByName(tinyxml2::XMLDocument & doc, string cons
    return (NULL);
 };
 
-bool is_number(const string& s)
+bool is_number(const String& s)
 {
     return !s.empty() && std::find_if(s.begin(),
         s.end(), [](char c) { return !std::isdigit(c); }) == s.end();
 }
 
-int GetInt(string name)
+int GetInt(String name)
 {
     using namespace tinyxml2;
 
@@ -55,7 +55,7 @@ int GetInt(string name)
 
     return val;
 }
-int GetIntElement(string node, string name)
+int GetIntElement(String node, String name)
 {
     using namespace tinyxml2;
 
@@ -112,7 +112,7 @@ int characterWidth(char c)
 
     return 18;
 }
-int lineWidth(string s, int ptSize)
+int lineWidth(String s, int ptSize)
 {
     if(ptSize == -1)
         ptSize = FONTSIZE;
@@ -122,12 +122,12 @@ int lineWidth(string s, int ptSize)
 
     return sum;
 }
-int linesCount(string c, int linelen)
+int linesCount(String c, int linelen)
 {
     std::stringstream ss;
-    vector<string> words;
+    vector<String> words;
     ss << c;
-    string newword;
+    String newword;
     while(ss >> newword){words.push_back(newword);};
     int i = 0;
     int current_length = 0;
@@ -152,7 +152,7 @@ int levelcap(int lvl)
 {
     return lvl*globals["xp-scale"];
 }
-string Decapitalize(string s)
+String Decapitalize(String s)
 {
     if(s.size()>0)
     {
@@ -165,7 +165,7 @@ string Decapitalize(string s)
     else
         return s;
 }
-string Capitalize(string s)
+String Capitalize(String s)
 {
     if(s.size()>0)
     {
@@ -178,61 +178,61 @@ string Capitalize(string s)
     else
         return s;
 }
-string FirstWord(string s)
+String FirstWord(String s)
 {
     std::stringstream ss(s);
 
-    string w;
+    String w;
 
     ss >> w;
 
     return w;
 }
-string SecondWord(string s)
+String SecondWord(String s)
 {
     std::stringstream ss(s);
 
-    string w;
+    String w;
 
     ss >> w;
     ss >> w;
 
     return w;
 }
-string nWord(int n,string s)
+String nWord(int n,String s)
 {
     std::stringstream ss(s);
 
-    string w;
+    String w;
 
     for(int i = 0; i < n; i++)
         ss >> w;
 
     return w;
 }
-vector<string> allWord(string s)
+vector<String> allWord(String s)
 {
 
     std::stringstream ss(s);
 
-    vector<string> w;
+    vector<String> w;
 
     while(!ss.eof())
     {
-        string a;
+        String a;
         ss >> a;
         w.push_back(a);
     }
 
     return w;
 }
-vector<string> split(string s, string delimiter)
+vector<String> split(String s, String delimiter)
 {
-    vector<string> w;
+    vector<String> w;
 
     size_t pos = 0;
-    string token;
-    while ((pos = s.find(delimiter)) != string::npos) {
+    String token;
+    while ((pos = s.find(delimiter)) != String::npos) {
         token = s.substr(0, pos);
         w.push_back(token);
         s.erase(0, pos + delimiter.length());
@@ -316,11 +316,11 @@ SDL_GLContext gContext;
 
 
 int audioFiles = 0;
-queue<string> audioCommands;
+queue<String> audioCommands;
 
-string seasons[4] = {"Spring","Summer","Fall","Winter"};
+String seasons[4] = {"Spring","Summer","Fall","Winter"};
 
-string particle = "rain"; ///snow cat
+String particle = "rain"; ///snow cat
 
 int current_day = 1;
 int current_season = 1;
@@ -333,35 +333,35 @@ int current_seconds = 0;
 
 int funds = PLAYER_STARTING_FUNDS;
 
-string CURRENCY = "G";
+String CURRENCY = "G";
 
 int hunger = 0;
 
-string hunger_levels[MAX_HUNGER_LEVEL] = {"Well sated","Slightly hungry","Hungry","Starving"};
+String hunger_levels[MAX_HUNGER_LEVEL] = {"Well sated","Slightly hungry","Hungry","Starving"};
 
-string task = "Cut down a tree";
+String task = "Cut down a tree";
 
 int main_progress = 0;
 
-vector<string> tasks = {"Eat a fruit","Talk to a person", "Buy something", "Cook something"};
-vector<string> events = {"EAT","TALK","BUY","CRAFT"};
-vector<vector<string> > event_string_parameters = {{"fruit"},{},{},{"cooking"}};
+vector<String> tasks = {"Eat a fruit","Talk to a person", "Buy something", "Cook something"};
+vector<String> events = {"EAT","TALK","BUY","CRAFT"};
+vector<vector<String> > event_string_parameters = {{"fruit"},{},{},{"cooking"}};
 
-queue<string> alerts;
+queue<String> alerts;
 
 int selectedEntity = 0;
 
 
-string daily = tasks[randomer()+rand()%tasks.size()];
+String daily = tasks[randomer()+rand()%tasks.size()];
 
-map<string, int> skills = {{"crafting",1},{"cooking",1},{"woodcutting",1},{"fishing",1},{"charisma",1}};
+map<String, int> skills = {{"crafting",1},{"cooking",1},{"woodcutting",1},{"fishing",1},{"charisma",1}};
 
-map<string, int> xps = {{"crafting",0},{"cooking",0},{"woodcutting",0},{"fishing",0},{"charisma",0}};
+map<String, int> xps = {{"crafting",0},{"cooking",0},{"woodcutting",0},{"fishing",0},{"charisma",0}};
 
-map<string, vector<string> > unlocks = {{"crafting",{"You can now craft more stuff"}}};
+map<String, vector<String> > unlocks = {{"crafting",{"You can now craft more stuff"}}};
 
-map<string, int> globals;
-map<string, string> strings;
+map<String, int> globals;
+map<String, String> strings;
 
 
 float camera_x = 0, camera_y = 0;
