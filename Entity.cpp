@@ -29,6 +29,45 @@ Entity::~Entity()
 {
     //dtor
 }
+
+float Entity::GetDistance(float srcX, float srcY)
+{
+    float dX = srcX-x;
+    float dY = srcY-y;
+    return sqrt(dX*dX+dY*dY);
+}
+
+float Entity::GetAngle(float srcX, float srcY)
+{
+    return atan2(srcX-x,srcY-y);
+}
+
+void Entity::KnockBack(float srcX, float srcY, float force)
+{
+    /*float angle = GetAngle(srcX,srcY);
+
+    this->addX(cos(angle)*force);
+    this->addY(sin(angle)*force);
+
+    cout << angle << endl;*/
+
+    if(abs(x-srcX)>abs(y-srcY))
+    {
+        if(x < srcX)
+            addX(-force);
+        else if(x > srcX)
+            addX(force);
+
+    }
+    else
+    {
+        if(y < srcY)
+            addY(-force);
+        else if(y > srcY)
+            addY(force);
+
+    }
+}
 String Entity::runScript(String s)
 {
     String response = "";
@@ -95,7 +134,8 @@ bool Entity::Interacts(Item * i, int n)
     if((FirstWord(intr.obj)=="name" && SecondWord(intr.obj)==i->name)||
            (FirstWord(intr.obj)=="category" && SecondWord(intr.obj)==i->category)||
            (FirstWord(intr.obj)=="type" && SecondWord(intr.obj)==i->type)||
-           (FirstWord(intr.obj)=="attr" && i->string_attribs.count(SecondWord(intr.obj)) && nWord(3,intr.obj)==i->string_attribs[SecondWord(intr.obj)]))
+           (FirstWord(intr.obj)=="compare" && i->string_attribs.count(SecondWord(intr.obj)) && nWord(3,intr.obj)==i->string_attribs[SecondWord(intr.obj)]) ||
+           (FirstWord(intr.obj)=="attr" && i->int_attribs.count(SecondWord(intr.obj))))
            return true;
 
     return false;

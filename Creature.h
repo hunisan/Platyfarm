@@ -26,6 +26,7 @@ class Creature : public Entity
         Creature();
         Creature(image _img, float _x, float _y, float _w, float _h, float _alt = 0);
 
+        virtual void Damage(int damage);
 
         void setCooldown(int cd);
 

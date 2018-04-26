@@ -64,7 +64,7 @@
     <stats>
         <attack>6</attack>
         <defense>5</defense>
-        <health>5</health>
+        <health>50</health>
         <speed>40</speed>
         <stamina>5</stamina>
     </stats>
@@ -2435,8 +2435,7 @@
             <pos>576 384</pos>
         </npc>
         <npc>
-            <met/>
-            <name>catman2</name>
+            <name>catquestgiver</name>
             <pos>695.967 389.611</pos>
         </npc>
     </stage>

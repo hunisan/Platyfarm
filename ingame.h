@@ -277,6 +277,14 @@ public:
         {
             gameVars->Define(sw);
         }
+        else if(fw == "undef")
+        {
+            gameVars->Undef(sw);
+        }
+        else if(fw == "increment")
+        {
+            gameVars->Increment(sw);
+        }
         else if(fw == "dialog")
         {
             gamephase = DIALOG;
@@ -953,16 +961,10 @@ public:
                     {
                         if(is_number(listElement->GetText()))
                         {
-                            /*if(listElement->Name()=="consume")
-                                printf("nem stringet kap meg\n");
-                            else
-                                cout << listElement->Name() << endl;*/
                             newitem.int_attribs[listElement->Name()] = atoi(listElement->GetText());
-
                         }
                         else
                         {
-                            //printf("megkapja a stringet\n");
                             newitem.string_attribs[listElement->Name()] = listElement->GetText();
 
                         }
@@ -1002,7 +1004,6 @@ public:
             if(e)
                 AddDrawable(e);
 
-        //drawables.push_back(&ptr_to_player);
         AddDrawable(player);
         AddDrawable(preview);
 
@@ -1015,6 +1016,9 @@ public:
         for(auto& e : currentstage->npcs)
             if(e)
                 AddDrawable(e);
+
+        for(auto npc : currentstage->npcs)
+            npc->setPlayer(player);
 
         std::sort(draw_list.begin(), draw_list.end(), Sorter);
 
@@ -1042,61 +1046,7 @@ public:
         player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE,TILESIZE));
         ptr_to_player = player;
 
-
-
-        setupStage();
-
-        //currentstage->objects.push_back(new Entity(object_templates["house"],TILESIZE/2,TILESIZE*2));
-
-        /*PlaceObject(new Entity(object_templates["house"]),0,2);
-        PlaceObject(new Entity(object_templates["shop"]),7,2);
-
-        for(int i = 0; i < 100; i++)
-            SpawnObject(new Entity(object_templates["tree"],0,0),0,0,100,100);//currentstage->objects.push_back(new Entity(object_templates["tree"],(rand()%(100)*TILESIZE+TILESIZE), (rand()%(100)*TILESIZE+TILESIZE)));
-
-        for(int i = 0; i < 10; i++)
-            SpawnObject(new Entity(object_templates["lily"],0,0),0,0,SCREEN_WIDTH/TILESIZE,SCREEN_HEIGHT/TILESIZE);//currentstage->objects.push_back(new Entity(object_templates["lily"], rand()%(SCREEN_WIDTH-TILESIZE)+TILESIZE, rand()%(SCREEN_HEIGHT-TILESIZE)+TILESIZE));
-
-        for(int i = 0; i < 10; i++)
-            SpawnObject(new Entity(object_templates["grass"],0,0),0,0,SCREEN_WIDTH/TILESIZE,SCREEN_HEIGHT/TILESIZE);//currentstage->objects.push_back(new Entity(object_templates["grass"], rand()%(SCREEN_WIDTH-TILESIZE)+TILESIZE, rand()%(SCREEN_HEIGHT-TILESIZE)+TILESIZE));
-
-        for(int i = 0; i < 5; i++)
-            SpawnObject(new Entity(object_templates["tree"],0,0),0,0,SCREEN_WIDTH/TILESIZE,SCREEN_HEIGHT/TILESIZE);//currentstage->objects.push_back(new Entity(object_templates["tree"],(rand()%((SCREEN_WIDTH-TILESIZE)/TILESIZE))*TILESIZE+TILESIZE, (rand()%((SCREEN_HEIGHT-TILESIZE)/TILESIZE))*TILESIZE+TILESIZE));
-
-        for(int i = 0; i < 5; i++)
-            SpawnObject(new Entity(object_templates["stone"],0,0),0,0,SCREEN_WIDTH/TILESIZE,SCREEN_HEIGHT/TILESIZE);
-        for(int i = 0; i < 100; i++)
-            SpawnObject(new Entity(object_templates["grass"],0,0),0,0,100,100);//currentstage->objects.push_back(new Entity(object_templates["grass"],(rand()%(100)*TILESIZE+TILESIZE), (rand()%(100)*TILESIZE+TILESIZE)));
-        for(int i = 0; i < 120; i++)
-        {
-            SpawnObject(new Entity(object_templates["poppy"],0,0),0,0,100,100);//currentstage->objects.push_back(new Entity(object_templates["flower"],(rand()%(100)*TILESIZE+TILESIZE), (rand()%(100)*TILESIZE+TILESIZE)));
-            //currentstage->objects[currentstage->objects.size()-1]->img = images[ids["flower" + to_string(2+rand()%4)]];//rand()%2 == 1 ? "flower" : "flower2"]];
-        }
-        SpawnObjects("lily",0,0,100,100,80);
-        SpawnObjects("tulip",0,0,100,100,80);
-        SpawnObjects("rose",0,0,100,100,80);
-
-
-        PlaceObject(new Entity(Door("forest",10,2,8,4)),16,2);
-
-
-        //currentstage->objects.push_back(new Entity(object_templates["distiller"],TILESIZE*4,TILESIZE*6));
-        PlaceOverride(new Entity(object_templates["distiller"]),4,6);
-
-        for(auto x : currentstage->objects)
-            if(Intersect(x,player))
-            {
-                remove_entity(x);
-
-            }
-
-        currentstage->npcs.push_back(new NPC(npc_templates["spock"],18*TILESIZE,12*TILESIZE));
-
-        currentstage->npcs.push_back(new NPC(npc_templates["crypto"],14*TILESIZE,10*TILESIZE));
-
-        currentstage->npcs.push_back(new NPC(npc_templates["platypus"],10*TILESIZE,6*TILESIZE));
-
-*/
+        setupGame();
 
         gamephase = DIALOG;
         dialogSystem->Add(dialogs[22]);
@@ -1110,15 +1060,6 @@ public:
         //inventory->Add(item_templates["platty"]);
         //inventory->Add(item_templates["jar"],30);
         //inventory->Add(item_templates["skillbook"]);
-
-        /*for(int i = 0; i < 99; i++)
-            inventory->Add(item_templates["seed"]);*/
-
-        /*stageList[to_string("lot")] = &player_lot;
-        stageList[to_string("house")] = &player_house;
-        stageList["forest"] = &forest;
-        stageList["shop"] = &general_store;
-        stageList["limbo"] = &limbo;*/
 
         LoadStages();
 
@@ -1297,7 +1238,7 @@ public:
 
         player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
 
-        setupStage();
+        setupGame();
 
         using namespace tinyxml2;
 
@@ -1535,6 +1476,7 @@ public:
 
         SwitchStage(stageList["house"]);
 
+
         printf("Done loading!\n");
         cout << "Loaded " << images.size() << " images\n";
         cout << "Loaded " << audioFiles << " audio files\n";
@@ -1545,7 +1487,7 @@ public:
         cout << "Counted " << dialogs.size() << " dialogs\n";
     }
 
-    void setupStage()
+    void setupGame()
     {
         cursor = new Cursor();
         preview = new Preview();
@@ -1566,6 +1508,7 @@ public:
 
         dialogSystem = new DialogSystem();
         gameVars = new GameVariables();
+        dialogSystem->setGameVariables(gameVars);
     }
     void HandleRightClick()
     {
@@ -1578,10 +1521,6 @@ public:
                     if(KeyData.MouseX+camera_x >= n->x && KeyData.MouseX+camera_x <= n->x + n->w &&
                         KeyData.MouseY+camera_y >= n->y && KeyData.MouseY+camera_y <= n->y + n->h  )
                         {
-                            /*float dx = player->x - n->x;
-                            float dy = player->y - n->y;
-                            float distance = sqrt(dx*dx+dy*dy);*/
-
                             if(GetDistance(player->x,player->y,n->x,n->y) < globals["interact-range"])
                             {
                                 eventSystem->Event("TALK");
@@ -1676,18 +1615,6 @@ public:
                             else
                                 fade_x = fade_y = 0;
 
-                            /*if(e->string_attribs["portal"] == "house")
-                                SwitchStage(stageList["house"]);
-                            else if(e->string_attribs["portal"] == "shop")
-                            {
-                                SwitchStage(stageList["shop"]);
-                                FocusCamera();
-                            }
-                            else if(e->string_attribs["portal"] == "lot")
-                                SwitchStage(stageList["lot"]);
-                            else
-                                SwitchStage(stageList["limbo"]);*/
-
                             gamephase = FADE;
                             fade_stage = stageList[e->string_attribs["portal"]];
                             fade_direction = FADE_IN;
@@ -1704,14 +1631,6 @@ public:
 
             if(!interacted)
                 if(inventory->toolbar[inventory->selected])
-                    /*if(inventory->toolbar[inventory->selected]->int_attribs.count("edible") || inventory->toolbar[inventory->selected]->int_attribs.count("drinkable"))
-                    {
-                        eventSystem->Event("EAT");
-                        inventory->Remove(inventory->selected);
-                        hunger -= HUNGER_SCALE;
-                        if(hunger < 0)
-                            hunger = 0;
-                    }*/
                     if(inventory->toolbar[inventory->selected]->string_attribs.count("consume"))
                     {
                         RunScript(inventory->toolbar[inventory->selected]->string_attribs["consume"]);
@@ -1905,28 +1824,13 @@ public:
                         cout << npc_name<< " was hit for " << sel->int_attribs["damage-min"] << " dmg!" << endl;
                         cout << npc_name << "'s health changed from " << n->int_attribs["hp"];
 
-                        n->int_attribs["hp"] -= sel->int_attribs["damage-min"];
-
+                        //n->int_attribs["hp"] -= sel->int_attribs["damage-min"];
+                        n->Damage(sel->int_attribs["damage-min"]);
                         cout << " to " << n->int_attribs["hp"] << endl;
 
                         healthbar.Add(n);
                         ///PUSH NPC
-                        if(abs(n->x-player->x)>abs(n->y-player->y))
-                        {
-                            if(n->x < player->x)
-                                n->x -= TILESIZE/2;
-                            else if(n->x > player->x)
-                                n->x += TILESIZE/2;
-
-                        }
-                        else
-                        {
-                            if(n->y < player->y)
-                                n->y -= TILESIZE/2;
-                            else if(n->y > player->y)
-                                n->y += TILESIZE/2;
-
-                        }
+                        n->KnockBack(player->x,player->y,TILESIZE/2);
 
                         particleSystem.Add(n->x,n->y,n->w,n->h,n->img,true,g("particle-decay"));
 
@@ -1943,6 +1847,10 @@ public:
                                 currentstage->objects.push_back(drop);
                                 AddDrawable(drop);
 
+                            }
+                            if(n->attributes.count("ondeath"))
+                            {
+                                RunScript(n->attributes["ondeath"]);
                             }
                             removeNPC(n);
                         }
@@ -2017,7 +1925,7 @@ public:
     }
     void FocusCamera()
     {
-        int oldx = camera_x, oldy = camera_y;
+        /*int oldx = camera_x, oldy = camera_y;
 
         camera_x = (player->x - SCREEN_WIDTH/2);
         camera_y = (player->y - SCREEN_HEIGHT/2);
@@ -2040,7 +1948,24 @@ public:
             camera_y = currentstage->tilemap.h*TILESIZE/2-SCREEN_HEIGHT/2;
 
         camera_xvel = camera_x-oldx;
-        camera_yvel = camera_y-oldy;
+        camera_yvel = camera_y-oldy;*/
+
+        float dX = abs(camera_x+SCREEN_WIDTH/2-player->x);
+        float xDir = camera_x+SCREEN_WIDTH/2<player->x+player->w/2 ? 1 : -1;
+        float dY = abs(camera_y+SCREEN_HEIGHT/2-player->y);
+        float yDir = camera_y+SCREEN_HEIGHT/2<player->y+player->h/2 ? 1 : -1;
+
+        float distance = sqrt(dX*dX+dY*dY);
+
+        float freedom = 1*TILESIZE;
+        if(abs(dX) > freedom)
+        {
+            camera_x+=xDir * (dX-freedom)/8;
+        }
+        if(abs(dY) > freedom)
+            camera_y+=yDir * (dY-freedom)/8;
+
+
     }
 
     bool ValidatePlayer(int x, int y)
@@ -2222,40 +2147,54 @@ public:
             if(player->current_frame >= g("player-anim-frames"))
                 player->current_frame = 0;
 
-            FocusCamera();
 
+            for(auto& e : currentstage->objects)
+            {
+                if(e && e->alt > 0)
+                {
+                    if(e->x - e->offset/2 > player->x + player->w || e->x + e->w + e->offset/2 < player->x
+                        || e->y - e->alt > player->y + player->h || e->y < player->y)
+                        {
+                            e->fade = false;
+                        }
+                        else
+                        {
+                            e->fade = true;
+                        }
+                }
+            }
         }
 
     }
 
     void HandleMouseWheel()
     {
-            inventory->selected -= KeyData.wheel;
-            if(inventory->selected < 0)
-                inventory->selected = 9;
+        inventory->selected -= KeyData.wheel;
+        if(inventory->selected < 0)
+            inventory->selected = 9;
 
-            else if(inventory->selected > 9)
-                inventory->selected = 0;
-            if(inventory->toolbar[inventory->selected])
+        else if(inventory->selected > 9)
+            inventory->selected = 0;
+        if(inventory->toolbar[inventory->selected])
+        {
+            if(inventory->toolbar[inventory->selected] && inventory->toolbar[inventory->selected]->string_attribs.count("place"))
             {
-                if(inventory->toolbar[inventory->selected] && inventory->toolbar[inventory->selected]->string_attribs.count("place"))
-                {
-                    preview->Add(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]]);
+                preview->Add(object_templates[inventory->toolbar[inventory->selected]->string_attribs["place"]]);
 
-                }
-                else if(inventory->toolbar[inventory->selected]->type == "watering")
-                {
-                    //preview = new Preview(ent)
-                    //preview->active = true;
-                }
-                else
-                    preview->Disable();
+            }
+            else if(inventory->toolbar[inventory->selected]->type == "watering")
+            {
+                //preview = new Preview(ent)
+                //preview->active = true;
             }
             else
-            {
                 preview->Disable();
+        }
+        else
+        {
+            preview->Disable();
 
-            }
+        }
 
     }
 
@@ -2283,21 +2222,8 @@ public:
             HandleMouseMove();
 
         MovePlayer();
-        for(auto& e : currentstage->objects)
-        {
-            if(e && e->alt > 0)
-            {
-                if(e->x - e->offset/2 > player->x + player->w || e->x + e->w + e->offset/2 < player->x
-                    || e->y - e->alt > player->y + player->h || e->y < player->y)
-                    {
-                        e->fade = false;
-                    }
-                    else
-                    {
-                        e->fade = true;
-                    }
-            }
-        }
+        FocusCamera();
+
         if(KeyData.EscapePress)
         {
             gamephase = DIALOG;
@@ -2331,6 +2257,8 @@ public:
             current_hour--;
         if(KeyData.EPress)
         {
+            gameVars->Print();
+
             gamephase = GUI;
             gui = new GUIInventoryScreen(inventory);
         }
@@ -2650,16 +2578,16 @@ public:
         //if(!currentstage->indoors)
         //    DrawImage(im("sky"),0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        currentstage->Draw(camera_x,camera_y);
+        currentstage->Draw(std::trunc(camera_x),std::trunc(camera_y));
 
-        particleSystem.Draw(camera_x,camera_y);
+        particleSystem.Draw(std::trunc(camera_x),std::trunc(camera_y));
 
 
         for(auto e : draw_list)
         {
             if(e)
                 if(OnScreen(e,camera_x,camera_y))
-                    e->Draw(camera_x,camera_y);
+                    e->Draw(std::trunc(camera_x),std::trunc(camera_y));
 
         }
 

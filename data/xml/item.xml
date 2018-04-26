@@ -386,6 +386,7 @@
 		<sell>1000</sell>
 		<stack>99</stack>
 		<attributes>
+			<liquid/>
 			<drinkable/>
 		</attributes>
 	</item>
@@ -399,6 +400,7 @@
 		<sell>1000</sell>
 		<stack>99</stack>
 		<attributes>
+			<liquid/>
 			<drinkable/>
 			<consume>script stat speed -1 3600 script stat defense -1 3600</consume>
 		</attributes>
@@ -413,6 +415,7 @@
 		<sell>1000</sell>
 		<stack>99</stack>
 		<attributes>
+			<liquid/>
 			<drinkable/>
 			<consume>script stat speed -1 3600 script stat defense -1 3600</consume>
 		</attributes>
@@ -426,6 +429,7 @@
 		<img>potion</img>
 		<stack>99</stack>
 		<attributes>
+			<liquid/>
 			<drinkable/>
 		</attributes>
 	</item>
@@ -439,6 +443,7 @@
 		<sell>500</sell>
 		<stack>99</stack>
 		<attributes>
+			<liquid/>
 			<drinkable/>
 		</attributes>
 	</item>
@@ -466,6 +471,7 @@
 		<sell>50</sell>
 		<stack>99</stack>
 		<attributes>
+			<liquid/>
 			<drinkable/>
 		</attributes>
 	</item>
@@ -480,6 +486,7 @@
 		<sell>50</sell>
 		<stack>99</stack>
 		<attributes>
+			<liquid/>
 			<drinkable/>
 		</attributes>
 	</item>
@@ -973,6 +980,21 @@
 			<damage-min>6</damage-min>
 			<damage-max>9</damage-max>
 			<range>1</range>
+			<attack-speed>13</attack-speed>
+		</attributes>
+		<stack>1</stack>
+	</item>
+	<item>
+		<name>longbow</name>
+		<formal>Longbow</formal>
+		<desc>Has a higher range than the conventional bow.</desc>
+		<category>weapon</category>
+		<type>ranged</type>
+		<img>bow</img>
+		<attributes>
+			<damage-min>6</damage-min>
+			<damage-max>9</damage-max>
+			<range>2</range>
 			<attack-speed>13</attack-speed>
 		</attributes>
 		<stack>1</stack>

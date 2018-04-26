@@ -120,11 +120,13 @@
 		<img>dog</img>
 		<onmeet>14</onmeet>
 		<ongreet>14</ongreet>
-		<behaviour>roam</behaviour>
+		<behaviour>follow</behaviour>
 		<attributes>
 			<creature/>
+			<enemy/>
 			<race>canine</race>
 			<health>2</health>
+			<ondeath>increment dogkills</ondeath>
 			<drops>melon cherry bone</drops>
 		</attributes>
 	</npc>
@@ -141,11 +143,12 @@
 			<race>canine</race>
 			<health>15</health>
 			<drops>skillbook longsword</drops>
+			<ondeath>define kingslayer</ondeath>
 		</attributes>
 	</npc>
 	<npc>
 		<name>catman</name>
-		<fullname>Bob</fullname>
+		<fullname>Smokey</fullname>
 		<portrait>catman</portrait>
 		<img>catman</img>
 		<alt>0.5</alt>
@@ -174,5 +177,21 @@
 			<behaviour-talk>random</behaviour-talk>
 			<lines>27 28 29 30 31 33 34 39 40 41</lines>
 		</attributes>
+	</npc>
+	<npc>
+		<name>catquestgiver</name>
+		<fullname>Coco</fullname>
+		<portrait>catman-teal</portrait>
+		<img>catman-teal</img>
+		<alt>0.5</alt>
+		<onmeet>32</onmeet>
+		<ongreet>46</ongreet>
+		<behaviour>roam</behaviour>
+		<attributes>
+			<creature/>
+			<sentient/>
+			<race>feline</race>
+		</attributes>
+		
 	</npc>
 </root>

@@ -65,6 +65,9 @@ class Entity : public Visible
         Entity(Entity _ent, float _x, float _y);// : Entity(_ent);
         Entity(image _img, float _x, float _y, float _w, float _h);// : Visible(_img,_x,_y,_w,_h)
 
+        float GetDistance(float srcX, float srcY);
+        float GetAngle(float srcX,float srcY);
+        void KnockBack(float srcX, float srcY, float force);
         void Shake(int amplitude = -1);
         void Draw(float cX = 0, float cY = 0);
 

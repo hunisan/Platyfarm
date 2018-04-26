@@ -6,7 +6,13 @@
 class NPC : public Creature
 {
 
-    Entity * player;
+    Creature * player;
+    int attackRange=TILESIZE;
+    int sightRange = 5*TILESIZE;
+
+    void Follow(String behaviour);
+    String Roam();
+    void Attack();
 
     public:
     image portrait;
@@ -20,6 +26,8 @@ class NPC : public Creature
     String fullname;
 
     map<String,int> AIprams;
+
+    void setPlayer(Creature * player);
 
     NPC(NPC _npc, int _x, int _y);
 

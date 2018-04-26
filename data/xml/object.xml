@@ -588,7 +588,7 @@
 		<interactions>
 			<i>
 				<obj>name log</obj>
-				<script>script change furnace-burning script sound slap</script>
+				<script>script change furnace-burning script sound slap script define lit</script>
 			</i>
 		</interactions>
 	</object>
@@ -604,6 +604,12 @@
 		<attributes>
 			<interact>19</interact>
 		</attributes>
+		<interactions>
+			<i>
+				<obj>attr liquid</obj>
+				<script>script change furnace script sound slap script undef lit</script>
+			</i>
+		</interactions>
 	</object>
 	<object>
 		<name>sign</name>

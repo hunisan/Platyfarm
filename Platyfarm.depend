@@ -982,7 +982,7 @@
 1523107572 d:\projects\platyfarm\images.h
 	"public.h"
 
-1524168538 d:\projects\platyfarm\objects.h
+1524666845 d:\projects\platyfarm\objects.h
 	"public.h"
 	"keydata.h"
 	"declarations.h"
@@ -995,7 +995,7 @@
 1523107572 d:\projects\platyfarm\keydata.h
 	"public.h"
 
-1523464221 d:\projects\platyfarm\ingame.h
+1524681285 d:\projects\platyfarm\ingame.h
 	"gamestate.h"
 	"objects.h"
 	"keydata.h"
@@ -1091,26 +1091,26 @@
 1523107573 d:\projects\platyfarm\item.h
 	"Object.h"
 
-1523107573 d:\projects\platyfarm\entity.h
+1524656303 d:\projects\platyfarm\entity.h
 	"Visible.h"
 	"Item.h"
 
-1523107573 d:\projects\platyfarm\creature.h
+1524655053 d:\projects\platyfarm\creature.h
 	"Entity.h"
 
-1523107573 source:d:\projects\platyfarm\creature.cpp
+1524662564 source:d:\projects\platyfarm\creature.cpp
 	"Creature.h"
 
 1523101608 source:d:\projects\platyfarm\cursor.cpp
 	"Cursor.h"
 
-1523107573 source:d:\projects\platyfarm\entity.cpp
+1524664808 source:d:\projects\platyfarm\entity.cpp
 	"Entity.h"
 
 1523105244 source:d:\projects\platyfarm\item.cpp
 	"Item.h"
 
-1524167795 d:\projects\platyfarm\npc.h
+1524221071 d:\projects\platyfarm\npc.h
 	"Creature.h"
 
 1523101530 source:d:\projects\platyfarm\object.cpp
@@ -1122,6 +1122,6 @@
 1523193557 source:d:\projects\platyfarm\newgame.cpp
 	"newgame.h"
 
-1524167646 source:d:\projects\platyfarm\npc.cpp
+1524656635 source:d:\projects\platyfarm\npc.cpp
 	"NPC.h"
 

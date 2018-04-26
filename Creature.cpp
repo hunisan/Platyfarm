@@ -14,6 +14,12 @@ Creature::~Creature()
 {
     //dtor
 }
+void Creature::Damage(int damage)
+{
+    int_attribs["hp"] -= damage;
+    setCooldown(500/13);
+    cout << "Creature damaged!" << endl;
+}
 void Creature::recalculateStats()
 {
     movement_speed = stat_levels["speed"];

@@ -91,6 +91,7 @@
 			<response id="1" goto="0" outcome="gui shop general-store-inventory">Trade</response>
 			<response id="2" goto="0" condition="skill charisma 2">Gamble</response>
 			<response id="3" goto="0" outcome="xp charisma 20">Goodbye</response>
+			<response id="4" goto="0" condition="ifdef lit">I forgot the stove on</response>
 		</question>
 	</dialog>
 	<dialog id="9">
@@ -287,7 +288,7 @@
 	<dialog id="32">
 		<chain>
 			<text id="1">My contractors are willing to pay a decent amount of money to anyone who can get rid of the "dog problem"</text>
-			<text id="2">Slay 5 of these foul beasts and you will be rewarded with 300zl</text>
+			<text id="2">Slay 5 of these foul beasts and you will be rewarded with 300 $currency</text>
 		</chain>
 	</dialog>
 	<dialog id="33">
@@ -376,6 +377,21 @@
 	<dialog id="45">
 		<chain>
 			<text id="1">Pretty scary.</text>
+		</chain>
+	</dialog>
+	<dialog id="46">
+		<chain>
+		</chain>
+		<question>
+			<text>Welcome my friend</text>
+			<response id="1" goto="47" condition="ge dogkills 5">I have taken care of the dog infestation</response>
+			<response id="2" goto="47" condition="ifdef kingslayer">I have slain the dog king in the woods</response>
+			<response id="3" goto="0">Goodbye</response>
+		</question>
+	</dialog>
+	<dialog id="47">
+		<chain>
+			<text id="1">I am pleased to hear that.</text>
 		</chain>
 	</dialog>
 </root>

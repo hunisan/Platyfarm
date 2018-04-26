@@ -26,13 +26,6 @@ public:
         return false;
     }
 
-    void Increment(String name)
-    {
-        if(!int_vars.count(name))
-            int_vars[name]=1;
-        else
-            int_vars[name]++;
-    }
     int GetInt(String name)
     {
         if(int_vars.count(name))
@@ -58,20 +51,6 @@ public:
     void Define(String name)
     {
         SetString(name,"true");
-    }
-    void Undef(String name)
-    {
-        string_vars.erase(name);
-    }
-    void Print()
-    {
-        cout << "String variables: " << string_vars.size() << endl;
-        for(auto i : string_vars)
-            cout << i.first << " : " << i.second << endl;
-
-        cout << "Int variables: " << int_vars.size() << endl;
-        for(auto i : int_vars)
-            cout << i.first << " : " << i.second << endl;
     }
 };
 
@@ -332,24 +311,24 @@ public:
         alt = TILESIZE/2;
 
     }
-    void Damage(int damage)
-    {
-        cout << "Player is attacked!" << endl;
-        this->stat_levels["health"] -= damage;
-        /*cout << "Int attributes: " << endl;
-        for(auto i : this->int_attribs)
-            cout << i.first << " : " << to_string(i.second) << endl;
-
-        cout << "String attributes: " << endl;
-        for(auto i : this->string_attribs)
-            cout << i.first << " : " << to_string(i.second) << endl;*/
-    }
     void Draw(float cX = 0, float cY = 0)
     {
 
         DrawClip(img,x-cX-offset/2,y-cY-alt,w+offset,h+alt,floor(current_frame)*50,lastdir*(64),50,64,g("player-anim-frames")*50,4*(64));
 
+        /*if(GUI_ENABLED)
+        {
 
+            for(int i = 0; i < 32; i++)
+                for(int j = 0; j < 32; j++)
+            {
+                if(alpha_maps[std::distance(images.begin(),std::find(images.begin(),images.end(),img))].alpha[i][j])
+                {
+                    DrawImage(images[std::distance(images.begin(),std::find(images.begin(),images.end(),img))],x+i-cX,y+j-cY,1,1);
+
+                }
+            }
+        }*/
     }
 };
 
@@ -1223,8 +1202,8 @@ public:
 
     }
 };
-static vector<Task> main_tasks{Task("Cut down a tree","DESTROY",{"tree"}),Task("Talk to the shopkeeper","TALK",{"shopkeeper"}),Task("Plant 10 crops","PLACE",{"plant"})};
-static vector<Task> daily_tasks{Task("Eat an apple","EAT",{"apple"})};
+vector<Task> main_tasks{Task("Cut down a tree","DESTROY",{"tree"}),Task("Talk to the shopkeeper","TALK",{"shopkeeper"}),Task("Plant 10 crops","PLACE",{"plant"})};
+vector<Task> daily_tasks{Task("Eat an apple","EAT",{"apple"})};
 
 class EventSystem : public Object
 {
@@ -1387,11 +1366,20 @@ public:
         DrawLine("Health: " + to_string(p->stat_levels["health"]),pY);
 
         DrawLine("Hunger: " + hunger_levels[(int)floor(hunger/HUNGER_SCALE)],pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),FONTSIZE);
+        //DrawString(hunger_levels[(int)floor(hunger/HUNGER_SCALE)],SCREEN_WIDTH-lineWidth(hunger_levels[(int)floor(hunger/HUNGER_SCALE)]),y+FONTSIZE*2,-1,"font2");
+
 
         DrawLine(taskstring,pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(taskstring)-3,y+FONTSIZE*3,lineWidth(taskstring),FONTSIZE);
+        //DrawString(taskstring,SCREEN_WIDTH-lineWidth(taskstring)-3,y+FONTSIZE*3,-1,"font2");
+
         if(!eventsys->mainTask.complete)
         {
             DrawLine(eventsys->mainTask.text,pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(eventsys->mainTask.text)-3,y+FONTSIZE*4,lineWidth(eventsys->mainTask.text),FONTSIZE);
+        //DrawString(eventsys->mainTask.text,SCREEN_WIDTH-lineWidth(eventsys->mainTask.text)-3,y+FONTSIZE*4,-1,"font2");
+
         }
         else
         {
@@ -1399,9 +1387,15 @@ public:
         }
 
         DrawLine(dailystring,pY);
+        //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(dailystring)-3,y+FONTSIZE*5,lineWidth(dailystring),FONTSIZE);
+        //DrawString(dailystring,SCREEN_WIDTH-lineWidth(dailystring)-3,y+FONTSIZE*5,-1,"font2");
+
         if(!eventsys->dailyTask.complete)
         {
             DrawLine(eventsys->dailyTask.text,pY);
+            //DrawImage(images[ids["fade"]],SCREEN_WIDTH-lineWidth(eventsys->dailyTask.text)-3,y+FONTSIZE*6,lineWidth(eventsys->dailyTask.text),FONTSIZE);
+            //DrawString(eventsys->dailyTask.text,SCREEN_WIDTH-lineWidth(eventsys->dailyTask.text)-3,y+FONTSIZE*6,-1,"font2");
+
         }
         else
         {
@@ -1444,7 +1438,7 @@ public:
 
 };
 
-static Dialog Prompt(String msg, String script, String positive = "Yes", String negative = "No")
+Dialog Prompt(String msg, String script, String positive = "Yes", String negative = "No")
 {
     Dialog d;
     d.speaker = "narrator";
@@ -1462,8 +1456,6 @@ static Dialog Prompt(String msg, String script, String positive = "Yes", String 
 
 class DialogSystem : public Dialog, public Entity
 {
-    GameVariables * gameVars;
-
 public:
     int base_h;
     //int x,y,w,h;
@@ -1483,10 +1475,7 @@ public:
     int namePtSize = FONTSIZE;
     int lines = 0;
 
-    void setGameVariables(GameVariables * gameVars)
-    {
-        this->gameVars = gameVars;
-    }
+
     void calculateLines(String c)
     {
         std::stringstream ss;
@@ -1521,24 +1510,7 @@ public:
             if(skills[SecondWord(s)]>=atoi(nWord(3,s)))
                 return true;
         }
-        else if(FirstWord(s) == "ifdef")
-        {
-            if(gameVars)
-                if(gameVars->IfDef(SecondWord(s)))
-                    return true;
-        }
-        else if(FirstWord(s) == "ifndef")
-        {
-            if(gameVars)
-                if( ! gameVars->IfDef(SecondWord(s)))
-                    return true;
-        }
-        else if(FirstWord(s) == "ge")
-        {
-            if(gameVars)
-                if( gameVars->GetInt(SecondWord(s)) >= atoi(nWord(3,s).c_str()))
-                    return true;
-        }
+
         return false;
     }
     void Add(Dialog _dialog, String default_sp = "narrator")
