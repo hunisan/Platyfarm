@@ -101,6 +101,11 @@
 		<medium>stove</medium>
 	</recipe>
 	<recipe>
+		<item>coffee</item>
+		<ingredient count="10">coffee-bean</ingredient>
+		<medium>stove</medium>
+	</recipe>
+	<recipe>
 		<item>butter</item>
 		<ingredient>milk</ingredient>
 		<medium>stove</medium>

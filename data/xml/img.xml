@@ -14,7 +14,7 @@
 	</img>
 	<img id="4">
 		<name>axe</name>
-		<path>Feszy.png</path>
+		<path>axe.png</path>
 	</img>
 	<img id="5">
 		<name>itembar</name>
@@ -74,7 +74,7 @@
 	</img>
 	<img>
 		<name>apple-tree</name>
-		<path>appletree.png</path>
+		<path>apple-tree.png</path>
 	</img>
 	<img>
 		<name>scythe</name>
@@ -150,7 +150,7 @@
 	</img>
 	<img id="37">
 		<name>planted</name>
-		<path>Kupac -  virag (1).png</path>
+		<path>planted.png</path>
 	</img>
 	<img id="38">
 		<name>seed</name>
@@ -170,11 +170,11 @@
 	</img>
 	<img id="42">
 		<name>acorn</name>
-		<path>Makk.png</path>
+		<path>acorn.png</path>
 	</img>
 	<img id="43">
 		<name>acorn_planted</name>
-		<path>Makk clone clone.png</path>
+		<path>acorn_planted.png</path>
 	</img>
 	<img id="44">
 		<name>pie</name>
@@ -182,7 +182,7 @@
 	</img>
 	<img id="45">
 		<name>house</name>
-		<path>haus.png</path>
+		<path>house.png</path>
 	</img>
 	<img id="46">
 		<name>create</name>
@@ -306,7 +306,7 @@
 	</img>
 	<img id="77">
 		<name>rain</name>
-		<path>raindrop.png</path>
+		<path>rain.png</path>
 	</img>
 	<img id="78">
 		<name>table</name>
@@ -687,5 +687,61 @@
 	<img>
 		<name>milk</name>
 		<path>milk.png</path>
+	</img>
+	<img>
+		<name>red</name>
+		<path>red.png</path>
+	</img>
+	<img>
+		<name>wolf</name>
+		<path>wolf.png</path>
+	</img>
+	<img>
+		<name>cross</name>
+		<path>Cross.png</path>
+	</img>
+	<img>
+		<name>cat-white-standing</name>
+		<path>cat-white-standing.png</path>
+	</img>
+	<img>
+		<name>hellhound</name>
+		<path>hellhound.png</path>
+	</img>
+	<img>
+		<name>gravestone</name>
+		<path>gravestone.png</path>
+	</img>
+	<img>
+		<name>cat_shirt_red</name>
+		<path>cat_shirt_red.png</path>
+	</img>
+	<img>
+		<name>cat_pants_brown</name>
+		<path>cat_pants_brown.png</path>
+	</img>
+	<img>
+		<name>cathead</name>
+		<path>cathead.png</path>
+	</img>
+	<img>
+		<name>cat_sunglasses</name>
+		<path>cat_sunglasses.png</path>
+	</img>
+	<img>
+		<name>cat_shirt_green</name>
+		<path>cat_shirt_green.png</path>
+	</img>
+	<img>
+		<name>cat_buttoned_shirt_blue</name>
+		<path>cat_buttoned_shirt_blue.png</path>
+	</img>
+	<img>
+		<name>dog-wounds</name>
+		<path>dog-wounds.png</path>
+	</img>
+	<img>
+		<name>platypus-apron-blue</name>
+		<path>platypus-apron-blue.png</path>
 	</img>
 </root>

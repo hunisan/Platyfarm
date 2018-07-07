@@ -30,11 +30,13 @@ private:
     EventSystem * eventSystem;
     DialogSystem * dialogSystem;
     Cursor * cursor;
-    TimeDisplay * timedisplay;
+    HUD * timedisplay;
     Preview * preview;
     HealthBar healthbar;
 
     GUI * gui;
+
+    bool playerAttacks = false;
 
     bool busy = false;
     int targetState = NOTHING;
@@ -257,6 +259,14 @@ public:
         {
             RunScript("script item " + sw + " " + tw + " script delete",e);
         }
+        else if(fw == "playerstring")
+        {
+            player->string_attribs[sw]=tw;
+        }
+        else if(fw == "playerint")
+        {
+            player->int_attribs[sw]=atoi(tw);
+        }
         else if(fw == "attrib")
         {
             (*e)->string_attribs[sw]=tw;
@@ -272,6 +282,10 @@ public:
         {
             player->increaseStat(sw,atoi(tw),(is_number(w4)?atoi(w4):0));
 
+        }
+        else if(fw == "heal")
+        {
+            player->Heal(atoi(sw));
         }
         else if(fw == "define")
         {
@@ -296,6 +310,7 @@ public:
         }
         else if(fw == "exit")
         {
+            dead = false;
             targetState = MENU;
         }
     }
@@ -999,12 +1014,18 @@ public:
         currentstage->ScanGrid();
 
         draw_list.clear();
-
+        particleSystem.Drop();
+        
         for(auto& e : currentstage->objects)
             if(e)
                 AddDrawable(e);
 
         AddDrawable(player);
+        if(player->pet){
+            AddDrawable(player->pet);
+            player->pet->setPos(player->x,player->y);
+        }
+
         AddDrawable(preview);
 
         /*for(int i = 0; i < currentstage->npcs.size(); i++)
@@ -1018,7 +1039,8 @@ public:
                 AddDrawable(e);
 
         for(auto npc : currentstage->npcs)
-            npc->setPlayer(player);
+            if(npc)
+                npc->setPlayer(player);
 
         std::sort(draw_list.begin(), draw_list.end(), Sorter);
 
@@ -1064,6 +1086,9 @@ public:
         LoadStages();
 
         currentstage = (stageList["lot"]);
+
+        for(auto npc : currentstage->npcs)
+            npc->setPlayer(player);
 
         SwitchStage(stageList["lot"]);
 
@@ -1237,6 +1262,13 @@ public:
         LoadRecipes();
 
         player = new Player(Creature(im("girl"),8*TILESIZE,6*TILESIZE,TILESIZE,TILESIZE));
+
+        NPC * pet = new NPC(npc_templates["whitecat"],0,0);
+        pet->sightRange=500*TILESIZE;
+        pet->attackRange=2*TILESIZE;
+        pet->behaviour="follow";
+        pet->int_attribs["speed"]=4*player->movement_speed;
+        player->setPet(pet);
 
         setupGame();
 
@@ -1495,7 +1527,7 @@ public:
         inventory = new Inventory();
 
         eventSystem = new EventSystem;
-        timedisplay = new TimeDisplay(eventSystem,player);
+        timedisplay = new HUD(eventSystem,player);
 
         lightingSystem = LightingSystem();
         particleSystem = ParticleSystem();
@@ -1576,6 +1608,7 @@ public:
                     if(e->pickable)
                     {
                         if(Contains(e,KeyData.MouseX,KeyData.MouseY,camera_x,camera_y)&& GetDistance(player->x,player->y,e->x,e->y) < globals["interact-range"])
+                        if(!inventory->IsFull())
                         {
                             /*float dx = player->x - e->x;
                             float dy = player->y - e->y;
@@ -1788,81 +1821,132 @@ public:
 
     void SwingWeapon(Item* &sel)
     {
+        /*if(player->moved)
+            return;*/
+
+        playerAttacks = true;
+
         if(sel->type == "melee" && !player->cooldown)
+        {
+            int iX = player->x, iY = player->y;
+            int iW = TILESIZE, iH = TILESIZE;
+
+            int attackRange = TILESIZE;
+
+            if(sel->int_attribs.count("range"))
+                attackRange =  TILESIZE*sel->int_attribs["range"]/4;
+
+
+            switch(player->lastdir)
             {
-                int iX = player->x, iY = player->y;
-                switch(player->lastdir)
-                {
-                case LEFT:
-                    iX-=TILESIZE;
-                    break;
-                case RIGHT:
-                    iX+=TILESIZE;
-                    break;
-                case UP:
-                    iY-=TILESIZE;
-                    break;
-                case DOWN:
-                    iY+=TILESIZE;
-                    break;
-                }
-                particleSystem.Add(Entity(sel->img,iX,iY,TILESIZE,TILESIZE), g("particle-decay"));
-                player->setCooldown(500/sel->int_attribs["attack-speed"]);
-                for(auto &n : currentstage->npcs)
-                if(n)
+            case LEFT:
+                iX-=attackRange;
+                iW=attackRange;
+                break;
+            case RIGHT:
+                iX+=TILESIZE;
+                iW=attackRange;
+                break;
+            case UP:
+                iY-=attackRange;
+                iH=attackRange;
+                break;
+            case DOWN:
+                iY+=TILESIZE;
+                iH=attackRange;
+                break;
+            }
+            particleSystem.Add(Entity(sel->img,iX,iY,iW,iH), g("particle-decay"));
+
+            player->setCooldown(500/sel->int_attribs["attack-speed"]);
+
+            for(auto &n : currentstage->npcs)
+            if(n)
+            {
+
+                if(Intersect(n,iX,iY,iW,iH) && n->int_attribs.count("health"))
                 {
 
-                    if(Intersect(n,iX,iY,player->w,player->h) && n->int_attribs.count("health"))
+                    if(!n->int_attribs.count("hp"))
                     {
+                        n->int_attribs["hp"]=n->int_attribs["health"];
+                    }
 
-                        if(!n->int_attribs.count("hp"))
+                    String npc_name =  Capitalize(n->name);
+                    cout << npc_name<< " was hit for " << sel->int_attribs["damage-min"] << " dmg!" << endl;
+                    cout << npc_name << "'s health changed from " << n->int_attribs["hp"] << endl;
+
+                    //n->int_attribs["hp"] -= sel->int_attribs["damage-min"];
+                    n->Damage(sel->int_attribs["damage-min"]);
+                    cout << " to " << n->int_attribs["hp"] << endl;
+
+                    healthbar.Add(n);
+
+
+                    ///PUSH NPC
+
+                    int knockbackAmount = TILESIZE/2;
+                    if(sel->int_attribs.count("knockback"))
+                        knockbackAmount = TILESIZE*sel->int_attribs["knockback"]/4;
+                    else
+                        cout << "No knockback found" << endl;
+                    n->KnockBack(player->x,player->y,knockbackAmount);
+
+                    particleSystem.Add(n->x,n->y,n->w,n->h,n->img,true,g("particle-decay"));
+
+                    if(n->int_attribs["hp"]<=0) ///DIED
+                    {
+                        particleSystem.Add(n->x,n->y,TILESIZE,TILESIZE,im("remains"),true,g("remains-decay"));
+
+                        cout << npc_name << " died!\n";
+                        if(n->attributes.count("drops"))
                         {
-                            n->int_attribs["hp"]=n->int_attribs["health"];
+                            vector<String> drops = allWord(n->attributes["drops"]);
+                            int drop_index = rand()%drops.size();
+                            cout << "Dropped " << drops[drop_index] << endl;
+
+                            Entity * drop = new PickupObject(n->x+rand()%5-8,n->y+rand()%5-8,TILESIZE*3/4,TILESIZE*3/4,drops[drop_index]);
+                            currentstage->objects.push_back(drop);
+                            AddDrawable(drop);
+
                         }
+                        if(n->attributes.count("ondeath"))
+                        {
+                            RunScript(n->attributes["ondeath"]);
+                        }
+                        removeNPC(n);
+                    }
 
-                        String npc_name =  Capitalize(n->name);
-                        cout << npc_name<< " was hit for " << sel->int_attribs["damage-min"] << " dmg!" << endl;
-                        cout << npc_name << "'s health changed from " << n->int_attribs["hp"];
-
-                        //n->int_attribs["hp"] -= sel->int_attribs["damage-min"];
-                        n->Damage(sel->int_attribs["damage-min"]);
-                        cout << " to " << n->int_attribs["hp"] << endl;
-
-                        healthbar.Add(n);
-                        ///PUSH NPC
-                        n->KnockBack(player->x,player->y,TILESIZE/2);
-
+                    else
+                    {
                         particleSystem.Add(n->x,n->y,n->w,n->h,n->img,true,g("particle-decay"));
 
-                        if(n->int_attribs["hp"]<=0) ///DIED
-                        {
-                            cout << npc_name << " died!\n";
-                            if(n->attributes.count("drops"))
-                            {
-                                vector<String> drops = allWord(n->attributes["drops"]);
-                                int drop_index = rand()%drops.size();
-                                cout << "Dropped " << drops[drop_index] << endl;
-
-                                Entity * drop = new PickupObject(n->x+rand()%5-8,n->y+rand()%5-8,TILESIZE*3/4,TILESIZE*3/4,drops[drop_index]);
-                                currentstage->objects.push_back(drop);
-                                AddDrawable(drop);
-
-                            }
-                            if(n->attributes.count("ondeath"))
-                            {
-                                RunScript(n->attributes["ondeath"]);
-                            }
-                            removeNPC(n);
-                        }
-
-                        else
-                        {
-
-                        }
 
                     }
+
                 }
             }
+        }
+        else if(sel->type=="ranged" && !player->cooldown)
+        {
+            float angle;
+            if(player->lastdir==0)
+                angle=atan2(1,0);
+            else if(player->lastdir==1)
+                angle=atan2(0,-1);
+            else if(player->lastdir==2)
+                angle=atan2(0,1);
+            else
+                angle=atan2(-1,0);
+
+            float x = player->x + player->w/2;
+            float y = player->y + player->h/2 - player->alt;
+
+            particleSystem.AddPlayerProjectile(x,y,5,5,im("dark"),angle,10);
+
+            player->setCooldown(500/sel->int_attribs["attack-speed"]);
+
+        }
     }
     void NextDay(Stage* targetStage)
     {
@@ -2050,7 +2134,7 @@ public:
 
         float tempx = player->x, tempy = player->y;
 
-        bool moved = false;
+        player->moved = false;
 
         for(int i = 0; i < abs(player->movement_speed)*2; i++)
         {
@@ -2065,7 +2149,7 @@ public:
                     player->lastdir = 1;
                 else
                     player->lastdir = 2;
-                moved = true;
+                player->moved = true;
             }
             if(i >= abs(player->movement_speed))
             if(KeyData.lastv  && KeyData.getKey(1))
@@ -2075,7 +2159,7 @@ public:
                     player->lastdir = 3;
                 else
                     player->lastdir = 0;
-                moved = true;
+                player->moved = true;
             }
             if(KeyData.lastv  && KeyData.getKey(1) && KeyData.lasth && KeyData.getKey(0))
             {
@@ -2138,7 +2222,7 @@ public:
                 player->y = tempy;
             }
         }
-        if(moved)
+        if(player->moved)
         {
             int psize = globals["particle-size"];
             image targetParticle = images[ids[(currentstage->IsGround(player->x/TILESIZE,player->y/TILESIZE)?"particle_grass":"dust")]];
@@ -2197,33 +2281,12 @@ public:
         }
 
     }
-
-
-    void UpdateControlPhase()
+    void HandleKeys()
     {
-        if(alerts.size()>0)
-        {
-            Alert(alerts.front());
-            alerts.pop();
-            return;
-        }
-
-        player->Update();
-
-        for(auto& n : currentstage->npcs)
-            if(n)
-            {
-                Action(n,n->AI());
-            }
-
         if(KeyData.wheel)
             HandleMouseWheel();
         if(KeyData.MouseMove)
             HandleMouseMove();
-
-        MovePlayer();
-        FocusCamera();
-
         if(KeyData.EscapePress)
         {
             gamephase = DIALOG;
@@ -2277,6 +2340,37 @@ public:
         else if(KeyData.RightClick)
             HandleRightClick();
 
+    }
+
+    void UpdateControlPhase()
+    {
+        if(alerts.size()>0)
+        {
+            Alert(alerts.front());
+            alerts.pop();
+            return;
+        }
+
+        player->Update();
+
+        for(auto& n : currentstage->npcs)
+            if(n)
+                Action(n,n->AI());
+
+
+        FocusCamera();
+
+        HandleKeys();
+
+        if(!playerAttacks)
+            MovePlayer();
+        else if(!player->cooldown)
+            playerAttacks=false;
+
+        if(dead)
+        {
+            RunScript("dialog 48"); //DIE
+        }
     }
 
     Entity getNextEntity()
@@ -2595,8 +2689,13 @@ public:
         weatherSystem.Draw();
         lightingSystem.Draw();
 
+        //transitional fade
         DrawRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,(float)fade_progress/g("fade-max"));
 
+        if(dead)
+            DrawImage(im("red"),0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0.75);
+
+        //GUI stuff start here
         inventory->Draw();
 
         healthbar.Draw();

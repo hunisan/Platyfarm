@@ -1,9 +1,7 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#pragma once
 
 #include "Visible.h"
 #include "Item.h"
-
 
 class Entity : public Visible
 {
@@ -64,12 +62,14 @@ class Entity : public Visible
         Entity();
         Entity(Entity _ent, float _x, float _y);// : Entity(_ent);
         Entity(image _img, float _x, float _y, float _w, float _h);// : Visible(_img,_x,_y,_w,_h)
-
+        Entity(float x, float y, float w, float h);
+        
+        virtual bool ContainsPoint(int x, int y);
         float GetDistance(float srcX, float srcY);
         float GetAngle(float srcX,float srcY);
         void KnockBack(float srcX, float srcY, float force);
         void Shake(int amplitude = -1);
-        void Draw(float cX = 0, float cY = 0);
+        virtual void Draw(float cX = 0, float cY = 0);
 
         virtual ~Entity();
 
@@ -80,4 +80,10 @@ class Entity : public Visible
     private:
 };
 
-#endif // ENTITY_H
+static bool Contains(Entity * e, int mX, int mY, int cx, int cy)
+{
+    return (mX+cx >= e->x-e->offset/2 && mX+cx <= e->x + e->w + e->offset/2 &&
+       mY+cy >= e->y - e->alt && mY+cy <= e->y + e->h);
+
+}
+

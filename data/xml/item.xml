@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>	
+<?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<item>
 		<name>axe</name>
@@ -23,7 +23,7 @@
 			<rarity>rare</rarity>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>apple</name>
 		<formal>Apple</formal>
 		<category>organic</category>
@@ -37,9 +37,10 @@
 		<attributes>
 			<edible/>
 			<fruit/>
+			<consume>script heal 5 script playerstring activity Eating script playerint 100</consume>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>cherry</name>
 		<formal>Cherry</formal>
 		<category>organic</category>
@@ -54,7 +55,7 @@
 			<fruit/>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>strawberry</name>
 		<formal>Strawberry</formal>
 		<category>organic</category>
@@ -69,7 +70,7 @@
 			<fruit/>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>tomato</name>
 		<formal>Tomato</formal>
 		<category>organic</category>
@@ -84,7 +85,7 @@
 			<fruit/>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>grapes</name>
 		<formal>Grapes</formal>
 		<category>organic</category>
@@ -97,9 +98,10 @@
 		<attributes>
 			<edible/>
 			<fruit/>
+			<consume>script heal 5 script playerstring activity Eating script playerint activitytimer 30</consume>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>melon</name>
 		<formal>Melon</formal>
 		<desc>Increases your max health by 1 points</desc>
@@ -115,7 +117,7 @@
 			<consume>stat health 1 3000</consume>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>carrot</name>
 		<formal>Carrot</formal>
 		<category>organic</category>
@@ -431,6 +433,7 @@
 		<attributes>
 			<liquid/>
 			<drinkable/>
+			<consume>heal 15</consume> 
 		</attributes>
 	</item>
 	<item>
@@ -461,6 +464,19 @@
 		</attributes>
 	</item>
 	<item>
+		<name>coffee-bean</name>
+		<formal>Coffee Bean</formal>
+		<category>organic</category>
+		<desc>The bean-like seed of a coffee shrub</desc>
+		<type>seed</type>
+		<img>coffee-bean</img>
+		<price>100</price>
+		<sell>50</sell>
+		<stack>99</stack>
+		<attributes>
+		</attributes>
+	</item>
+	<item>
 		<name>coffee</name>
 		<formal>Coffee</formal>
 		<category>organic</category>
@@ -473,6 +489,7 @@
 		<attributes>
 			<liquid/>
 			<drinkable/>
+			<consume>stat speed 5 3600</consume>
 		</attributes>
 	</item>
 	<item>
@@ -490,7 +507,7 @@
 			<drinkable/>
 		</attributes>
 	</item>
-	<item>	
+	<item>
 		<name>potato</name>
 		<formal>Potato</formal>
 		<category>organic</category>
@@ -518,7 +535,7 @@
 		<name>vodka</name>
 		<formal>Vodka</formal>
 		<category>organic</category>
-		<desc>A drink which makes you strong and clever.</desc>
+		<desc>A drink that makes you strong and clever.</desc>
 		<type>drink</type>
 		<img>vodka</img>
 		<stack>99</stack>
@@ -602,6 +619,9 @@
 		<price>200</price>
 		<sell>100</sell>
 		<img>amanita</img>
+		<attributes>
+			<consume>heal -1000</consume>
+		</attributes>
 		<stack>99</stack>
 	</item>
 	<item>
@@ -791,8 +811,7 @@
 		<category>food</category>
 		<type>dairy</type>
 		<stack>1</stack>
-		<attributes>
-		</attributes>
+		<attributes></attributes>
 	</item>
 	<item>
 		<name>butter</name>
@@ -802,8 +821,7 @@
 		<category>food</category>
 		<type>dairy</type>
 		<stack>1</stack>
-		<attributes>
-		</attributes>
+		<attributes></attributes>
 	</item>
 	<item>
 		<name>toast</name>
@@ -813,8 +831,7 @@
 		<category>food</category>
 		<type>dish</type>
 		<stack>1</stack>
-		<attributes>
-		</attributes>
+		<attributes></attributes>
 	</item>
 	<item>
 		<name>pancake</name>
@@ -824,8 +841,7 @@
 		<category>food</category>
 		<type>dish</type>
 		<stack>1</stack>
-		<attributes>
-		</attributes>
+		<attributes></attributes>
 	</item>
 	<item>
 		<name>milk</name>
@@ -835,8 +851,7 @@
 		<category>food</category>
 		<type>drink</type>
 		<stack>1</stack>
-		<attributes>
-		</attributes>
+		<attributes></attributes>
 	</item>
 	<item>
 		<name>egg</name>
@@ -846,8 +861,7 @@
 		<category>food</category>
 		<type>produce</type>
 		<stack>1</stack>
-		<attributes>
-		</attributes>
+		<attributes></attributes>
 	</item>
 	<item>
 		<name>bacon</name>
@@ -857,8 +871,7 @@
 		<category>food</category>
 		<type>meat</type>
 		<stack>1</stack>
-		<attributes>
-		</attributes>
+		<attributes></attributes>
 	</item>
 	<item>
 		<name>torch</name>
@@ -889,7 +902,7 @@
 		<attributes>
 			<damage-min>1</damage-min>
 			<damage-max>4</damage-max>
-			<range>1</range>
+			<range>4</range>
 			<attack-speed>25</attack-speed>
 		</attributes>
 		<stack>1</stack>
@@ -904,8 +917,8 @@
 		<attributes>
 			<damage-min>4</damage-min>
 			<damage-max>6</damage-max>
-			<range>1</range>
-			<attack-speed>14</attack-speed>
+			<range>5</range>
+			<attack-speed>18</attack-speed>
 		</attributes>
 		<stack>1</stack>
 	</item>
@@ -919,8 +932,8 @@
 		<attributes>
 			<damage-min>4</damage-min>
 			<damage-max>6</damage-max>
-			<range>1</range>
-			<attack-speed>14</attack-speed>
+			<range>4</range>
+			<attack-speed>25</attack-speed>
 		</attributes>
 		<stack>1</stack>
 	</item>
@@ -934,7 +947,8 @@
 		<attributes>
 			<damage-min>6</damage-min>
 			<damage-max>9</damage-max>
-			<range>1</range>
+			<range>5</range>
+			<knockback>6</knockback>
 			<attack-speed>11</attack-speed>
 		</attributes>
 		<stack>1</stack>
@@ -949,7 +963,7 @@
 		<attributes>
 			<damage-min>6</damage-min>
 			<damage-max>9</damage-max>
-			<range>1</range>
+			<range>6</range>
 			<attack-speed>11</attack-speed>
 		</attributes>
 		<stack>1</stack>
@@ -964,7 +978,8 @@
 		<attributes>
 			<damage-min>1</damage-min>
 			<damage-max>9</damage-max>
-			<range>1</range>
+			<range>7</range>
+			<knockback>1</knockback>
 			<attack-speed>44</attack-speed>
 		</attributes>
 		<stack>1</stack>
@@ -975,7 +990,7 @@
 		<desc>Brave fighters battle in the front. Smart ones keep a healthy distance.</desc>
 		<category>weapon</category>
 		<type>ranged</type>
-		<img>bow</img>
+		<img>bow</img>`
 		<attributes>
 			<damage-min>6</damage-min>
 			<damage-max>9</damage-max>

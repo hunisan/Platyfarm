@@ -913,13 +913,13 @@
 
 1494619759 source:d:\projects\platyfarm\audio.cpp
 
-1502110735 source:d:\projects\platyfarm\main.cpp
+1524821187 source:d:\projects\platyfarm\main.cpp
 	<iostream>
 	<stdio.h>
 	"game.h"
 	"timer.h"
 
-1505755391 d:\projects\platyfarm\game.h
+1524748222 d:\projects\platyfarm\game.h
 	"statelist.h"
 	"timer.h"
 	"graphics.h"
@@ -932,15 +932,15 @@
 	"newgame.h"
 	"editor.h"
 
-1505730698 d:\projects\platyfarm\menu.h
+1524820868 d:\projects\platyfarm\menu.h
 	"gamestate.h"
 	"images.h"
 	"objects.h"
 
-1479330957 d:\projects\platyfarm\gamestate.h
+1524748264 d:\projects\platyfarm\gamestate.h
 	"public.h"
 
-1523107572 d:\projects\platyfarm\public.h
+1524784955 d:\projects\platyfarm\public.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	<SDL2/SDL_ttf.h>
@@ -982,7 +982,7 @@
 1523107572 d:\projects\platyfarm\images.h
 	"public.h"
 
-1524666845 d:\projects\platyfarm\objects.h
+1525449103 d:\projects\platyfarm\objects.h
 	"public.h"
 	"keydata.h"
 	"declarations.h"
@@ -991,18 +991,24 @@
 	"Cursor.h"
 	"Item.h"
 	"NPC.h"
+	"GUIElemContainer.h"
+	"GUIRowContainer.h"
+	"Meter.h"
+	"ParticleSystem.h"
+	"Inventory.h"
+	"Button.h"
 
 1523107572 d:\projects\platyfarm\keydata.h
 	"public.h"
 
-1524681285 d:\projects\platyfarm\ingame.h
+1525457596 d:\projects\platyfarm\ingame.h
 	"gamestate.h"
 	"objects.h"
 	"keydata.h"
 	"tinyxml2.h"
 	<future>
 
-1524167603 d:\projects\platyfarm\newgame.h
+1524748428 d:\projects\platyfarm\newgame.h
 	"gamestate.h"
 	"objects.h"
 
@@ -1013,7 +1019,7 @@
 1494088757 d:\projects\platyfarm\timer.h
 	<SDL2/SDL.h>
 
-1523107572 d:\projects\platyfarm\graphics.h
+1524748160 d:\projects\platyfarm\graphics.h
 	"images.h"
 
 1523625438 d:\projects\platyfarm\audio.h
@@ -1091,26 +1097,26 @@
 1523107573 d:\projects\platyfarm\item.h
 	"Object.h"
 
-1524656303 d:\projects\platyfarm\entity.h
+1525449190 d:\projects\platyfarm\entity.h
 	"Visible.h"
 	"Item.h"
 
 1524655053 d:\projects\platyfarm\creature.h
 	"Entity.h"
 
-1524662564 source:d:\projects\platyfarm\creature.cpp
+1525450906 source:d:\projects\platyfarm\creature.cpp
 	"Creature.h"
 
 1523101608 source:d:\projects\platyfarm\cursor.cpp
 	"Cursor.h"
 
-1524664808 source:d:\projects\platyfarm\entity.cpp
+1524818353 source:d:\projects\platyfarm\entity.cpp
 	"Entity.h"
 
 1523105244 source:d:\projects\platyfarm\item.cpp
 	"Item.h"
 
-1524221071 d:\projects\platyfarm\npc.h
+1525450936 d:\projects\platyfarm\npc.h
 	"Creature.h"
 
 1523101530 source:d:\projects\platyfarm\object.cpp
@@ -1119,9 +1125,53 @@
 1523108598 source:d:\projects\platyfarm\visible.cpp
 	"Visible.h"
 
-1523193557 source:d:\projects\platyfarm\newgame.cpp
+1524748287 source:d:\projects\platyfarm\newgame.cpp
 	"newgame.h"
 
-1524656635 source:d:\projects\platyfarm\npc.cpp
+1525450956 source:d:\projects\platyfarm\npc.cpp
 	"NPC.h"
+
+1524817717 d:\projects\platyfarm\gui.h
+	"Entity.h"
+	"Item.h"
+
+1524817732 source:d:\projects\platyfarm\gui.cpp
+	"GUI.h"
+
+1524749047 d:\projects\platyfarm\guielemcontainer.h
+	"GUI.h"
+
+1524748911 source:d:\projects\platyfarm\guielemcontainer.cpp
+	"GUIElemContainer.h"
+
+1524749292 d:\projects\platyfarm\guirowcontainer.h
+	"GUI.h"
+
+1524749226 source:d:\projects\platyfarm\guirowcontainer.cpp
+	"GUIRowContainer.h"
+
+1524776472 d:\projects\platyfarm\meter.h
+	"Entity.h"
+
+1524776703 source:d:\projects\platyfarm\meter.cpp
+	"Meter.h"
+
+1525452693 d:\projects\platyfarm\particlesystem.h
+	"Entity.h"
+
+1525452718 source:d:\projects\platyfarm\particlesystem.cpp
+	"ParticleSystem.h"
+
+1524831083 source:d:\projects\platyfarm\inventory.cpp
+	"Inventory.h"
+
+1525442829 d:\projects\platyfarm\inventory.h
+	"Entity.h"
+	"Item.h"
+
+1524819467 d:\projects\platyfarm\button.h
+	"GUI.h"
+
+1524820804 source:d:\projects\platyfarm\button.cpp
+	"Button.h"
 

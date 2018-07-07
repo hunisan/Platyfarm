@@ -7,14 +7,16 @@ class NPC : public Creature
 {
 
     Creature * player;
-    int attackRange=TILESIZE;
-    int sightRange = 5*TILESIZE;
 
     void Follow(String behaviour);
     String Roam();
     void Attack();
 
     public:
+    int attackRange=TILESIZE;
+    int sightRange = 5*TILESIZE;
+
+
     image portrait;
     int on_meet;
     int on_greet;
@@ -33,6 +35,10 @@ class NPC : public Creature
 
     NPC();
 
+    void Draw(float cX = 0, float cY = 0);
+
+    void Damage(int damage);
+    
     String AI();
 
     virtual ~NPC();

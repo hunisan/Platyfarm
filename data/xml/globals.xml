@@ -14,6 +14,7 @@
 		<particle-cooldown value="10"/>
 		<particle-decay value="7"/>
 		<particle-size value="12"/>
+		<remains-decay value="0"/>
 		<sleep_energy value="100"/>
 		<movement_energy_cost value="2"/>
 		<gui-border value="15"/>

@@ -9,22 +9,22 @@
     <toolbar>hoe 1</toolbar>
     <toolbar>scythe 1</toolbar>
     <toolbar>axe 1</toolbar>
-    <toolbar>delete 1</toolbar>
-    <toolbar>terra 1</toolbar>
-    <toolbar>god 1</toolbar>
+    <toolbar>bow 1</toolbar>
+    <toolbar>blank</toolbar>
+    <toolbar>blank</toolbar>
     <toolbar>grapes 90</toolbar>
     <toolbar>potion 10</toolbar>
     <item>scimitar 1</item>
     <item>mace 1</item>
     <item>battleaxe 1</item>
-    <item>longsword 1</item>
+    <item>blank</item>
     <item>spear 1</item>
     <item>bone 1</item>
     <item>beer 1</item>
     <item>pine-cone 1</item>
     <item>tomato 1</item>
-    <item>strawberry 1</item>
-    <item>magic-mushroom 99</item>
+    <item>blank</item>
+    <item>blank</item>
     <item>blank</item>
     <item>blank</item>
     <item>blank</item>
@@ -65,6 +65,7 @@
         <attack>6</attack>
         <defense>5</defense>
         <health>50</health>
+        <maxhealth>50</maxhealth>
         <speed>40</speed>
         <stamina>5</stamina>
     </stats>
@@ -1064,7 +1065,7 @@
             <pos>654 653</pos>
         </npc>
         <npc>
-            <name>dog</name>
+            <name>wolf</name>
             <pos>797 316</pos>
         </npc>
         <npc>
@@ -1072,7 +1073,7 @@
             <pos>670 114</pos>
         </npc>
         <npc>
-            <name>dog</name>
+            <name>hellhound</name>
             <pos>900 652</pos>
         </npc>
         <npc>

@@ -16,5 +16,10 @@ public:
     {
 
     };
+
+    virtual void FeedText(String text)
+    {
+
+    }
 };
 

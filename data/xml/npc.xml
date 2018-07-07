@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<npc id="1">
+	<npc>
 		<name>spock</name>
 		<fullname>Spock</fullname>
 		<portrait>portrait</portrait>
@@ -15,7 +15,7 @@
 			
 		</attributes>
 	</npc>
-	<npc id="2">
+	<npc>
 		<name>crypto</name>
 		<fullname>Crypto</fullname>
 		<portrait>mushroom</portrait>
@@ -28,7 +28,7 @@
 			<race>mushroom</race>
 		</attributes>
 	</npc>
-	<npc id="3">
+	<npc>
 		<name>frosty</name>
 		<fullname>Frosty</fullname>
 		<portrait>frostyface</portrait>
@@ -41,7 +41,7 @@
 			<race>snowman</race>
 		</attributes>
 	</npc>
-	<npc id="4">
+	<npc>
 		<name>platypus</name>
 		<fullname>Percival</fullname>
 		<portrait>platypus</portrait>
@@ -52,9 +52,10 @@
 			<creature/>
 			<sentient/>
 			<race>platypus</race>
+			<features>platypus-apron-blue</features>
 		</attributes>
 	</npc>
-	<npc id="5">
+	<npc>
 		<name>shopkeeper</name>
 		<fullname>Charlie</fullname>
 		<portrait>platypus</portrait>
@@ -67,7 +68,7 @@
 			<race>platypus</race>
 		</attributes>
 	</npc>
-	<npc id="5">
+	<npc>
 		<name>???</name>
 		<fullname>???</fullname>
 		<portrait>mushroom</portrait>
@@ -85,6 +86,23 @@
 		<fullname>Meowie</fullname>
 		<portrait>cat</portrait>
 		<img>cat_standing</img>
+		<onmeet>13</onmeet>
+		<ongreet>13</ongreet>
+		<behaviour>lazy</behaviour>
+		<animations>
+			<sleep>cat</sleep>
+		</animations>
+		<attributes>
+			<creature/>
+			<race>feline</race>
+			<sound>meow</sound>
+		</attributes>
+	</npc>
+	<npc>
+		<name>whitecat</name>
+		<fullname>Meowie</fullname>
+		<portrait>cat-white-standing</portrait>
+		<img>cat-white-standing</img>
 		<onmeet>13</onmeet>
 		<ongreet>13</ongreet>
 		<behaviour>lazy</behaviour>
@@ -125,9 +143,48 @@
 			<creature/>
 			<enemy/>
 			<race>canine</race>
-			<health>2</health>
+			<health>3</health>
+			<damage>1</damage>
 			<ondeath>increment dogkills</ondeath>
 			<drops>melon cherry bone</drops>
+		</attributes>
+	</npc>
+	<npc>
+		<name>wolf</name>
+		<fullname>Wolf</fullname>
+		<portrait>wolf</portrait>
+		<img>wolf</img>
+		<onmeet>14</onmeet>
+		<ongreet>14</ongreet>
+		<behaviour>follow</behaviour>
+		<attributes>
+			<creature/>
+			<enemy/>
+			<race>canine</race>
+			<health>10</health>
+			<damage>5</damage>
+			<ondeath>increment wolfkills</ondeath>
+			<drops>bone</drops>
+		</attributes>
+	</npc>
+	<npc>
+		<name>hellhound</name>
+		<fullname>Hellhound</fullname>
+		<portrait>hellhound</portrait>
+		<img>hellhound</img>
+		<onmeet>14</onmeet>
+		<ongreet>14</ongreet>
+		<behaviour>follow</behaviour>
+		<attributes>
+			<creature/>
+			<enemy/>
+			<demonic/>
+			<race>canine</race>
+			<health>25</health>
+			<damage>10</damage>
+			<speed>8</speed>
+			<ondeath>increment demonkills</ondeath>
+			<drops>potion coffee</drops>
 		</attributes>
 	</npc>
 	<npc>
@@ -181,7 +238,7 @@
 	<npc>
 		<name>catquestgiver</name>
 		<fullname>Coco</fullname>
-		<portrait>catman-teal</portrait>
+		<portrait>cathead</portrait>
 		<img>catman-teal</img>
 		<alt>0.5</alt>
 		<onmeet>32</onmeet>
@@ -191,6 +248,7 @@
 			<creature/>
 			<sentient/>
 			<race>feline</race>
+			<features>cat_sunglasses cat_shirt_red cat_pants_brown</features>
 		</attributes>
 		
 	</npc>

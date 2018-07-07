@@ -8,7 +8,7 @@ class Menu : public GameState
 private:
     int currentFrame = 0;
     Cursor *cursor;
-    vector<Entity> buttons;
+    vector<Button> buttons;
 
 public:
 
@@ -24,11 +24,11 @@ public:
         fr(0,8)
             gif[i] = loadImage("gif/Layer " + to_string(i+1) + ".png");
 
-        Entity buttonNew = Entity(images[ids["gui"]],SCREEN_WIDTH/2-75,SCREEN_HEIGHT/3,150,50);
-        Entity buttonLoad = Entity(images[ids["gui"]],SCREEN_WIDTH/2-75,SCREEN_HEIGHT/2,150,50);
-        Entity buttonExit = Entity(images[ids["gui"]],SCREEN_WIDTH/2-50,SCREEN_HEIGHT*2/3,100,50);
-        Entity buttonMute = Entity(images[ids["gui"]],0,0,120,50);
-        Entity buttonEditor = Entity(images[ids["gui"]],0,SCREEN_HEIGHT-50,120,50);
+        Button buttonNew = Button(images[ids["gui"]],SCREEN_WIDTH/2-75,SCREEN_HEIGHT/3,150,50);
+        Button buttonLoad = Button(images[ids["gui"]],SCREEN_WIDTH/2-75,SCREEN_HEIGHT/2,150,50);
+        Button buttonExit = Button(images[ids["gui"]],SCREEN_WIDTH/2-50,SCREEN_HEIGHT*2/3,100,50);
+        Button buttonMute = Button(images[ids["gui"]],0,0,120,50);
+        Button buttonEditor = Button(images[ids["gui"]],0,SCREEN_HEIGHT-50,120,50);
 
         buttonNew.name = "New Game";
         buttonLoad.name = "Load Game";
@@ -72,6 +72,12 @@ public:
                     }
                 }
         }
+        //else if(KeyData.MouseMove)
+        {
+            for(auto& e : buttons)
+                if(e.ContainsPoint(KeyData.MouseX,KeyData.MouseY))
+                    e.Hover(KeyData.MouseX,KeyData.MouseY);
+        }
         cursor->Update();
         return NOTHING;
     }
@@ -82,7 +88,7 @@ public:
         if(currentFrame > 79)
             currentFrame = 0;
 
-        for(auto e : buttons)
+        for(auto& e : buttons)
         {
             e.Draw();
             DrawStringCentered(e.name,e.x+e.w/2,e.y+e.h/2-TILESIZE/2);

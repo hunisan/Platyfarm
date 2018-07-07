@@ -64,6 +64,9 @@ public:
             case SDL_QUIT:
                 isRunning = false;
                 break;
+            case SDL_TEXTINPUT:
+                currentState->FeedText(eventQueue.text.text);
+                break;
             case SDL_KEYDOWN:
                 KeyData.AnyPress=true;
                 if(eventQueue.key.keysym.sym >= SDLK_0 && eventQueue.key.keysym.sym <= SDLK_9)

@@ -162,6 +162,7 @@ extern int current_hour;// = 9;
 extern int current_minute;// = 0;
 extern int current_seconds;// = 0;
 
+static bool dead = false;
 
 extern int funds; //= PLAYER_STARTING_FUNDS;
 

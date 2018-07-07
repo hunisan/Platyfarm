@@ -29,9 +29,10 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-O3" />
 			<Add option="-Wall" />
-			<Add option="-pthread" />
 			<Add option="-std=c++11" />
+			<Add option="-pthread" />
 			<Add option="-fexceptions" />
 			<Add directory="D:/SDL2/i686-w64-mingw32/include" />
 		</Compiler>
@@ -39,18 +40,32 @@
 			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lglu32 -lopengl32" />
 			<Add directory="D:/SDL2/i686-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="Button.cpp" />
+		<Unit filename="Button.h" />
 		<Unit filename="Creature.cpp" />
 		<Unit filename="Creature.h" />
 		<Unit filename="Cursor.cpp" />
 		<Unit filename="Cursor.h" />
 		<Unit filename="Entity.cpp" />
 		<Unit filename="Entity.h" />
+		<Unit filename="GUI.cpp" />
+		<Unit filename="GUI.h" />
+		<Unit filename="GUIElemContainer.cpp" />
+		<Unit filename="GUIElemContainer.h" />
+		<Unit filename="GUIRowContainer.cpp" />
+		<Unit filename="GUIRowContainer.h" />
+		<Unit filename="Inventory.cpp" />
+		<Unit filename="Inventory.h" />
 		<Unit filename="Item.cpp" />
 		<Unit filename="Item.h" />
+		<Unit filename="Meter.cpp" />
+		<Unit filename="Meter.h" />
 		<Unit filename="NPC.cpp" />
 		<Unit filename="NPC.h" />
 		<Unit filename="Object.cpp" />
 		<Unit filename="Object.h" />
+		<Unit filename="ParticleSystem.cpp" />
+		<Unit filename="ParticleSystem.h" />
 		<Unit filename="Visible.cpp" />
 		<Unit filename="Visible.h" />
 		<Unit filename="audio.cpp" />

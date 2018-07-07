@@ -187,7 +187,8 @@ public:
 
         SDL_ShowCursor(SDL_DISABLE);
 
-
+        SDL_StartTextInput();
+        
         printf("Success!\n");
         return true;
     }

@@ -394,4 +394,12 @@
 			<text id="1">I am pleased to hear that.</text>
 		</chain>
 	</dialog>
+	<dialog id="48">
+		<chain>
+		</chain>
+		<question>
+			<text>You have died</text>
+			<response id="1" goto="0" outcome="exit">OK</response>
+		</question>
+	</dialog>
 </root>

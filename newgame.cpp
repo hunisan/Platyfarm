@@ -21,3 +21,8 @@ void NewGame::Draw()
     cursor->Draw();
 }
 
+void NewGame::FeedText(String text)
+{
+
+}
+

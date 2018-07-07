@@ -6,6 +6,7 @@ class NewGame : public GameState
 {
 private:
     Cursor * cursor;
+    GUI * gui;
 public:
 
     void Init();
@@ -13,4 +14,6 @@ public:
     int Update();
 
     void Draw();
+
+    void FeedText(String text);
 };

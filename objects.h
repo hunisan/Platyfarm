@@ -8,6 +8,12 @@
 #include "Cursor.h"
 #include "Item.h"
 #include "NPC.h"
+#include "GUIElemContainer.h"
+#include "GUIRowContainer.h"
+#include "Meter.h"
+#include "ParticleSystem.h"
+#include "Inventory.h"
+#include "Button.h"
 
 class GameVariables : public Object
 {
@@ -110,12 +116,7 @@ static bool Intersect(Entity * ent, int x, int y, int w, int h)
 
     return true;
 }
-static bool Contains(Entity * e, int mX, int mY, int cx, int cy)
-{
-    return (mX+cx >= e->x-e->offset/2 && mX+cx <= e->x + e->w + e->offset/2 &&
-       mY+cy >= e->y - e->alt && mY+cy <= e->y + e->h);
 
-}
 
 static bool Sorter(Entity* ent1, Entity* ent2)
 {
@@ -137,168 +138,6 @@ static bool Sorter(Entity* ent1, Entity* ent2)
     return (ent1)->y < (ent2)->y;
 }
 
-class Inventory : public Entity
-{
-public:
-    Item* items[INVENTORY_SIZE];
-    //int size;
-    int selected=0;
-    Item * toolbar[INVENTORY_TOOLBAR_SIZE];
-    Inventory()
-    {
-        //size = 10;
-        for(int i = 0; i < INVENTORY_TOOLBAR_SIZE; i++)
-            toolbar[i] = NULL;//Item(content::platy32);
-        for(int i = 0; i < INVENTORY_SIZE; i++)
-            items[i] = NULL;
-        w = 6 + 10*TILESIZE + 9;
-        h = 6 + TILESIZE;
-        x = SCREEN_WIDTH/2-w/2;
-        y = SCREEN_HEIGHT - h;
-    }
-
-    void Select(int i)
-    {
-        if(i < INVENTORY_TOOLBAR_SIZE && i>=0)
-            selected = i;
-    }
-    void Add(Item _item)
-    {
-        bool added = false;
-        for(int i = 0; i < INVENTORY_TOOLBAR_SIZE; i++)
-            if(toolbar[i] && toolbar[i]->name == _item.name && toolbar[i]->quantity < toolbar[i]->max_stack)
-            {
-                toolbar[i]->quantity++;
-                added = true;
-                break;
-            }
-
-        if(!added)
-        for(int i = 0; i < INVENTORY_SIZE; i++)
-            if(items[i] && items[i]->name == _item.name && items[i]->quantity < items[i]->max_stack)
-            {
-                items[i]->quantity++;
-                added = true;
-                break;
-            }
-
-        if(!added)
-        for(int i = 0; i < INVENTORY_TOOLBAR_SIZE; i++)
-        {
-
-            if(!toolbar[i])
-            {
-                toolbar[i] = new Item(_item);
-                added = true;
-                break;
-            }
-        }
-
-        if(!added)
-        for(int i = 0; i < INVENTORY_SIZE; i++)
-            if(!items[i])
-            {
-                items[i] = new Item(_item);
-                added = true;
-                break;
-            }
-
-    }
-    void Add(Item _item, int q)
-    {
-        if(q)
-            for(int i = 0 ; i < q; i++)
-                Add(_item);
-    }
-    void Add(image _img)
-    {
-
-        Add( Item(_img));
-    }
-    void Remove(int id, int where = 0)
-    {
-        if(!where)
-        {
-            toolbar[id]->quantity--;
-            if(!toolbar[id]->quantity)
-                toolbar[id] = NULL;
-
-        }
-        else
-        {
-            items[id]->quantity--;
-            if(!items[id]->quantity)
-                items[id] = NULL;
-        }
-    }
-    void Remove(String target)
-    {
-        bool removed = false;
-        for(int i = 0; i < INVENTORY_SIZE; i++)
-            if(items[i] && items[i]->name == target)
-            {
-                Remove(i,1);
-                removed = true;
-            }
-
-        if(!removed)
-        for(int i = 0; i < INVENTORY_TOOLBAR_SIZE; i++)
-            if(toolbar[i] && toolbar[i]->name == target)
-            {
-                Remove(i);
-                removed = true;
-                break;
-            }
-
-    }
-    int Count(String target)
-    {
-        int _count = 0;
-        for(int i = 0; i < INVENTORY_SIZE; i++)
-            if(items[i] && items[i]->name == target)
-            {
-                _count += items[i]->quantity;
-            }
-
-        for(int i = 0; i < INVENTORY_TOOLBAR_SIZE; i++)
-            if(toolbar[i] && toolbar[i]->name == target)
-            {
-                _count += toolbar[i]->quantity;
-            }
-
-        return _count;
-    }
-    int Count(Item _item)
-    {
-        return Count(_item.name);
-    }
-    void Remove(String target, int nr)
-    {
-        for(int i = 0; i < nr; i++)
-            Remove(target);
-    }
-    void HandleClick(int mx, int my)
-    {
-        mx -= x;
-        Select(std::floor(mx/TILESIZE));
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        DrawImage(images[ids["itembar"]],x,y,w,h);
-        for(int i =0 ;i < INVENTORY_TOOLBAR_SIZE; i++)
-        {
-            if(toolbar[i])
-            {
-                DrawImage(toolbar[i]->img,x+3+i*TILESIZE+i,SCREEN_HEIGHT-TILESIZE-3,TILESIZE,TILESIZE);
-
-                if(toolbar[i]->quantity > 1)
-                    DrawString(to_string(toolbar[i]->quantity),x+3+i*TILESIZE+i+TILESIZE-(toolbar[i]->quantity>=10 ? 2 : 1)*DIGITWIDTH,SCREEN_HEIGHT-TILESIZE-3+TILESIZE-FONTSIZE,-1, "font2");
-            }
-
-        }
-        DrawImage(images[ids["frame"]],x+selected*TILESIZE+selected,y,h,h);
-    }
-};
 
 class CraftingRecipe
 {
@@ -316,9 +155,12 @@ public:
 };
 class Player : public Creature
 {
-
 public:
+    NPC * pet = NULL;
+    Meter * progressBar;
+
     int lastdir;
+    bool moved;
     float current_frame = 0;
 
     Player()
@@ -330,12 +172,46 @@ public:
         lastdir = 0;
         offset = TILESIZE/2;
         alt = TILESIZE/2;
+        string_attribs["activity"]="none";
+        //progressBar = new Meter(x,y,w,5,&x,&x,"green","dark","horizontal");
 
+    }
+    int Update()
+    {
+        Creature::Update();
+
+        if(string_attribs["activity"]!="none")
+        {
+            int_attribs["activitytimer"]--;
+            if(int_attribs["activitytimer"]<=0)
+                string_attribs["activity"]="none";
+        }
+        if(pet)
+            pet->AI();
+    }
+    void setPet(NPC * pet)
+    {
+        this->pet = pet;
+        pet->setPlayer(this);
+    }
+    void Heal(int amount)
+    {
+        if(stat_levels["health"]+amount > stat_levels["maxhealth"])
+            stat_levels["health"]=stat_levels["maxhealth"];
+        else
+            stat_levels["health"]+=amount;
+
+
+        if(this->stat_levels["health"] <= 0)
+            dead=true;
     }
     void Damage(int damage)
     {
         cout << "Player is attacked!" << endl;
         this->stat_levels["health"] -= damage;
+
+        if(this->stat_levels["health"] <= 0)
+            dead=true;
         /*cout << "Int attributes: " << endl;
         for(auto i : this->int_attribs)
             cout << i.first << " : " << to_string(i.second) << endl;
@@ -346,8 +222,14 @@ public:
     }
     void Draw(float cX = 0, float cY = 0)
     {
-
-        DrawClip(img,x-cX-offset/2,y-cY-alt,w+offset,h+alt,floor(current_frame)*50,lastdir*(64),50,64,g("player-anim-frames")*50,4*(64));
+        if(string_attribs["activity"]!="none")
+        {
+            DrawStringCentered(string_attribs["activity"],x+w/2-cX,y-alt-cY-FONTSIZE);
+        }
+        if(!dead)
+            DrawClip(img,x-cX-offset/2,y-cY-alt,w+offset,h+alt,floor(current_frame)*50,lastdir*(64),50,64,g("player-anim-frames")*50,4*(64));
+        else
+            DrawImage(im("gravestone"),x-cX,y-cY,TILESIZE,TILESIZE);
 
 
     }
@@ -401,57 +283,7 @@ public:
         }
     }
 };
-class ParticleSystem : public Object
-{
-public:
-    vector<Entity> particles;
-    int cooldown = 0;
 
-
-    void Add(int x, int y, int w, int h, image img, bool overr = false, int speed=1)
-    {
-        if(!cooldown || overr)
-        {
-            cooldown = globals["particle-cooldown"];
-            particles.push_back(Entity(img,x*2,y*2,2*w,2*h));
-            particles[particles.size()-1].int_attribs["speed"]=speed;
-            particles[particles.size()-1].int_attribs["transparency"]=globals["particle_opacity"];
-        }
-        else
-            cooldown--;
-    }
-
-    void Add(Entity e, int speed=1)
-    {
-        particles.push_back(Entity(e.img,e.x*2,e.y*2,e.w*2,e.h*2));
-        particles[particles.size()-1].int_attribs["speed"]=speed;
-        particles[particles.size()-1].int_attribs["transparency"]=globals["particle_opacity"];
-
-    }
-    int Update()
-    {
-        for(int i = 0; i < particles.size(); i++)
-        {
-            particles[i].int_attribs["transparency"] -= particles[i].int_attribs["speed"];
-            particles[i].w+=2;particles[i].x--;
-            particles[i].h+=2;particles[i].y--;
-            if(particles[i].int_attribs["transparency"]<=0)
-            {
-                particles.erase(particles.begin()+i);
-                i--;
-            }
-
-        }
-
-        return NOTHING;
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        for(auto p : particles)
-            if(p.x/2>0 && p.y/2>0)
-            DrawImage(p.img,p.x/2-cX,p.y/2-cY,p.w/2,p.h/2,p.int_attribs["transparency"]/100.0);
-    }
-};
 class WeatherSystem : public Object
 {
 public:
@@ -1317,8 +1149,8 @@ class HealthBar : public Entity
             float alph = (float)fade/maxfade;
             DrawImage(im("gui"),x,y,w,h, alph);
             DrawString(n->fullname,x+w/2-lineWidth(n->fullname)/2,d);
-            DrawImage(im("dark"),x+d,y+d+FONTSIZE+d,w-2*d,TILESIZE/2,alph);
-            DrawImage(im("gui2"),x+d,y+d+FONTSIZE+d,n->int_attribs["hp"]*(w-2*d)/n->int_attribs["health"],TILESIZE/2,alph);
+            DrawImage(im("gui2"),x+d,y+d+FONTSIZE+d,w-2*d,TILESIZE/2,alph);
+            DrawImage(im("red"),x+d,y+d+FONTSIZE+d,n->int_attribs["hp"]*(w-2*d)/n->int_attribs["health"],TILESIZE/2,alph);
         }
         else
         {
@@ -1326,8 +1158,10 @@ class HealthBar : public Entity
         }
     }
 };
-class TimeDisplay : public Entity
+class HUD : public Entity
 {
+    Meter * healthBar;
+
 public:
     String displaystring;
     String timestring;
@@ -1337,7 +1171,7 @@ public:
     EventSystem * eventsys;
     Player * p;
 
-    TimeDisplay(EventSystem * sys, Player * pl)
+    HUD(EventSystem * sys, Player * pl)
     {
         displaystring = "Year " + to_string(current_year) + ", " + seasons[current_season-1] + ", Day " + to_string(current_day);
 
@@ -1350,6 +1184,20 @@ public:
 
         eventsys = sys;
         p = pl;
+
+        const int healthBarLength = 4*TILESIZE;
+        const int healthBarHeight = TILESIZE/2;
+        const int healthBarDistance = TILESIZE/2;
+        healthBar = new Meter(SCREEN_WIDTH-healthBarHeight-healthBarDistance,
+                              SCREEN_HEIGHT-healthBarLength,
+                              healthBarHeight,
+                              healthBarLength,
+                              &p->stat_levels["health"],
+                              &p->stat_levels["maxhealth"],
+                              "red",
+                              "dark",
+                              "vertical");
+
     }
 
     int Update()
@@ -1370,6 +1218,10 @@ public:
         DrawImage(im("fade"),SCREEN_WIDTH-lineWidth(s),cY,lineWidth(s),FONTSIZE);
         DrawString(s,SCREEN_WIDTH-lineWidth(s),cY,-1,"font2");
         cY += FONTSIZE;
+    }
+    void DrawHealthBar()
+    {
+
     }
     void Draw(float cX = 0, float cY = 0)
     {
@@ -1415,6 +1267,8 @@ public:
 
         }
 
+
+        healthBar->Draw();
     }
 };
 class Dialog
@@ -1695,50 +1549,7 @@ public:
 
 };
 
-class GUI : public Entity
-{
-public:
-    String type;
 
-    GUI()
-    {
-        x=y=w=h=0;
-    }
-
-    virtual void Scroll(int dir)
-    {
-
-    }
-    virtual void Draw(float cX = 0, float cY = 0)
-    {
-
-    }
-    virtual Item *GetClick(int mX, int mY, int& id)
-    {
-        return NULL;
-    }
-    virtual int HandleClick(int mX, int mY)
-    {
-        return 0;
-    }
-    virtual int HandleRightClick(int mX, int mY)
-    {
-        return 0;
-    }
-    virtual int HandleMouseMove(int mX, int mY)
-    {
-        return 0;
-    }
-    virtual void Exit()
-    {
-
-    }
-    virtual void SetPosition(int x, int y)
-    {
-        this->x = x;
-        this->y = y;
-    }
-};
 
 class NumberSelector : public GUI
 {
@@ -1792,146 +1603,8 @@ public:
 
     }
 };
-class GUIElemContainer : public GUI
-{
-    public:
-    vector<GUI*> GUIElems;
 
-    void Scroll(int dir)
-    {
-        for(auto e : GUIElems)
-            e->Scroll(dir);
-    }
-    void ArrangeElems()
-    {
-        int pX = x;
-        for(auto e : GUIElems)
-        {
-            e->SetPosition(pX,y);
-            pX += e->w;
-            e->h = h;
 
-        }
-    }
-    void SetPosition(int x, int y)
-    {
-        this->x = x;
-        this->y = y;
-        ArrangeElems();
-    }
-    void AddElem(GUI* elem)
-    {
-        GUIElems.push_back(elem);
-        w += elem->w;
-        if(elem->h > h)
-            h = elem->h;
-        x = SCREEN_WIDTH/2-w/2;
-        y = SCREEN_HEIGHT/2-h/2;
-
-        ArrangeElems();
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        for(auto g : GUIElems)
-        {
-            g->Draw();
-        }
-        for(auto g : GUIElems)
-        {
-            DrawImage(im("gui2"),g->x+g->w,g->y,1,g->h);
-        }
-    }
-
-    int HandleClick(int mX, int mY)
-    {
-        for(auto g : GUIElems)
-        {
-            if(Contains(g,mX,mY,0,0))
-            {
-                g->HandleClick(mX,mY);
-            }
-        }
-    }
-
-    void Exit()
-    {
-        for(auto g : GUIElems)
-        {
-            g->Exit();
-        }
-    }
-
-};
-
-class GUIRowContainer : public GUI
-{
-public:
-
-    vector<GUI*> rows;
-
-    void Scroll(int dir)
-    {
-        for(auto e : rows)
-            e->Scroll(dir);
-    }
-    void ArrangeRows()
-    {
-        int pY = y;
-        for(auto e : rows)
-        {
-            e->SetPosition(x,pY);
-            pY += e->h;
-            e->w = w;
-
-        }
-    }
-    void SetPosition(int x, int y)
-    {
-        this->x = x;
-        this->y = y;
-        ArrangeRows();
-    }
-    void AddElem(GUI* elem)
-    {
-        rows.push_back(elem);
-        h += elem->h;
-        if(elem->w > w)
-            w = elem->w;
-        x = SCREEN_WIDTH/2-w/2;
-        y = SCREEN_HEIGHT/2-h/2;
-
-        ArrangeRows();
-    }
-    void Draw(float cX = 0, float cY = 0)
-    {
-        for(auto g : rows)
-        {
-            g->Draw();
-        }
-        for(auto g : rows)
-        {
-            DrawImage(im("gui2"),g->x,g->y+g->h,g->w,1);
-        }
-    }
-
-    int HandleClick(int mX, int mY)
-    {
-        for(auto g : rows)
-        {
-            if(Contains(g,mX,mY,0,0))
-            {
-                g->HandleClick(mX,mY);
-            }
-        }
-    }
-    void Exit()
-    {
-        for(auto g : rows)
-        {
-            g->Exit();
-        }
-    }
-};
 
 class GUITabContainer : public GUI
 {
@@ -2033,6 +1706,7 @@ class GUIInventoryItems : public GUI
             for(int i = 0; i < 4; i++)
                 for(int j = 0; j < 10; j++)
                 {
+
                     DrawImage(images[ids["itemtile"]],x+frame+j*TILESIZE,y+frame+i*TILESIZE,TILESIZE,TILESIZE);
                     if(inv->items[i*10+j])
                     {
@@ -2040,6 +1714,8 @@ class GUIInventoryItems : public GUI
                         if(inv->items[i*10+j]->quantity > 1)
                             DrawString(to_string(inv->items[i*10+j]->quantity),x+frame+j*TILESIZE+TILESIZE-(inv->items[i*10+j]->quantity >= 10 ? 2 : 1 ) * DIGITWIDTH,y+frame+i*TILESIZE+TILESIZE-FONTSIZE,-1,"font2");
                     }
+                    if(i*10+j>=inv->allowedSize)
+                        DrawImage(im("cross"),x+frame+j*TILESIZE,y+frame+i*TILESIZE,TILESIZE,TILESIZE);
 
 
                 }
@@ -2111,19 +1787,23 @@ class GUIInventoryItems : public GUI
             {
                 if(mX >= x+frame && mX < x+w-frame && mY >= y+frame && mY < y+h-frame-TILESIZE-frame)
                 {
+
                     int item_i = (mX-x-frame)/TILESIZE;
                     int item_j = (mY-y-frame)/TILESIZE;
-                    if(inv->items[item_j*10+item_i])
+                    int item_index = item_j*10+item_i;
+
+                    if(item_index < inv->allowedSize && inv->items[item_index])
                     {
-                        hold = inv->items[item_j*10+item_i];
+                        hold = inv->items[item_index];
                         holdingItem = true;
-                        inv->items[item_j*10+item_i] = NULL;
+                        inv->items[item_index] = NULL;
 
 
                     }
                 }
                 if(mX >= x+frame && mX < x+w-frame && mY >= y+h-frame-TILESIZE && mY < y+h-frame)
                 {
+                    //TOOLBAR
                     int item_i = (mX-x-frame)/TILESIZE;
                     if(inv->toolbar[item_i])
                     {
@@ -2141,17 +1821,21 @@ class GUIInventoryItems : public GUI
                 {
                     int item_i = (mX-x-frame)/TILESIZE;
                     int item_j = (mY-y-frame)/TILESIZE;
-                    if(!inv->items[item_j*10+item_i])
-                    {
-                        inv->items[item_j*10+item_i] = hold;
-                        hold = NULL;
-                        holdingItem = false;
-                    }
-                    else
-                    {
-                        Item* temp = hold;
-                        hold = inv->items[item_j*10+item_i];
-                        inv->items[item_j*10+item_i] = temp;
+                    int item_index = item_j*10+item_i;
+                    if(item_index < inv->allowedSize){
+
+                        if(!inv->items[item_index])
+                        {
+                            inv->items[item_index] = hold;
+                            hold = NULL;
+                            holdingItem = false;
+                        }
+                        else
+                        {
+                            Item* temp = hold;
+                            hold = inv->items[item_index];
+                            inv->items[item_index] = temp;
+                        }
                     }
                 }
                 if(mX >= x+frame && mX < x+w-frame && mY >= y+h-frame-TILESIZE && mY < y+h-frame)
@@ -2798,15 +2482,17 @@ public:
     void RefreshSize()
     {
         w = 500;
-        h = 300;
+        h = recipe_list.size()*TILESIZE;
         numSel.y = y+h/2;
-        by = y + h*3/4 - bh/2;
+        by = numSel.y+numSel.h+5;
+        const int DISTANCE_BETWEEN = 16;
+
         if(selected < recipe_list.size())
         {
-            int slide = linesCount(item_templates[recipe_list[selected].item].desc, w/2-TILESIZE*2)*FONTSIZE - TILESIZE;
+            int slide = y + TILESIZE*3 - 5 + DISTANCE_BETWEEN + linesCount(item_templates[recipe_list[selected].item].desc, w/2-TILESIZE*2)*FONTSIZE - numSel.y;
             if(slide > 0)
             {
-                h+= slide;
+                //h+= slide;
                 numSel.y += slide;
                 by += slide;
 

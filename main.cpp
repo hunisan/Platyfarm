@@ -29,6 +29,5 @@ int main(int argc, char **argv)
     else
         printf("Initialization failed. Quitting...");
 
-
     return 0;
 }

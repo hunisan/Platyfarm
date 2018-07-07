@@ -15,14 +15,29 @@ NPC::~NPC()
     //dtor
 }
 
+void NPC::Draw(float cX , float cY )
+{
+    Entity::Draw(cX,cY);
+    if(attributes.count("features"))
+        for(String s : allWord(attributes["features"]))
+        {
+            DrawImage(im(s),x-cX,y-alt-cY,w,h+alt);
+        }
+}
 void NPC::Attack()
 {
     if(!cooldown)
     {
-        player->Damage(1);
+        player->Damage(int_attribs["damage"]);
         player->KnockBack(x,y,8);
         setCooldown(500/13);
     }
+}
+void NPC::Damage(int damage)
+{
+    Creature::Damage(damage);
+    
+    attributes["features"] += " dog-wounds";
 }
 void NPC::Follow(String behaviour)
 {
@@ -35,15 +50,26 @@ void NPC::Follow(String behaviour)
     if(distance < sightRange && distance > attackRange)
     {
         float angle = atan2(dy,dx);
-        float speed = movement_speed* ((FirstWord(behaviour)=="follow") ? -1 : 1);
+        float moveSpeed = 1;
+        if(int_attribs.count("speed"))
+            moveSpeed = int_attribs["speed"]/4;
+
+        float speed = moveSpeed * ((FirstWord(behaviour)=="follow") ? -1 : 1);
+
         this->addX(cos(angle)*speed);
         this->addY(sin(angle)*speed);
 
-
+        if(cos(angle)>0)
+            flip = 1;
+        else
+            flip = -1;
     }
-    else if(distance <= attackRange)
+    else if(distance <= attackRange){
         if(this->attributes.count("enemy"))
             Attack();
+    }
+    else
+        Roam();
 
 }
 
@@ -55,7 +81,9 @@ String NPC::Roam()
         //x += cos(angle);
         //y += sin(angle);
         AIprams["move"]--;
-        return "move " + to_string(angle);
+        //return "move " + to_string(angle);
+        this->addX(cos(angle)*movement_speed);
+        this->addY(sin(angle)*movement_speed);
 
     }
     else

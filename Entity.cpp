@@ -14,6 +14,13 @@ Entity::Entity(Entity _ent, float _x, float _y) : Entity(_ent)
     //alt = 0;
     //offset = 0;
 }
+Entity::Entity(float x, float y, float w, float h) : Entity()
+{
+    this->x = x;
+    this->y = y;
+    this->w = w;
+    this->h = h;
+}
 Entity::Entity(image _img, float _x, float _y, float _w, float _h) : Visible(_img,_x,_y,_w,_h)
 {
     alt=0;
@@ -28,6 +35,11 @@ Entity::Entity(image _img, float _x, float _y, float _w, float _h) : Visible(_im
 Entity::~Entity()
 {
     //dtor
+}
+
+bool Entity::ContainsPoint(int x, int y)
+{
+    return x>=this->x&&x<=this->x+this->w && y>=this->y && y<=this->y+this->h;
 }
 
 float Entity::GetDistance(float srcX, float srcY)

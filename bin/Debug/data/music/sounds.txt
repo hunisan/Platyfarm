@@ -1,8 +1,0 @@
-lvlup lvlup.ogg
-meow Meow.ogg
-slap slap.ogg
-wood wood.ogg
-rain rain.ogg
-cricket crickets.ogg
-pop pop.ogg
-typing typing.ogg
